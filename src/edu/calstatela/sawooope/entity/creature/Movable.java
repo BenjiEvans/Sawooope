@@ -1,10 +1,11 @@
 package edu.calstatela.sawooope.entity.creature;
 
 /**
- * Movable should be implemented by any Entities capable of 
- * movement (Creatures).
+ * Movable should be implemented by any Entities capable of movement
+ * (Creatures).
+ * 
  * @author Benji
- *
+ * 
  */
 public interface Movable {
 	/**
@@ -23,16 +24,17 @@ public interface Movable {
 	 * @property
 	 */
 	public static final int WEST = 3;
-	
-	
+
 	/**
 	 * 
 	 */
 	public abstract void stop();
+
 	/**
 	 * 
-	 * @param direction direction to move
+	 * @param direction
+	 *            direction to move
 	 */
 	public abstract void move(int direction);
-	
+
 }

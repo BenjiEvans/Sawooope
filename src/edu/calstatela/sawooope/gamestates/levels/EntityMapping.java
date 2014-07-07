@@ -1,13 +1,13 @@
 package edu.calstatela.sawooope.gamestates.levels;
 
 /**
- * Using Strings to hash mapObjects accoring to the 
- * variable name
+ * Using Strings to hash mapObjects accoring to the variable name
+ * 
  * @author Benji
- *
+ * 
  */
 public interface EntityMapping {
-	
+
 	/**
 	 * @property
 	 */

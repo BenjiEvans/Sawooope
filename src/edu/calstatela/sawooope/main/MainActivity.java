@@ -11,85 +11,80 @@ import android.view.Menu;
 import android.view.Window;
 
 /**
- * MainActivity is the starting point of the Application.
- * It sets up the screen view based on Gameview.
+ * MainActivity is the starting point of the Application. It sets up the screen
+ * view based on Gameview.
  * 
  */
 
-
 public class MainActivity extends Activity {
-	
+
 	/**
-	 * @property 
+	 * @property
 	 */
 	GameView view;
-	
+
 	/**
-	 * @property 
+	 * @property
 	 * 
 	 */
 	MediaPlayer mp;
-	
+
 	/**
-	 * Calculates the device's screen density so the GameView 
-	 * can draw all images to scale in order to support screens
-	 * with different pixel desity(VERY important!); and sets the screen's view to 
-	 * that of the GameView. This method also start the background music of the 
-	 * application
+	 * Calculates the device's screen density so the GameView can draw all
+	 * images to scale in order to support screens with different pixel
+	 * desity(VERY important!); and sets the screen's view to that of the
+	 * GameView. This method also start the background music of the application
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		DisplayMetrics metrics = new DisplayMetrics();    
+		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		int screenDensity = metrics.densityDpi;
 
-		float scale = 1.0f*screenDensity/160;
-	
+		float scale = 1.0f * screenDensity / 160;
+
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-		view = new GameView(this,scale);
+		view = new GameView(this, scale);
 		setContentView(view);
 		view.start();
-		
+
 		mp = MediaPlayer.create(MainActivity.this, R.raw.bg_music);
 		mp.setLooping(true);
 		mp.start();
 	}
 
-
 	/**
-	 * Stops the background musics and 
-	 * ends the game (no pause state yet implemented)
+	 * Stops the background musics and ends the game (no pause state yet
+	 * implemented)
 	 */
 	@Override
 	public void onPause() {
-	    super.onPause();  // Always call the superclass method first
+		super.onPause(); // Always call the superclass method first
 
-	    // Release the Camera because we don't need it when paused
-	    // and other activities might need to use it.
-	    mp.stop();
-	    if (view != null) {
-	       view.dispose();
-	    }
+		// Release the Camera because we don't need it when paused
+		// and other activities might need to use it.
+		mp.stop();
+		if (view != null) {
+			view.dispose();
+		}
 	}
-	
+
 	/**
-	 * See onPause (does the same thing..) 
+	 * See onPause (does the same thing..)
 	 */
 	@Override
 	protected void onStop() {
-	    super.onStop();  // Always call the superclass method first
+		super.onStop(); // Always call the superclass method first
 
-	    // Save the note's current draft, because the activity is stopping
-	    // and we want to be sure the current note progress isn't lost.
-	    mp.stop();
-	    if (view != null) {
-		       view.dispose();
-		 }
+		// Save the note's current draft, because the activity is stopping
+		// and we want to be sure the current note progress isn't lost.
+		mp.stop();
+		if (view != null) {
+			view.dispose();
+		}
 	}
-	
-	
 
 }

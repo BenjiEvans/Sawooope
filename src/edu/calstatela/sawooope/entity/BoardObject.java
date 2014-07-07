@@ -9,180 +9,207 @@ import edu.calstatela.sawooope.gamestates.levels.LevelInputProcessor.TouchPositi
 import edu.calstatela.sawooope.main.GameView;
 import edu.calstatela.sawooope.tilemap.TileMap;
 
-
 /**
- * BoardObject is any entity that will be drawn on the TileMap and can interact with other entities drawn on the TileMap. 
- * Every Board Object has a position that keeps track of its location on the map.
+ * BoardObject is any entity that will be drawn on the TileMap and can interact
+ * with other entities drawn on the TileMap. Every Board Object has a position
+ * that keeps track of its location on the map.
+ * 
  * @author Benji
- *
+ * 
  */
-public abstract class BoardObject implements BoardObjectIDS{
-	
-	//Position Variables
-		protected static double mapx,mapy;
-		protected Position position;
-		
-		
-		//Graphic Renerdering variables 
-		protected Animation animator;
-		protected float drawx,drawy;
-		protected int spriteWidth,spriteHeight;
-	
-		// other vars
-		protected static Level level;
-		protected int id;		
-	
-		/**
-		 * 
-		 * @param col starting column
-		 * @param row starting row
-		 */
-	protected BoardObject(int col, int row){
-		
+public abstract class BoardObject implements BoardObjectIDS {
+
+	// Position Variables
+	protected static double mapx, mapy;
+	protected Position position;
+
+	// Graphic Renerdering variables
+	protected Animation animator;
+	protected float drawx, drawy;
+	protected int spriteWidth, spriteHeight;
+
+	// other vars
+	protected static Level level;
+	protected int id;
+
+	/**
+	 * 
+	 * @param col
+	 *            starting column
+	 * @param row
+	 *            starting row
+	 */
+	protected BoardObject(int col, int row) {
+
 		int size = Level.getGridSize();
-		position = new Position(col,row,col*size,row*size);
+		position = new Position(col, row, col * size, row * size);
 		animator = new Animation();
 	}
-	
+
 	/**
-	 * sets the mapx and mapy to the TileMaps x, y coordinates. This method MUST be called before any entity is drawn
+	 * sets the mapx and mapy to the TileMaps x, y coordinates. This method MUST
+	 * be called before any entity is drawn
 	 */
-	public static void setMapPosition(){
-		
-		mapx=TileMap.getMapx();
-		mapy=TileMap.getMapy();
+	public static void setMapPosition() {
+
+		mapx = TileMap.getMapx();
+		mapy = TileMap.getMapy();
 	}
-		
+
 	/**
 	 * Sets the level so that all entities can reference the current level
-	 * @param lev current level
+	 * 
+	 * @param lev
+	 *            current level
 	 */
-	public static void setLevel(Level lev){
+	public static void setLevel(Level lev) {
 		level = lev;
 	}
+
 	/**
 	 * Draws the entity
-	 * @param g canvas to draw on
+	 * 
+	 * @param g
+	 *            canvas to draw on
 	 */
 	public abstract void draw(Canvas g);
-	
+
 	/**
 	 * initializes this entities sprites
-	 * @param view game view in use
+	 * 
+	 * @param view
+	 *            game view in use
 	 */
 	protected abstract void setSprites(GameView view);
-	
+
 	/**
 	 * Checks to see if the entity was pressed
-	 * @param pos position
+	 * 
+	 * @param pos
+	 *            position
 	 * @return true if positions are equal
 	 */
-	public boolean isPressed(Position pos){
-		
+	public boolean isPressed(Position pos) {
+
 		return pos.equals(position);
 	}
-	
+
 	/**
 	 * Checks to see if the entity was pressed
-	 * @param pos touch position
+	 * 
+	 * @param pos
+	 *            touch position
 	 * @return true if the entity is within the touch radius
 	 */
-	public boolean isPressed(TouchPosition pos){
-		
+	public boolean isPressed(TouchPosition pos) {
+
 		return pos.isInTouchRadius(getCenterPosition());
 	}
-	
+
 	/*
-	 * gets a new position object that 
-	 * represents the center of the entity
+	 * gets a new position object that represents the center of the entity
 	 */
-	private Position getCenterPosition(){
-		
+	private Position getCenterPosition() {
+
 		int col = position.getCol();
 		int row = position.getCol();
-		
-		double x = position.getx()+(spriteWidth/2);
-		double y = position.gety()+(spriteHeight/2);
-		
-		return new Position(col,row,x,y);
+
+		double x = position.getx() + (spriteWidth / 2);
+		double y = position.gety() + (spriteHeight / 2);
+
+		return new Position(col, row, x, y);
 	}
-	
-	
-	protected void setDrawablePosition(){
-		
+
+	protected void setDrawablePosition() {
+
 		drawx = position.getMapxLocation(mapx);
 		drawy = position.getMapyLocation(mapy);
-		
-	}	
-	
+
+	}
+
 	/**
 	 * 
 	 * @return the x position on the map
 	 */
-	public double getX(){return position.getx();}
-	
+	public double getX() {
+		return position.getx();
+	}
+
 	/**
 	 * 
 	 * @return the y position on the map
 	 */
-	public double getY(){return position.gety();}
-	
+	public double getY() {
+		return position.gety();
+	}
+
 	/**
 	 * Checks the identity of this entity
-	 * @param id (see BoardObjectIDS Interface )
+	 * 
+	 * @param id
+	 *            (see BoardObjectIDS Interface )
 	 * @return true if this entity has the same id as the one specified
 	 */
-	public boolean isOfType(int id){
-		
+	public boolean isOfType(int id) {
+
 		return this.id == id;
 	}
-	
+
 	/**
 	 * Checks to see if this entity is on the screen
-	 * @return true if the entities should be drawn in the 
-	 * view port
+	 * 
+	 * @return true if the entities should be drawn in the view port
 	 */
-	protected boolean isOffScreen(){
+	protected boolean isOffScreen() {
 		int x = (int) position.getx();
 		int y = (int) position.gety();
-		if(x+spriteWidth+mapx < 0
-			|| x+mapx > level.getWidth() 
-			|| y+spriteHeight+mapy < 0
-			|| y+mapy > level.getHeight()) return true;
-		
-		
+		if (x + spriteWidth + mapx < 0 || x + mapx > level.getWidth()
+				|| y + spriteHeight + mapy < 0 || y + mapy > level.getHeight())
+			return true;
+
 		return false;
-		
+
 	}
-	
-	
+
 	/**
-	 * draws a rectangle based on the arguments passed in 
-	 * @param g canvas to draw on
-	 * @param x top left x position of the rectangle
-	 * @param y top left y position of the rectangle 
-	 * @param width rectangle's width
-	 * @param height rectangle's height
-	 * @param paint paint used to color the rectangle
+	 * draws a rectangle based on the arguments passed in
+	 * 
+	 * @param g
+	 *            canvas to draw on
+	 * @param x
+	 *            top left x position of the rectangle
+	 * @param y
+	 *            top left y position of the rectangle
+	 * @param width
+	 *            rectangle's width
+	 * @param height
+	 *            rectangle's height
+	 * @param paint
+	 *            paint used to color the rectangle
 	 */
-	protected void drawRect(Canvas g,int x, int y, int width, int height, Paint paint){
-		
-		g.drawRect(Rectangle.getRect(x,y,width,height),paint);
-		
+	protected void drawRect(Canvas g, int x, int y, int width, int height,
+			Paint paint) {
+
+		g.drawRect(Rectangle.getRect(x, y, width, height), paint);
+
 	}
-	
+
 	/**
 	 * Draws an image based on the arguments passed in
-	 * @param g canvas to draw on 
-	 * @param image image to draw
-	 * @param x top left x position of the image 
-	 * @param y top right y position of the image
+	 * 
+	 * @param g
+	 *            canvas to draw on
+	 * @param image
+	 *            image to draw
+	 * @param x
+	 *            top left x position of the image
+	 * @param y
+	 *            top right y position of the image
 	 */
-	protected void drawBitmap(Canvas g,Bitmap image,double x, double y){
-		
-		g.drawBitmap(image,(float)x,(float)y,null);
-		
+	protected void drawBitmap(Canvas g, Bitmap image, double x, double y) {
+
+		g.drawBitmap(image, (float) x, (float) y, null);
+
 	}
-	
-		
+
 }

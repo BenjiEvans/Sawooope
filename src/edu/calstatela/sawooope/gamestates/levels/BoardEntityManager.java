@@ -11,147 +11,168 @@ import edu.calstatela.sawooope.entity.creature.Sheep;
 import edu.calstatela.sawooope.entity.creature.Wolf;
 
 /**
- * Board Entity Manager handles how entities in the game are stored,
- * accessed, updated and drawn.
+ * Board Entity Manager handles how entities in the game are stored, accessed,
+ * updated and drawn.
+ * 
  * @author Benji
  */
 public class BoardEntityManager implements EntityMapping {
-		
+
 	ArrayList<Wolf> wolfPack = new ArrayList<Wolf>();
 	ArrayList<Sheep> herd = new ArrayList<Sheep>();
 	/*
-	 * Tree should be the last thing in the hash list since it over laps 
-	 * some positions when drawn. the map hash should have the items in the order they will be draw.
+	 * Tree should be the last thing in the hash list since it over laps some
+	 * positions when drawn. the map hash should have the items in the order
+	 * they will be draw.
 	 */
-	String[] mapHash = {TUNNEL,BARRICADE,SHEEP_DECOY,GRASS,TREE};
+	String[] mapHash = { TUNNEL, BARRICADE, SHEEP_DECOY, GRASS, TREE };
 	HashMap<String, ArrayList<BoardObject>> mapObjects;
-	
+
 	/**
 	 * Creates an ArrayList of sheep and wolves; also creates a hashMap of
-	 * BoardObjects to store any entities on the map (like trees and barricades etc.)
+	 * BoardObjects to store any entities on the map (like trees and barricades
+	 * etc.)
 	 */
-	protected BoardEntityManager(){
-		
+	protected BoardEntityManager() {
+
 		wolfPack = new ArrayList<Wolf>();
 		herd = new ArrayList<Sheep>();
 		mapObjects = new HashMap<String, ArrayList<BoardObject>>();
-		
-		for(int i = 0, length = mapHash.length; i < length; i++)
-		{
+
+		for (int i = 0, length = mapHash.length; i < length; i++) {
 			mapObjects.put(mapHash[i], new ArrayList<BoardObject>());
 		}
-		
+
 	}
-	
+
 	/**
 	 * Updates all creatures on the board
 	 */
-	public void updateCreatures(){
-		
+	public void updateCreatures() {
 
-		for(Wolf w: wolfPack) w.update();
-		
-		for(Sheep sheep: herd) sheep.update();
-		
+		for (Wolf w : wolfPack)
+			w.update();
+
+		for (Sheep sheep : herd)
+			sheep.update();
+
 	}
-	
+
 	/**
 	 * draw all entities on the board
-	 * @param g canvas to draw on
-	 */	
-	public void drawEntities(Canvas g){
-		
-		//draw all map objects that are not tree's
+	 * 
+	 * @param g
+	 *            canvas to draw on
+	 */
+	public void drawEntities(Canvas g) {
+
+		// draw all map objects that are not tree's
 		int length = mapHash.length - 1;
-		for(int i = 0; i < length ; i++)
-		{
+		for (int i = 0; i < length; i++) {
 			ArrayList<BoardObject> list = mapObjects.get(mapHash[i]);
-			
-			for(BoardObject obj: list) obj.draw(g);
+
+			for (BoardObject obj : list)
+				obj.draw(g);
 		}
-		
-		//draw herd
-		for(Sheep sheep: herd) sheep.draw(g);	
-		
-		//draw wolves
-		for(Wolf w: wolfPack) w.draw(g);
-		
-		//draw trees
+
+		// draw herd
+		for (Sheep sheep : herd)
+			sheep.draw(g);
+
+		// draw wolves
+		for (Wolf w : wolfPack)
+			w.draw(g);
+
+		// draw trees
 		ArrayList<BoardObject> list = mapObjects.get(mapHash[length]);
-		
-		for(BoardObject obj: list) obj.draw(g);
-		
+
+		for (BoardObject obj : list)
+			obj.draw(g);
+
 	}
-	
+
 	/**
-	 * Adds a boardObjects to the mapObject hash map 
-	 * based on the inputed hash
-	 * @param hash hash string (See EntityMapping Interface)
-	 * @param object board object
+	 * Adds a boardObjects to the mapObject hash map based on the inputed hash
+	 * 
+	 * @param hash
+	 *            hash string (See EntityMapping Interface)
+	 * @param object
+	 *            board object
 	 */
-	public void addMapObject(String hash, BoardObject object){
-		
+	public void addMapObject(String hash, BoardObject object) {
+
 		mapObjects.get(hash).add(object);
-		
+
 	}
-	
+
 	/**
-	 * add a sheep to the herd 
-	 * @param sheep sheep
+	 * add a sheep to the herd
+	 * 
+	 * @param sheep
+	 *            sheep
 	 */
-	public void addSheep(Sheep sheep){
-		
+	public void addSheep(Sheep sheep) {
+
 		herd.add(sheep);
 	}
-	
+
 	/**
 	 * add a wolf to the pack
-	 * @param wolf wolf
+	 * 
+	 * @param wolf
+	 *            wolf
 	 */
-	public void addWolf(Wolf wolf){
-		
+	public void addWolf(Wolf wolf) {
+
 		wolfPack.add(wolf);
 	}
-	
+
 	/**
 	 * add grass to the field
-	 * @param grass grass
+	 * 
+	 * @param grass
+	 *            grass
 	 */
-	public void addGrass(BoardObject grass){
-		
+	public void addGrass(BoardObject grass) {
+
 		mapObjects.get(GRASS).add(grass);
 	}
-	
-/*
- *  SETTER and GETTERS	
- */
+
+	/*
+	 * SETTER and GETTERS
+	 */
 	/**
 	 * 
 	 * @return the herd of sheep in this level
 	 */
-	public ArrayList<Sheep> getHerd(){return herd;}
-	
+	public ArrayList<Sheep> getHerd() {
+		return herd;
+	}
+
 	/**
 	 * 
 	 * @return the pack of wolves in this level
 	 */
-	public ArrayList<Wolf> getWolfPack(){return wolfPack;}
-	
+	public ArrayList<Wolf> getWolfPack() {
+		return wolfPack;
+	}
+
 	/**
 	 * 
-	 * @return a map of all non-creature entities 
+	 * @return a map of all non-creature entities
 	 */
-	public HashMap<String, ArrayList<BoardObject>> getMapObjects(){ return mapObjects;}
-	
-	
+	public HashMap<String, ArrayList<BoardObject>> getMapObjects() {
+		return mapObjects;
+	}
+
 	/**
 	 * 
-	 * @param hash entity hash (see EntityMapping Interface) 
-	 * @return a list on the specicied entity 
+	 * @param hash
+	 *            entity hash (see EntityMapping Interface)
+	 * @return a list on the specicied entity
 	 */
 	public ArrayList<BoardObject> getMapObject(String hash) {
 		return mapObjects.get(hash);
 	}
-	
-	
+
 }

@@ -4,11 +4,12 @@ import edu.calstatela.sawooope.entity.creature.Creature;
 
 /**
  * This is implemented by the TouchAction class
+ * 
  * @author Benji
- *
+ * 
  */
 public interface Touchable {
-	
+
 	/**
 	 * @property
 	 */
@@ -16,6 +17,7 @@ public interface Touchable {
 	/**
 	 * @property
 	 */
+
 	public static final int SWIPE_DOWN = Creature.SOUTH;
 	/**
 	 * @property
@@ -36,21 +38,26 @@ public interface Touchable {
 	/**
 	 * @property
 	 */
-	public static final int SWIPE = TAP+1;
+	public static final int SWIPE = TAP + 1;
 	/**
 	 * @property
 	 */
-	public static final int DRAG = SWIPE+1;
-	
+	public static final int DRAG = SWIPE + 1;
+
 	/**
 	 * Used to get the direction the user swiped
-	 *  
-	 * @param startX x location where user pressed the screen
-	 * @param startY y location where user pressed the screen
-	 * @param endX x location where user released the screen
-	 * @param endY y location where user released the screen
+	 * 
+	 * @param startX
+	 *            x location where user pressed the screen
+	 * @param startY
+	 *            y location where user pressed the screen
+	 * @param endX
+	 *            x location where user released the screen
+	 * @param endY
+	 *            y location where user released the screen
 	 * @return the direction of the swipe
 	 */
-	public int getSwipeDirection(float startX, float startY, float endX, float endY);
-	
+	public int getSwipeDirection(float startX, float startY, float endX,
+			float endY);
+
 }

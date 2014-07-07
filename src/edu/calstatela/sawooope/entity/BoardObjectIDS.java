@@ -2,11 +2,12 @@ package edu.calstatela.sawooope.entity;
 
 /**
  * This is used to identify what each entity.
+ * 
  * @author Benji
- *
+ * 
  */
 public interface BoardObjectIDS {
-	
+
 	/**
 	 * 
 	 */
@@ -35,5 +36,5 @@ public interface BoardObjectIDS {
 	 * 
 	 */
 	int TREE = 6;
-	
+
 }

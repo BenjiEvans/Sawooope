@@ -16,33 +16,34 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 
 /**
- * GameView controls what will be drawn on the screen.
- * It has:
+ * GameView controls what will be drawn on the screen. It has:
  * <ul>
- * <li> GameLoopThread which sets the frame rate (how quickly things on the screen 
- * are updated and drawn) of the game.</li>
- * <li> GameStateManager which controls which game screens to draw </li>
- * <li> drawing scale which ensures that all images are draw to scale based on 
- * 	the users screen density</li>
+ * <li>GameLoopThread which sets the frame rate (how quickly things on the
+ * screen are updated and drawn) of the game.</li>
+ * <li>GameStateManager which controls which game screens to draw</li>
+ * <li>drawing scale which ensures that all images are draw to scale based on
+ * the users screen density</li>
  * </ul>
  * 
  * @author Benji
- *
+ * 
  */
 
 public class GameView extends SurfaceView {
-		
+
 	private SurfaceHolder holder;
 	private GameStateManager gsm;
 	private GameLoopThread gameLoopThread;
-	
-	//this is the drawing scale
+
+	// this is the drawing scale
 	private static float imgScale = 1.0f;
-	
+
 	/**
 	 * 
-	 * @param context context (see android api... but not that important!)
-	 * @param scale drawing scale
+	 * @param context
+	 *            context (see android api... but not that important!)
+	 * @param scale
+	 *            drawing scale
 	 */
 	public GameView(Context context, float scale) {
 		super(context);
@@ -66,123 +67,125 @@ public class GameView extends SurfaceView {
 			}
 
 		});
-		
-		
+
 	}
-	
+
 	/**
-	 * Updates and draws the current GameState  
+	 * Updates and draws the current GameState
 	 */
 	protected void onDraw(Canvas canvas) {
-		
+
 		gsm.update();
 		gsm.draw(canvas);
 	}
-	
+
 	/**
 	 * 
 	 * @return the drawing scale
 	 */
 	public static float getBitmapScale() {
-		
+
 		return imgScale;
 	}
-	
+
 	/**
-	 * 	Passes any motion events to the GameStateManager to 
-	 * 	be handeled.	
+	 * Passes any motion events to the GameStateManager to be handeled.
 	 */
-	public boolean onTouchEvent(MotionEvent event){
-		
-		switch(event.getAction()){
-			
+	public boolean onTouchEvent(MotionEvent event) {
+
+		switch (event.getAction()) {
+
 		case MotionEvent.ACTION_DOWN:
-			
-			gsm.screenPressed(event.getX(),event.getY());
-			
+
+			gsm.screenPressed(event.getX(), event.getY());
+
 			break;
-		
+
 		case MotionEvent.ACTION_UP:
-			
-			gsm.screenReleased(event.getX(),event.getY());
-			
+
+			gsm.screenReleased(event.getX(), event.getY());
+
 			break;
-		
+
 		case MotionEvent.ACTION_MOVE:
-			
+
 			gsm.screenDragged(event.getX(), event.getY());
-			
+
 			break;
-		
+
 		}
-		
+
 		return true;
-		
+
 	}
-	
-	
+
 	/**
 	 * 
-	 * @param location resource URI in the assets folder
-	 * @return the scaled bitmap (image) from the assets folder specified by the location
+	 * @param location
+	 *            resource URI in the assets folder
+	 * @return the scaled bitmap (image) from the assets folder specified by the
+	 *         location
 	 */
-	public Bitmap getScaledBitmap(String location){
-		
+	public Bitmap getScaledBitmap(String location) {
+
 		AssetManager asset = this.getResources().getAssets();
-		
+
 		try {
 			Bitmap scaledImg = BitmapFactory.decodeStream(asset.open(location));
-			
-			return Bitmap.createScaledBitmap(scaledImg, (int)(scaledImg.getWidth()*imgScale), (int)(scaledImg.getHeight()*imgScale), false);
-			
+
+			return Bitmap.createScaledBitmap(scaledImg,
+					(int) (scaledImg.getWidth() * imgScale),
+					(int) (scaledImg.getHeight() * imgScale), false);
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
-
-
 
 	/**
 	 * Draws a scaled rectangle
 	 * 
-	 * @param g canvas being drawn on
-	 * @param x x component of the rectangle's top left corner
-	 * @param y y component of the rectangle's top left corner 
-	 * @param width rectangle's width
-	 * @param height rectangle's height
-	 * @param paint paint used to color the rectnagle(can be null);
+	 * @param g
+	 *            canvas being drawn on
+	 * @param x
+	 *            x component of the rectangle's top left corner
+	 * @param y
+	 *            y component of the rectangle's top left corner
+	 * @param width
+	 *            rectangle's width
+	 * @param height
+	 *            rectangle's height
+	 * @param paint
+	 *            paint used to color the rectnagle(can be null);
 	 */
 	public static void drawScaledHeightRect(Canvas g, int x, int y, int width,
-			int height,Paint paint) {
-		
-		g.drawRect(Rectangle.getRect(x,y,(int)(width),(int)(height*imgScale)), paint);
-		
-		
+			int height, Paint paint) {
+
+		g.drawRect(Rectangle.getRect(x, y, (int) (width),
+				(int) (height * imgScale)), paint);
+
 	}
-	
+
 	/**
-	 * Ends game look and frees 
-	 * memory by clearing all objects from memory
-	 */	
-	public void dispose(){
+	 * Ends game look and frees memory by clearing all objects from memory
+	 */
+	public void dispose() {
 		gameLoopThread.setRunning(false);
 		holder = null;
-		gsm.dispose();		
+		gsm.dispose();
 	}
-	
+
 	/**
-	 * Starts the GameLoopTheard 
+	 * Starts the GameLoopTheard
 	 */
-	public void start(){
-		
+	public void start() {
+
 		gameLoopThread.setRunning(true);
 		gameLoopThread.start();
 
 	}
-	
-	
 
 }

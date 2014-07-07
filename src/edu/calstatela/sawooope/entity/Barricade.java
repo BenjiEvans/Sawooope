@@ -6,14 +6,15 @@ import android.graphics.Canvas;
 
 /**
  * Ignore for now
+ * 
  * @author Benji
- *
+ * 
  */
 public class Barricade extends BoardObject {
 
 	Bitmap[][] sprite;
 	int strength = 3;
-	
+
 	public Barricade(int col, int row) {
 		super(col, row);
 		setSprites(level.getGameView());
@@ -23,56 +24,56 @@ public class Barricade extends BoardObject {
 	@Override
 	public void draw(Canvas g) {
 		updateAnimation();
-		if(isOffScreen())return;
+		if (isOffScreen())
+			return;
 		setDrawablePosition();
-		drawBitmap(g,animator.getImage(), drawx, drawy);
-			
-	}
-	
-	private void updateAnimation(){
-		if(strength <= 0)animator.setFrames(sprite[1]);
-		else animator.setFrames(sprite[0]);
-		
-	}
-	
-	public void hit(){
-		if(strength <= 0)return;
-		strength--;
-		if(strength <= 0){
-			
-		}
-		
-	}
-	
-	@Override
-	protected void setSprites(GameView view) {
-		
-		sprite = new Bitmap[2][1];
-		//Bitmap spriteSheet = ResourceLoader.getBufferedImage("Sprites/barricade.png");
-		
-		Bitmap spriteSheet;
-	
-		//	spriteSheet = BitmapFactory.decodeStream(assets.open("sprites/barricade.png"));
-			
-			spriteSheet = view.getScaledBitmap("sprites/barricade.png");
-			
-			spriteHeight = spriteSheet.getHeight();
-			spriteWidth = spriteSheet.getWidth()/2;
-			
-			sprite[0][0] = Bitmap.createBitmap(spriteSheet,0,0,spriteWidth,spriteHeight);
-			sprite[1][0] = Bitmap.createBitmap(spriteSheet,spriteWidth,0,spriteWidth,spriteHeight);		
-			
-			
-			animator.setFrames(sprite[0]);
-			animator.setDelay(-1);
-			
-		
-		
-		
-		
-		
-		
+		drawBitmap(g, animator.getImage(), drawx, drawy);
+
 	}
 
-	
+	private void updateAnimation() {
+		if (strength <= 0)
+			animator.setFrames(sprite[1]);
+		else
+			animator.setFrames(sprite[0]);
+
+	}
+
+	public void hit() {
+		if (strength <= 0)
+			return;
+		strength--;
+		if (strength <= 0) {
+
+		}
+
+	}
+
+	@Override
+	protected void setSprites(GameView view) {
+
+		sprite = new Bitmap[2][1];
+		// Bitmap spriteSheet =
+		// ResourceLoader.getBufferedImage("Sprites/barricade.png");
+
+		Bitmap spriteSheet;
+
+		// spriteSheet =
+		// BitmapFactory.decodeStream(assets.open("sprites/barricade.png"));
+
+		spriteSheet = view.getScaledBitmap("sprites/barricade.png");
+
+		spriteHeight = spriteSheet.getHeight();
+		spriteWidth = spriteSheet.getWidth() / 2;
+
+		sprite[0][0] = Bitmap.createBitmap(spriteSheet, 0, 0, spriteWidth,
+				spriteHeight);
+		sprite[1][0] = Bitmap.createBitmap(spriteSheet, spriteWidth, 0,
+				spriteWidth, spriteHeight);
+
+		animator.setFrames(sprite[0]);
+		animator.setDelay(-1);
+
+	}
+
 }
