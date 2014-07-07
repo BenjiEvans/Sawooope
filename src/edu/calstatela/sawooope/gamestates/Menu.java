@@ -1,12 +1,14 @@
 package edu.calstatela.sawooope.gamestates;
 
-import edu.calstatela.sawooope.R;
 import edu.calstatela.sawooope.main.GameView;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.Log;
-
+/**
+ * No Much Interesting content here...
+ * @author Benji
+ *
+ */
 public class Menu extends GameState {
 
 	private Bitmap background;
@@ -17,15 +19,19 @@ public class Menu extends GameState {
 	private final int QUIT = 2;
 	private float pressedx;
 	private float pressedy;
-	//private Font titleFont;
-	
-	
+		
+	/**
+	 * 
+	 * @param gsm
+	 */
 	public Menu(GameStateManager gsm) {
 		super(gsm);
 	}
 
 	
-	
+	/**
+	 * Updates screen 
+	 */
 	public void update() {
 		
 		if(ready)
@@ -36,6 +42,9 @@ public class Menu extends GameState {
 		
 	}
 
+	/**
+	 * Draws updated screen
+	 */
 	public void draw(Canvas g) {
 				
 		if(ready)
@@ -48,13 +57,12 @@ public class Menu extends GameState {
 	}
 
 	
-	public void drawTitle(Canvas g){
-				
-		
+	private void drawTitle(Canvas g){
+		//TODO
 		
 	}
 	
-	public void drawOptions(Canvas g){
+	private void drawOptions(Canvas g){
 		
 		
 		for(Button b: buttons){
@@ -87,7 +95,7 @@ public class Menu extends GameState {
 			{
 				if(t.isClicked(pressedx,pressedy))
 				{
-					String name = t.getTitle();
+					String name = t.getDescriptor();
 					
 					if(name.equalsIgnoreCase("start")){
 						
@@ -177,16 +185,5 @@ public class Menu extends GameState {
 		return (screenWidth/2)- (objectWidth/2);
 	}
 
-	/*private boolean withinClickRadius(float centerx, float centery, float x, float y, float radius) {
-		
-		double dxSqr = Math.pow(centerx-x,2);
-		double dySqr = Math.pow(centery-y,2);
-		
-		double dist = Math.pow(dxSqr+dySqr,.5);
-		
-		if(dist < radius)return true;
-		
-		return false;
-	}*/
 	
 }

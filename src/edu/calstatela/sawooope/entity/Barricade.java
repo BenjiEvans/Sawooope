@@ -1,20 +1,22 @@
 package edu.calstatela.sawooope.entity;
 
-import edu.calstatela.sawooope.gamestates.levels.Level;
 import edu.calstatela.sawooope.main.GameView;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-
+/**
+ * Ignore for now
+ * @author Benji
+ *
+ */
 public class Barricade extends BoardObject {
 
 	Bitmap[][] sprite;
 	int strength = 3;
 	
-	public Barricade(int col, int row, Level level) {
-		super(col, row, level);
+	public Barricade(int col, int row) {
+		super(col, row);
 		setSprites(level.getGameView());
-		blockable = true;
 		id = BARRICADE;
 	}
 
@@ -38,12 +40,10 @@ public class Barricade extends BoardObject {
 		strength--;
 		if(strength <= 0){
 			
-			blockable = false;
 		}
 		
 	}
 	
-
 	@Override
 	protected void setSprites(GameView view) {
 		

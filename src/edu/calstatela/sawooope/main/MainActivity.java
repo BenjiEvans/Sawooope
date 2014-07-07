@@ -10,39 +10,59 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.Window;
 
+/**
+ * MainActivity is the starting point of the Application.
+ * It sets up the screen view based on Gameview.
+ * 
+ */
+
+
 public class MainActivity extends Activity {
 	
+	/**
+	 * @property 
+	 */
 	GameView view;
+	
+	/**
+	 * @property 
+	 * 
+	 */
 	MediaPlayer mp;
 	
+	/**
+	 * Calculates the device's screen density so the GameView 
+	 * can draw all images to scale in order to support screens
+	 * with different pixel desity(VERY important!); and sets the screen's view to 
+	 * that of the GameView. This method also start the background music of the 
+	 * application
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		DisplayMetrics metrics = new DisplayMetrics();    
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		int screenDensity = metrics.densityDpi;
-	//	float scale = 1.0f*screenDensity/120;
+
 		float scale = 1.0f*screenDensity/160;
-		Log.i("screen","Screen density:"+screenDensity);
-		Log.i("screen","Scale:"+scale);
-		//setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+	
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		view = new GameView(this,scale);
 		setContentView(view);
 		view.start();
+		
 		mp = MediaPlayer.create(MainActivity.this, R.raw.bg_music);
 		mp.setLooping(true);
 		mp.start();
 	}
 
-	/*@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}*/
-	
+
+	/**
+	 * Stops the background musics and 
+	 * ends the game (no pause state yet implemented)
+	 */
 	@Override
 	public void onPause() {
 	    super.onPause();  // Always call the superclass method first
@@ -55,6 +75,9 @@ public class MainActivity extends Activity {
 	    }
 	}
 	
+	/**
+	 * See onPause (does the same thing..) 
+	 */
 	@Override
 	protected void onStop() {
 	    super.onStop();  // Always call the superclass method first

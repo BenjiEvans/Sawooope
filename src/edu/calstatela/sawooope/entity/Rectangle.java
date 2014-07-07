@@ -2,13 +2,24 @@ package edu.calstatela.sawooope.entity;
 
 import android.graphics.Rect;
 
+/**
+ * Just a typical rectangle Object
+ * @author Benji
+ *
+ */
 public class Rectangle {
 	
 	private int width;
 	private int height;
 	private int x,y;
 	
-	
+	/**
+	 * 
+	 * @param x x coordinate of top left corner
+	 * @param y y coordinate of top left corner
+	 * @param width rectangle's width
+	 * @param height rectangle's height
+	 */
 	public Rectangle(int x, int y, int width,int height){
 		
 		this.x = x;
@@ -18,13 +29,31 @@ public class Rectangle {
 		
 	}	
 	
-	public static Rect getDrawableRect(int x, int y, int width, int height){
+	/**
+	 * Gets a Rect(see android api) representation of
+	 * a Rectangle
+	 * @param x top left x position of the rectangle
+	 * @param y top left y position of the rectangle
+	 * @param width rectangle's width
+	 * @param height rectangle's height
+	 * @return a Rect object with the same properties 
+	 * specified
+	 * 
+	 * 
+	 */
+	public static Rect getRect(int x, int y, int width, int height){
 		
 		return new Rect(x,y,x+width,y+height);
 		
 		
 	}
 	
+	/**
+	 * 
+	 * @param r rectangle
+	 * @return true if the specified recatngle overlaps 
+	 * or touches this rectangle
+	 */
 	public boolean intersects(Rectangle r) {
 		int tw = this.width;
 		int th = this.height;
@@ -45,30 +74,54 @@ public class Rectangle {
 		return ((rw < rx || rw > tx) && (rh < ry || rh > ty)
 				&& (tw < tx || tw > rx) && (th < ty || th > ry));
 	}
-
+	
+	/**
+	 * 
+	 * @return the x coordinate of the top right corner
+	 */
 	public int getMaxX() {
 				return x+width;
 	}
 	
+	/**
+	 * 
+	 * @return the y coordinate of the bottom left corner
+	 */
 	public int getMaxY() {
 		return y+height;
 	}
-
+	
+	/**
+	 * 
+	 * @return the x coordinate of the top left corner
+	 */
 	public int getX() {
 	
 		return x;
 	}
-
+	
+	/**
+	 * 
+	 * @return the y coordinate of the top left corner
+	 */
 	public int getY() {
 		
 		return y;
 	}
 	
+	/**
+	 * 
+	 * @return width of the rectangle
+	 */
 	public int getWidth() {
 		
 		return width;
 	}
 	
+	/**
+	 * 
+	 * @return height of the rectangle
+	 */
 	public int getHeight(){
 		
 		return height;

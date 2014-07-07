@@ -4,25 +4,25 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import edu.calstatela.sawooope.entity.BoardObject;
-import edu.calstatela.sawooope.gamestates.levels.Level;
 import edu.calstatela.sawooope.main.GameView;
 
-
+/**
+ * Not yet much to document...Ignore for now 
+ * @author Benji
+ *
+ */
 
 public class GrassPatch extends Plant  {
 	
-	ArrayList<BoardObject> view = new ArrayList<BoardObject>();
 	private int height = 1;
-	private boolean munched;
 	private long grassTimer;
 	private long regrowTime;
 	private long eatTime = 2000;
 	
-	public GrassPatch(int col, int row, Level level, long growDelay){
-		super(col,row,level);
+	public GrassPatch(int col, int row, long growDelay){
+		super(col,row);
 		id = GRASS;
 		regrowTime = growDelay;
-		//thread.start();
 	}
 	
 	public void update(){
@@ -35,7 +35,6 @@ public class GrassPatch extends Plant  {
 			{
 				grassTimer = 0;	
 				height = 1;
-				munched = false;
 			}
 		}
 		
@@ -48,9 +47,7 @@ public class GrassPatch extends Plant  {
 		else if( height == 0)animator.setFrames(sprites,1);
 		
 	}
-	
-	public long getEatTime(){return eatTime;}
-	
+
 	public void eatLayer(){
 		if(height == 0) return;
 		height--;
@@ -69,14 +66,9 @@ public class GrassPatch extends Plant  {
 	}
 	@Override
 	protected void setSprites(GameView view) {
-		// TODO Auto-generated method stub
-		
-		//Bitmap spriteSheet = ResourceLoader.getBufferedImage("grass.png");
 		
 		Bitmap spriteSheet;
-			
-		//	spriteSheet = BitmapFactory.decodeStream(assets.open("sprites/grass.png"));
-			
+		
 			spriteSheet = view.getScaledBitmap("sprites/grass.png");
 			
 			spriteWidth = spriteSheet.getWidth()/2;
@@ -99,18 +91,8 @@ public class GrassPatch extends Plant  {
 
 	
 	public boolean hasLayer() {
-		// TODO Auto-generated method stub
-		return height == 1;
-	}
-
-	public boolean isBeingMunchedOn() {
-		// TODO Auto-generated method stub
-		return munched;
-	}
 	
-	public void setMunchedOn(boolean bool){
-		
-		munched = bool;
+		return height == 1;
 	}
 	
 	

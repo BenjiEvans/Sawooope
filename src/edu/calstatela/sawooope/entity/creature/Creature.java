@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.calstatela.sawooope.entity.BoardObject;
-import edu.calstatela.sawooope.entity.Movable;
 import edu.calstatela.sawooope.entity.Position;
 import edu.calstatela.sawooope.gamestates.levels.Level;
 import edu.calstatela.sawooope.main.GameView;
@@ -13,59 +12,58 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 
-
+/**
+ * Creature is essentially an entity that is capable of movement.
+ * Because of that, this class implements move able. 
+ * @author Benji
+ */
 
 public abstract class Creature extends BoardObject implements Movable {
 	
-	public static final int NORTH = 0;
-	public static final int SOUTH = 1;
-	public static final int EAST = 2;
-	public static final int WEST = 3;
+	//update states: (see sheep class for example )
+	/*
+	 * update states are CONSTANT INTs that 
+	 * describes the state of entity (example: walking)
+	 */
+	/**
+	 * @property
+	 */
 	public static final int IDLE = 0;
-	public static final int WALKING = 1;
-	protected double speed;
+	/**
+	 * @property
+	 */
+	public static final int WALKING = IDLE+1;
 	
-	CollisionBox box;
-	Position nextPosition;
-	boolean walking;
-	double dx;
-	double dy;
-	boolean facing[] = {false,false,false,false};
-	HashMap<String, ArrayList<Bitmap[]>> sprites = new HashMap<String, ArrayList<Bitmap[]>>();
 	
-	Creature(int col, int row, Level level){
-		super(col,row,level);
+	protected int currState;
+	
+	//action state:
+	/*(see sheep class for example)
+	 * action states are BOOLLEANS that correspond to 
+	 * a physical action. actions states are used to 
+	 * update animations(look at the animationUpdate() method ), NOT UPDATE STATEs
+	 */
+	protected boolean walking;
+	
+	protected CollisionBox box;
+	
+	//used for movement
+	protected Position nextPosition;
+	protected double dx, dy;
+	protected float speed;
+	boolean facing[] = {false,false,false,false};	
+	protected HashMap<String, ArrayList<Bitmap[]>> sprites = new HashMap<String, ArrayList<Bitmap[]>>();
+	
+	/**
+	 * 
+	 * @param col starting column
+	 * @param row starting row
+	 */
+	Creature(int col, int row){
+		super(col,row);
 		setSprites(level.getGameView());
+		speed = .5f;
 	}
-	
-	public boolean hasXY(int x, int y){
-		
-		double x2 = position.getx();
-		double y2 = position.gety();
-		
-		boolean withinX = x >= x2 && x <= x2+spriteWidth;
-		boolean withinY = y >= y2 && y <= y2+spriteHeight;
-		
-		return withinX && withinY;
-	}
-	
-	public boolean hasColRowPosition(int col, int row){
-		
-		return hasNextColRow(col,row) || hasColRow(col,row);
-	}
-	
-	public boolean hasNextColRow(int col, int row){
-		
-		if(nextPosition == null) return false;
-		
-		return nextPosition.getCol() == col && nextPosition.getRow() == row;
-	}
-	
-	public boolean hasNextColRow(int[] pos){
-		
-		return hasNextColRow(pos[0],pos[1]);
-	}
-	
 	
 	
 	public abstract void update();
@@ -75,13 +73,10 @@ public abstract class Creature extends BoardObject implements Movable {
 		drawBitmap(g,animator.getImage(),drawx,drawy);
 	}
 	
-	public boolean isClicked(float tempCol, float tempRow){
-		
-		return super.isClicked(tempCol, tempRow); 
-	}
-
-	
-	
+	/**
+	 * Updates animation based on current
+	 * action state
+	 */
 	protected void updateAnimation(){
 		
 		if(walking)
@@ -105,11 +100,11 @@ public abstract class Creature extends BoardObject implements Movable {
 			
 			animator.setDelay(150);	
 			
-		}else{
+		}else{ //idle 
 			animator.setDelay(-1);
 			if(facing[NORTH])
 			{
-				//System.out.println("facing NORTH");
+				
 				if(animator.getCurrAction() != IDLE) animator.setFrames(sprites.get("North"),IDLE);
 				
 			}else if(facing[SOUTH])
@@ -125,13 +120,17 @@ public abstract class Creature extends BoardObject implements Movable {
 				if(animator.getCurrAction() != IDLE) animator.setFrames(sprites.get("West"), IDLE);	
 				
 			}
-		//	animator.update();
 		}
 		
 		animator.update();
 		
 	}
 	
+	/**
+	 * 
+	 * @return true if current position object has 
+	 * reached nextPosition
+	 */
 	protected boolean reachedNextPosition(){
 		
 		if(dx != 0)
@@ -166,33 +165,23 @@ public abstract class Creature extends BoardObject implements Movable {
 		}
 		
 		return true;
-
+		
 	}
 	
+	/**
+	 * Sets the current Position to 
+	 * the next Position
+	 */
 	protected void setNewPosition(){
-		
-		//walking = false;
-
-		
 		position = new Position(nextPosition);
 		nextPosition = null;
-		//dx = 0;
-		//dy = 0;
-		
+		setStateTo(IDLE);
 	}
 	
-	/*protected void setMovablePosition(){
-		
-		int size = Level.GRID_SIZE;
-		int x = position.getCol()*size;
-		int y = position.getRow()*size;
-		
-		position.setXY(x,y);
-		
-		walking = true;
-		
-	}*/
-	
+	/**
+	 * 
+	 * @param dir direction(see Movable Interface)
+	 */
 	protected void setFacing(int dir){
 		
 		if(dir < 0 || dir > facing.length)return;
@@ -218,68 +207,13 @@ public abstract class Creature extends BoardObject implements Movable {
 		}
 	}
 	
-	/*protected void setTargetPosition(){
-		
-		targetX = nextCol*Level.GRID_SIZE;
-		targetY = nextRow*Level.GRID_SIZE;
-	}*/
-	
-	/*public void move(int col, int row){
-		
-		int direction = getDirectionOf(col,row);
-		
-		setFacing(direction);
-		setMovablePosition();
-		nextCol = col;
-		nextRow = row;
-		setTargetPosition();
-		
-		switch(direction){
-		case NORTH:
-			prepareMovementNorth();
-			break;
-		case SOUTH:
-			prepareMovementSouth();
-			break;
-		case WEST:
-			prepareMovementWest();
-			break;
-			
-		case EAST:
-			prepareMovementEast();
-			break;
-			
-		}
-		
-	}*/
-	
-	protected int getDirectionOf(int col, int row) {
-		
-		int thisCol = position.getCol();
-		int thisRow = position.getRow();
-		
-		if(thisCol == col){
-			
-			if(row > thisRow) return SOUTH;
-			else if(row < thisRow) return NORTH;
-			
-		}
-		
-		if(thisRow == row){
-			
-			if(col > thisCol)return EAST;
-			else if(col < thisCol) return WEST; 
-			
-		}
-		
-		//this signifies an error
-		return -1;
-	}
-
-	public void moveNorth(){
+	/**
+	 * Moves creature up
+	 */
+	protected void moveNorth(){
 		
 		if(!facing[NORTH])setFacing(NORTH);
-		walking = true;
+		setStateTo(WALKING);
 		int nextCol = position.getCol();
 		int nextRow = position.getRow()-1;
 		int size = Level.getGridSize();
@@ -290,10 +224,13 @@ public abstract class Creature extends BoardObject implements Movable {
 		
 	}
 	
-	public void moveSouth(){
+	/**
+	 * Moves creature down
+	 */
+	protected void moveSouth(){
 		
 		if(!facing[SOUTH])setFacing(SOUTH);
-		walking = true;
+		setStateTo(WALKING);
 		int size = Level.getGridSize();
 		int nextCol = position.getCol();
 		int nextRow = position.getRow()+1;
@@ -304,10 +241,13 @@ public abstract class Creature extends BoardObject implements Movable {
 		
 	}
 	
-	public void moveEast(){
+	/**
+	 * Moves creature to the right
+	 */
+	protected void moveEast(){
 		
 		if(!facing[EAST])setFacing(EAST);
-		walking = true;
+		setStateTo(WALKING);
 		int size = Level.getGridSize();
 		int nextCol = position.getCol()+1;
 		int nextRow = position.getRow();
@@ -316,11 +256,14 @@ public abstract class Creature extends BoardObject implements Movable {
 		dy = 0;
 		
 	}
-		
+	
+	/**
+	 * Moves creatures to the left
+	 */
 	public void moveWest(){
 		
 		if(!facing[WEST])setFacing(WEST);
-		walking = true;
+		setStateTo(WALKING);
 		int size = Level.getGridSize();
 		int nextCol = position.getCol()-1;
 		int nextRow = position.getRow();
@@ -331,16 +274,21 @@ public abstract class Creature extends BoardObject implements Movable {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	public void stay(){
 		
-		walking = false;
 		nextPosition = null;
 		dx = 0;
 		dy = 0;
 		
 	}
 	
-		
+		/**
+		 * 
+		 * @return true if the creature can move north
+		 */
 	protected boolean northValid(){
 		
 		if(position.getRow()-1 < 0)return false;
@@ -349,6 +297,10 @@ public abstract class Creature extends BoardObject implements Movable {
 		
 	}
 	
+	/**
+	 * 
+	 * @return true if the creature can move south
+	 */
 	protected boolean southValid(){
 		
 		//if(row+1 >= level.getNumRows())return false;
@@ -356,6 +308,10 @@ public abstract class Creature extends BoardObject implements Movable {
 		return true;
 	}
 	
+	/**
+	 * 
+	 * @return true if the creature can move to the right
+	 */
 	protected boolean eastValid(){
 		
 	//	if(col+1 >= level.getNumCols())return false;
@@ -363,6 +319,10 @@ public abstract class Creature extends BoardObject implements Movable {
 		return true;
 	}
 	
+	/**
+	 * 
+	 * @return true if the creature can move to the left
+	 */
 	protected boolean westValid(){
 		
 		if(position.getCol()-1 < 0)return false;
@@ -370,33 +330,49 @@ public abstract class Creature extends BoardObject implements Movable {
 		return true;
 	}
 	
-	
-	/*public boolean hasNext(int col, int row){
-		
-		return this.nextCol == col && this.nextRow == row;
-	}*/
-	
-	public int getNextCol(){
-		
-		if(nextPosition == null) return position.getCol();
-		
-		return nextPosition.getCol();
-		
-	}
-	public int getNextRow(){
-		
-		if(nextPosition == null) return position.getRow();
-		
-		return nextPosition.getRow();
-	}
-	public int getSpriteWidth(){return spriteWidth;}
-	public int getSpriteHeight(){return spriteHeight;}
-	
+	/**
+	 * 
+	 * @return this creatures collision box
+	 */
 	public CollisionBox getCollisionBox(){
 		return box;
 	}
 	
+	/**
+	 * Sets update
+	 * @param state game state id (see fields)
+	 */
+	protected void setStateTo(int state){
+		
+		if(state == WALKING){
+			
+			currState = WALKING;
+			walking = true;
+			return;
+		}
+		
+		if(state == IDLE){
+		
+			currState = IDLE;
+			walking = false;
+			return;
+		}
+		
+	}
 	
+	/**
+	 * 
+	 * @return the direction this creature is facing
+	 */
+	protected int getFacingDirection(){
+		
+		if(facing[NORTH]) return NORTH;
+		if(facing[SOUTH])return SOUTH;
+		if(facing[EAST])return EAST;
+		if(facing[WEST])return WEST;
+		
+		return -1;
+	}
 	
 		
 }
