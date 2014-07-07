@@ -1,0 +1,7 @@
+edu.calstatela.sawooope.entity
+edu.calstatela.sawooope.entity.creature
+edu.calstatela.sawooope.entity.plant
+edu.calstatela.sawooope.gamestates
+edu.calstatela.sawooope.gamestates.levels
+edu.calstatela.sawooope.main
+edu.calstatela.sawooope.tilemap
