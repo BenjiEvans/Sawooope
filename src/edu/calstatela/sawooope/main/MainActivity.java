@@ -9,6 +9,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.Window;
+import android.view.WindowManager;
 
 /**
  * MainActivity is the starting point of the Application. It sets up the screen
@@ -47,6 +48,11 @@ public class MainActivity extends Activity {
 		float scale = 1.0f * screenDensity / 160;
 
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		
+		//just added.... May need to comment out
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+	            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		
 		view = new GameView(this, scale);
 		setContentView(view);
 		view.start();

@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.util.Log;
 import edu.calstatela.sawooope.main.GameView;
 
 /**
@@ -118,13 +119,17 @@ public class TileMap {
 	 *            URI of map file
 	 */
 	public void loadMap(GameView view, String location) {
-
+		
+		
+		
+		Log.i("Debug","Loading Map!");
+		
 		try {
 
 			Scanner scan = new Scanner(view.getResources().getAssets()
 					.open(location));
-			numRows = Integer.parseInt(scan.nextLine());
-			numCols = Integer.parseInt(scan.nextLine());
+			numRows = Integer.parseInt(scan.nextLine().trim());
+			numCols = Integer.parseInt(scan.nextLine().trim());
 			map = new int[numRows][numCols];
 			width = numCols * tileSize;
 			height = numRows * tileSize;
@@ -149,7 +154,9 @@ public class TileMap {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			
+			//e.printStackTrace()
+			Log.i("Debug",e.getMessage());
 		}
 
 	}
@@ -167,6 +174,8 @@ public class TileMap {
 	 */
 	public int getType(int row, int col) throws ArrayIndexOutOfBoundsException {
 
+		boolean bool = map == null;
+		Log.i("Debug", "Map is null:"+bool);
 		int rc = map[row][col];
 		int r = rc / numTilesAcross;
 		int c = rc % numTilesAcross;

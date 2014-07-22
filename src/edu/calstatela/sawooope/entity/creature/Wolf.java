@@ -3,6 +3,7 @@ package edu.calstatela.sawooope.entity.creature;
 import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import edu.calstatela.sawooope.gamestates.levels.Level;
 import edu.calstatela.sawooope.main.GameView;
 
 /**
@@ -16,7 +17,8 @@ public class Wolf extends Creature {
 		super(col, row);
 		id = WOLF;
 		speed = 1;
-		box = new CollisionBox(this, 4, 4, 24, 28);
+		float scale = Level.getScale();
+		box = new CollisionBox(this, (int)(4*scale), (int)(4*scale),(int)(24*scale), (int)(28*scale));
 
 	}
 

@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
+import edu.calstatela.sawooope.gamestates.levels.GameMode;
 import edu.calstatela.sawooope.gamestates.levels.Level;
 import edu.calstatela.sawooope.gamestates.levels.LevelInputProcessor.TouchPosition;
 import edu.calstatela.sawooope.main.GameView;
@@ -30,6 +31,7 @@ public abstract class BoardObject implements BoardObjectIDS {
 
 	// other vars
 	protected static Level level;
+	protected static GameMode gameMode;
 	protected int id;
 
 	/**
@@ -65,6 +67,15 @@ public abstract class BoardObject implements BoardObjectIDS {
 	public static void setLevel(Level lev) {
 		level = lev;
 	}
+	
+	/**
+	 * Sets the game mode so all entities have a reference to the 
+	 * current game mode
+	 * @param mode
+	 */
+	public static void setGameMode(GameMode mode){
+			gameMode = mode;
+	}
 
 	/**
 	 * Draws the entity
@@ -90,8 +101,32 @@ public abstract class BoardObject implements BoardObjectIDS {
 	 * @return true if positions are equal
 	 */
 	public boolean isPressed(Position pos) {
-
-		return pos.equals(position);
+		
+		
+		
+		
+		double x = position.getx();
+		double y = position.gety();
+		
+		double xpress = pos.getx();
+		double ypress = pos.gety();
+		
+		boolean withinx = xpress >= x && xpress <= x+spriteWidth;
+		boolean withiny = ypress >= y && ypress <= y+spriteHeight;
+		
+		Log.i("Controls","Withinx:"+ withinx+" Withiny:"+withiny);
+		
+		/*if(id == SHEEP)
+		{
+			
+			Log.i("Controlls","Withinx:"+ withinx+" Withiny:"+withiny);
+			
+		}*/
+		
+		
+		
+		return withinx && withiny;
+		//return pos.equals(position);
 	}
 
 	/**
@@ -102,8 +137,10 @@ public abstract class BoardObject implements BoardObjectIDS {
 	 * @return true if the entity is within the touch radius
 	 */
 	public boolean isPressed(TouchPosition pos) {
-
-		return pos.isInTouchRadius(getCenterPosition());
+		
+		return isPressed(pos.getPosition());
+		
+		//return pos.isInTouchRadius(getCenterPosition());
 	}
 
 	/*

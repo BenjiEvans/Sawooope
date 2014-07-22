@@ -3,9 +3,12 @@ package edu.calstatela.sawooope.entity.creature;
 import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import edu.calstatela.sawooope.entity.Position;
+import edu.calstatela.sawooope.entity.Rectangle;
 import edu.calstatela.sawooope.gamestates.levels.Level;
 import edu.calstatela.sawooope.main.GameView;
+import edu.calstatela.sawooope.tilemap.TileMap;
 
 /**
  * 
@@ -32,7 +35,8 @@ public class Sheep extends Creature {
 	public Sheep(int col, int row) {
 		super(col, row);
 		id = SHEEP;
-		box = new CollisionBox(this, 7, 2, 18, 30);
+		float scale = Level.getScale();
+		box = new CollisionBox(this, (int)(7*scale),(int)(2*scale), (int)(18*scale), (int)(30*scale));
 	}
 
 	@Override
@@ -74,6 +78,21 @@ public class Sheep extends Creature {
 		if (isOffScreen())
 			return;
 		super.draw(g);
+		
+		//draw collision box 
+		
+		/*double xoff = TileMap.getMapx();
+		double yoff = TileMap.getMapy();
+		Rectangle rec = box.getRectangle();
+		int x = rec.getX();
+		int y = rec.getY();
+		int width = rec.getWidth();
+		int height = rec.getHeight();
+		Paint paint = new Paint();
+		paint.setARGB(100, 123, 123, 0);
+		drawRect(g,(int)(x+xoff),(int)(y+yoff),width,height,paint);*/
+		
+		
 	}
 
 	/**

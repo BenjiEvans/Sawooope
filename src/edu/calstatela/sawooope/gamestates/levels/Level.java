@@ -31,17 +31,22 @@ import edu.calstatela.sawooope.tilemap.TileMap;
  */
 public abstract class Level extends GameState implements EntityMapping {
 
-	BoardEntityManager entityManager;
-	public int gridSize = 32;// this is the size of each square position
-	/**
-	 * @property
-	 */
 	private static final int GRID_SIZE = 32;
+
+	BoardEntityManager entityManager;
+	public int gridSize = GRID_SIZE;// this is the size of each square position
 	boolean end;
 	TileMap tileMap;
 	LevelInputProcessor input;
+	GameMode gameMode;
 
-	Level(GameStateManager gsm) {
+	Level(GameStateManager gsm, GameMode mode) {
+		this(gsm);
+		gameMode = mode;
+		BoardObject.setGameMode(mode);
+	}
+
+	private Level(GameStateManager gsm) {
 		super(gsm);
 		gridSize = (int) (GRID_SIZE * SCALE);
 		input = new LevelInputProcessor(gridSize);
@@ -54,8 +59,18 @@ public abstract class Level extends GameState implements EntityMapping {
 		return (int) (GRID_SIZE * SCALE);
 	}
 
+	/**
+	 * 
+	 * @return the scale used to draw images
+	 */
+	public static float getScale() {
+
+		return SCALE;
+	}
+
 	protected void initialize() {
 
+		Log.i("Debug", "Init has executed ");
 		tileMap = new TileMap();
 		BoardObject.setLevel(this);
 		entityManager = new BoardEntityManager();
@@ -63,14 +78,13 @@ public abstract class Level extends GameState implements EntityMapping {
 
 	public void update() {
 
-		if (ready) {
-
+		if(ready){
+			
+			//check to see if the game should end 
+			
 			entityManager.updateCreatures();
 
-			if (isNoMoreSheep())
-				endLevel();
 			return;
-
 		}
 
 	}
@@ -79,6 +93,8 @@ public abstract class Level extends GameState implements EntityMapping {
 
 		if (ready) {
 
+			/*boolean bool = tileMap == null;
+			Log.i("Debug", "The value of bool is:" + bool);*/
 			tileMap.draw(g);
 			BoardObject.setMapPosition();
 

@@ -5,10 +5,14 @@ import java.util.HashMap;
 
 import edu.calstatela.sawooope.entity.BoardObject;
 import edu.calstatela.sawooope.entity.Position;
+import edu.calstatela.sawooope.entity.Rectangle;
 import edu.calstatela.sawooope.gamestates.levels.Level;
+import edu.calstatela.sawooope.gamestates.levels.LevelInputProcessor.TouchPosition;
 import edu.calstatela.sawooope.main.GameView;
+import edu.calstatela.sawooope.tilemap.TileMap;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 /**
  * Creature is essentially an entity that is capable of movement. Because of
@@ -50,6 +54,8 @@ public abstract class Creature extends BoardObject implements Movable {
 	protected double dx, dy;
 	protected float speed;
 	boolean facing[] = { false, false, false, false };
+	
+	//protected Hunger hunger;
 	protected HashMap<String, ArrayList<Bitmap[]>> sprites = new HashMap<String, ArrayList<Bitmap[]>>();
 
 	/**
@@ -70,6 +76,19 @@ public abstract class Creature extends BoardObject implements Movable {
 	public void draw(Canvas g) {
 		setDrawablePosition();
 		drawBitmap(g, animator.getImage(), drawx, drawy);
+		
+		//draw collision box 
+		
+				double xoff = TileMap.getMapx();
+				double yoff = TileMap.getMapy();
+				Rectangle rec = box.getRectangle();
+				int x = rec.getX();
+				int y = rec.getY();
+				int width = rec.getWidth();
+				int height = rec.getHeight();
+				Paint paint = new Paint();
+				paint.setARGB(100, 123, 123, 0);
+				drawRect(g,(int)(x+xoff),(int)(y+yoff),width,height,paint);
 	}
 
 	/**
@@ -376,5 +395,10 @@ public abstract class Creature extends BoardObject implements Movable {
 
 		return -1;
 	}
+	
+	/*public boolean isPressed(TouchPosition pos) {
+
+		return box.isPressed(pos);
+	}*/
 
 }

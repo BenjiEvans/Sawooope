@@ -16,7 +16,8 @@ public class LevelInputProcessor {
 	private TouchPosition pressed;
 	private long pressStamp;
 	private static long SWIPE_TIME = 500l;
-	private boolean dragged;
+	//private boolean dragged;
+	private TouchPosition dragged;
 	private TouchPosition release;
 	private BoardObject pressedObj;
 	private TouchAction gesture;
@@ -35,9 +36,10 @@ public class LevelInputProcessor {
 	 *            y location wheere the screen is pressed
 	 */
 	public void screenPressed(float x, float y) {
-		dragged = false;
+		dragged = null;
 		release = null;
 		pressedObj = null;
+		gesture = null;
 		pressed = new TouchPosition(x, y);
 		pressStamp = System.nanoTime();
 	}
@@ -77,7 +79,7 @@ public class LevelInputProcessor {
 	 */
 	public void screenDragged(float x, float y) {
 
-		dragged = true;
+		dragged = new TouchPosition(x,y);
 	}
 
 	/**
@@ -132,6 +134,72 @@ public class LevelInputProcessor {
 
 		return gesture.getTapPosition();
 	}
+	
+	/**
+	 * 
+	 * @return the x coordinate where the screen was pressed
+	 */
+	public float getPressedX(){
+		
+		return pressed.getScreenx();
+	}
+	
+	/**
+	 * 
+	 * @return the y coordinate where the screen was pressed
+	 */
+	public float getPressedY(){
+				
+		return pressed.getScreeny();
+	}
+	
+	/**
+	 * 
+	 * @return the x coordinate on the screen where the screen was pressed and dragged to 
+	 */
+	public float getDraggedX(){
+		
+		return dragged.getScreenx();
+	}
+	
+	/**
+	 * 
+	 * @return the y coordinate on the screen where the screen was pressed and dragged to 
+	 */
+	public float getDraggedY(){
+		
+		return dragged.getScreeny();
+	}
+	
+	
+	/**
+	 * Checks if the screen is pressed
+	 * @return true if the screen is pressed 
+	 */
+	public boolean isScreenPressed(){
+		
+		return gesture == null && pressed != null;
+	}
+	
+	/**
+	 * Checks if the screen has been dragged 
+	 * @return
+	 */
+	public boolean isScreenDragged(){
+		
+		return gesture == null && dragged != null;
+	}
+	
+	
+	/**
+	 * 
+	 * @return the radius (in pixels) of a touch position
+	 */
+	public int getTouchEventRadius(){
+		
+		//return (int) (Level.getScale()*2);
+		return (int)(Level.getGridSize() * 0.5)-1;
+	}
 
 	/**
 	 * ToucPositions are imaginary circles on the screen that represents where
@@ -152,7 +220,7 @@ public class LevelInputProcessor {
 		// center position on screen
 		private float screenx, screeny;
 
-		private float radius;
+		private double radius;
 
 		/**
 		 * 
@@ -165,7 +233,10 @@ public class LevelInputProcessor {
 
 			this.screenx = x;
 			this.screeny = y;
-			radius = (float) (Level.getGridSize() * 0.5);
+			/*double lengthSqr = Math.pow(Level.getGridSize() * 0.5,2);
+			radius = Math.pow((lengthSqr+lengthSqr), 0.5) - 1;*/
+			radius = (Level.getGridSize() * 0.5)-1;
+			//radius = Level.getScale()*2;// where 2 is the radius and is being scaled accordingly 
 			double mapx2 = Math.abs(TileMap.getMapx());
 			double mapy2 = Math.abs(TileMap.getMapy());
 			this.x = mapx2 + x;
@@ -235,6 +306,15 @@ public class LevelInputProcessor {
 
 			return pos.getPosition().equals(mapPosition);
 		}
+		
+		/**
+		 * 
+		 * @return the radius of the touch position
+		 */
+		public double getRadius(){
+			
+			return radius;
+		}
 
 	}
 
@@ -284,7 +364,7 @@ public class LevelInputProcessor {
 
 			}
 
-			if (pressed.equals(release) && !dragged) {
+			if (pressed.equals(release) && ((dragged == null)||(dragged.equals(pressed)))) {
 
 				id = TAP;
 

@@ -135,4 +135,48 @@ public class Rectangle {
 		return height;
 	}
 
+	/**
+	 * 
+	 * @return the area of the rectangle
+	 */
+	public double getArea() {
+
+		return width * height;
+	}
+
+	/**
+	 * Determines if the point specified is within the rectangle
+	 * 
+	 * @param x
+	 *            x coordinate of the point
+	 * @param y
+	 *            y coordinate of the point
+	 * @return
+	 */
+	public boolean isWithinRectangle(int x, int y) {
+
+		boolean withinx = x > this.x && x < this.x + width;
+		boolean withiny = y > this.y && y < this.y + height;
+
+		return withinx && withiny;
+	}
+	
+	/**
+	 * 
+	 * @return the x coordinate of the center of this rectangle 
+	 */
+	public int getCenterX() {
+
+		return (int) (x + (0.5 * width));
+	}
+
+	/**
+	 * 
+	 * @return the y coordinate of the center of this rectangle
+	 */
+	public int getCenterY() {
+
+		return (int) (y + (0.5 * height));
+	}
+
 }
