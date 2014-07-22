@@ -17,7 +17,7 @@ public class Barricade extends BoardObject {
 
 	public Barricade(int col, int row) {
 		super(col, row);
-		setSprites(level.getGameView());
+		setSpriteDimentions(level.getGameView());
 		id = EntityID.BARRICADE;
 	}
 
@@ -50,7 +50,7 @@ public class Barricade extends BoardObject {
 	}
 
 	@Override
-	protected void setSprites(GameView view) {
+	protected void setSpriteDimentions(GameView view) {
 
 		sprite = new Bitmap[2][1];
 		// Bitmap spriteSheet =

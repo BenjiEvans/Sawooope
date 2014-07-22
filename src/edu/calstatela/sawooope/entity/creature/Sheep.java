@@ -133,8 +133,8 @@ public class Sheep extends Creature {
 
 	}
 
-	protected void setSprites(GameView view) {
-		super.setSprites(view);
+	protected void setSpriteDimentions(GameView view) {
+		super.setSpriteDimentions(view);
 
 		Bitmap spriteSheet;
 

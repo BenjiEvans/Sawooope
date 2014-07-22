@@ -9,10 +9,12 @@ import edu.calstatela.sawooope.entity.Barricade;
 import edu.calstatela.sawooope.entity.BoardObject;
 import edu.calstatela.sawooope.entity.EntityID;
 import edu.calstatela.sawooope.entity.Rectangle;
+import edu.calstatela.sawooope.entity.Tunnel;
 import edu.calstatela.sawooope.entity.creature.Sheep;
 import edu.calstatela.sawooope.entity.creature.Wolf;
 import edu.calstatela.sawooope.gamestates.GameState;
 import edu.calstatela.sawooope.gamestates.GameStateManager;
+import edu.calstatela.sawooope.main.GameView;
 import edu.calstatela.sawooope.tilemap.TileMap;
 
 /**
@@ -75,6 +77,22 @@ public abstract class Level extends GameState {
 		tileMap = new TileMap();
 		BoardObject.setLevel(this);
 		entityManager = new BoardEntityManager();
+		
+		//Set static sprite reffernces for each class 
+		
+		//BoardObject.setSprites(getGameView());
+		
+		
+		//set static sprites for each class 
+		/*Barricade.setSprites(game);
+		Tunnel.setSprites(game);
+		Sheep.setSprites(game);
+		Wolf.setSprites(game);*/
+		
+		
+		
+		
+		
 	}
 
 	public void update() {

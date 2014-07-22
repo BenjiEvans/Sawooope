@@ -18,7 +18,7 @@ public abstract class Plant extends BoardObject {
 
 	Plant(int col, int row) {
 		super(col, row);
-		setSprites(level.getGameView());
+		setSpriteDimentions(level.getGameView());
 	}
 
 	public void draw(Canvas g) {

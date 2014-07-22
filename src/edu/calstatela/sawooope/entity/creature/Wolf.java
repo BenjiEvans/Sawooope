@@ -41,9 +41,9 @@ public class Wolf extends Creature {
 	}
 
 	@Override
-	public void setSprites(GameView view) {
+	public void setSpriteDimentions(GameView view) {
 
-		super.setSprites(view);
+		super.setSpriteDimentions(view);
 
 		Bitmap spriteSheet;
 

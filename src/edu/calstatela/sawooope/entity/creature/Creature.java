@@ -55,7 +55,6 @@ public abstract class Creature extends BoardObject implements Movable {
 	protected float speed;
 	boolean facing[] = { false, false, false, false };
 	
-	//protected Hunger hunger;
 	protected HashMap<String, ArrayList<Bitmap[]>> sprites = new HashMap<String, ArrayList<Bitmap[]>>();
 
 	/**
@@ -67,10 +66,10 @@ public abstract class Creature extends BoardObject implements Movable {
 	 */
 	Creature(int col, int row) {
 		super(col, row);
-		setSprites(level.getGameView());
+		setSpriteDimentions(level.getGameView());
 		speed = .5f;
 	}
-
+	
 	public abstract void update();
 
 	public void draw(Canvas g) {
@@ -205,7 +204,7 @@ public abstract class Creature extends BoardObject implements Movable {
 
 	}
 
-	protected void setSprites(GameView view) {
+	protected void setSpriteDimentions(GameView view) {
 
 		String[] spriteStates = { "South", "West", "East", "North" };
 

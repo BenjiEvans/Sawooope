@@ -76,7 +76,7 @@ public abstract class BoardObject {
 	public static void setGameMode(GameMode mode){
 			gameMode = mode;
 	}
-
+	
 	/**
 	 * Draws the entity
 	 * 
@@ -91,7 +91,7 @@ public abstract class BoardObject {
 	 * @param view
 	 *            game view in use
 	 */
-	protected abstract void setSprites(GameView view);
+	protected abstract void setSpriteDimentions(GameView view);
 
 	/**
 	 * Checks to see if the entity was pressed
