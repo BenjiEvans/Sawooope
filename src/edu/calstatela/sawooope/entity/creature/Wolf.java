@@ -3,6 +3,7 @@ package edu.calstatela.sawooope.entity.creature;
 import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import edu.calstatela.sawooope.entity.EntityID;
 import edu.calstatela.sawooope.gamestates.levels.Level;
 import edu.calstatela.sawooope.main.GameView;
 
@@ -15,7 +16,7 @@ public class Wolf extends Creature {
 
 	public Wolf(int col, int row) {
 		super(col, row);
-		id = WOLF;
+		id = EntityID.WOLF;
 		speed = 1;
 		float scale = Level.getScale();
 		box = new CollisionBox(this, (int)(4*scale), (int)(4*scale),(int)(24*scale), (int)(28*scale));
@@ -96,8 +97,7 @@ public class Wolf extends Creature {
 		int col = position.getCol();
 		int row = position.getRow();
 
-		if (level.isPositionBlocked(col, row - 1))
-			return false;
+	//	if (level.isPositionBlocked(col, row - 1))	return false;
 		// if(level.packHasPosition(this,col,row-1))return false;
 		// if(level.portalHasColRow(col,row-1))return false;
 		// if(packHasPosition(col,row-1)) return false;
@@ -113,8 +113,7 @@ public class Wolf extends Creature {
 		int col = position.getCol();
 		int row = position.getRow();
 
-		if (level.isPositionBlocked(col, row + 1))
-			return false;
+		//if (level.isPositionBlocked(col, row + 1))return false;
 		// if(level.packHasPosition(this,col,row+1))return false;
 		// if(level.portalHasColRow(col, row+1))return false;
 
@@ -133,8 +132,7 @@ public class Wolf extends Creature {
 		int col = position.getCol();
 		int row = position.getRow();
 
-		if (level.isPositionBlocked(col + 1, row))
-			return false;
+		//if (level.isPositionBlocked(col + 1, row))return false;
 		// if(level.packHasPosition(this,col+1,row))return false;
 		// if(level.portalHasColRow(col+1,row))return false;
 		// if(packHasPosition(col+1,row)) return false;
@@ -151,8 +149,7 @@ public class Wolf extends Creature {
 		int col = position.getCol();
 		int row = position.getRow();
 
-		if (level.isPositionBlocked(col - 1, row))
-			return false;
+		//if (level.isPositionBlocked(col - 1, row))return false;
 		// if(level.packHasPosition(this,col-1,row))return false;
 		// if(level.portalHasColRow(col-1, row))return false;
 		// if(level.packHasPosition(this,col-1,row))return false;

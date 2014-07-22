@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import edu.calstatela.sawooope.entity.BoardObject;
+import edu.calstatela.sawooope.entity.EntityID;
 import edu.calstatela.sawooope.main.GameView;
 
 /**
@@ -22,7 +23,7 @@ public class GrassPatch extends Plant {
 
 	public GrassPatch(int col, int row, long growDelay) {
 		super(col, row);
-		id = GRASS;
+		id = EntityID.GRASS;
 		regrowTime = growDelay;
 	}
 

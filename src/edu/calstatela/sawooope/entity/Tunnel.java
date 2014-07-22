@@ -17,7 +17,7 @@ public class Tunnel extends BoardObject {
 	public Tunnel(int col, int row) {
 		super(col, row);
 		setSprites(level.getGameView());
-		id = TUNNEL;
+		id = EntityID.TUNNEL;
 		animator = null;
 	}
 

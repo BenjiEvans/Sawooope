@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.util.Log;
 
 import edu.calstatela.sawooope.entity.BoardObject;
+import edu.calstatela.sawooope.entity.EntityID;
 import edu.calstatela.sawooope.entity.creature.Sheep;
 import edu.calstatela.sawooope.entity.creature.Wolf;
 
@@ -16,7 +17,7 @@ import edu.calstatela.sawooope.entity.creature.Wolf;
  * 
  * @author Benji
  */
-public class BoardEntityManager implements EntityMapping {
+public class BoardEntityManager{
 
 	ArrayList<Wolf> wolfPack = new ArrayList<Wolf>();
 	ArrayList<Sheep> herd = new ArrayList<Sheep>();
@@ -25,9 +26,9 @@ public class BoardEntityManager implements EntityMapping {
 	 * positions when drawn. the map hash should have the items in the order
 	 * they will be draw.
 	 */
-	String[] mapHash = { TUNNEL, BARRICADE, SHEEP_DECOY, GRASS, TREE };
-	HashMap<String, ArrayList<BoardObject>> mapObjects;
-
+	EntityID[] mapHash = { EntityID.TUNNEL, EntityID.BARRICADE, EntityID.SHEEP_DECOY, EntityID.GRASS, EntityID.TREE };
+	//HashMap<String, ArrayList<BoardObject>> mapObjects;
+	HashMap<EntityID, ArrayList<BoardObject>> mapObjects;
 	/**
 	 * Creates an ArrayList of sheep and wolves; also creates a hashMap of
 	 * BoardObjects to store any entities on the map (like trees and barricades
@@ -37,7 +38,7 @@ public class BoardEntityManager implements EntityMapping {
 
 		wolfPack = new ArrayList<Wolf>();
 		herd = new ArrayList<Sheep>();
-		mapObjects = new HashMap<String, ArrayList<BoardObject>>();
+		mapObjects = new HashMap<EntityID, ArrayList<BoardObject>>();
 
 		for (int i = 0, length = mapHash.length; i < length; i++) {
 			mapObjects.put(mapHash[i], new ArrayList<BoardObject>());
@@ -94,14 +95,12 @@ public class BoardEntityManager implements EntityMapping {
 	/**
 	 * Adds a boardObjects to the mapObject hash map based on the inputed hash
 	 * 
-	 * @param hash
-	 *            hash string (See EntityMapping Interface)
 	 * @param object
 	 *            board object
 	 */
-	public void addMapObject(String hash, BoardObject object) {
+	public void addMapObject(BoardObject object) {
 
-		mapObjects.get(hash).add(object);
+		mapObjects.get(object.getId()).add(object);
 
 	}
 
@@ -135,7 +134,7 @@ public class BoardEntityManager implements EntityMapping {
 	 */
 	public void addGrass(BoardObject grass) {
 
-		mapObjects.get(GRASS).add(grass);
+		mapObjects.get(EntityID.GRASS).add(grass);
 	}
 
 	/*
@@ -157,13 +156,13 @@ public class BoardEntityManager implements EntityMapping {
 		return wolfPack;
 	}
 
-	/**
+	/*
 	 * 
 	 * @return a map of all non-creature entities
-	 */
-	public HashMap<String, ArrayList<BoardObject>> getMapObjects() {
+	 *
+	public HashMap<EntityID, ArrayList<BoardObject>> getMapObjects() {
 		return mapObjects;
-	}
+	}*/
 
 	/**
 	 * 
@@ -171,7 +170,7 @@ public class BoardEntityManager implements EntityMapping {
 	 *            entity hash (see EntityMapping Interface)
 	 * @return a list on the specicied entity
 	 */
-	public ArrayList<BoardObject> getMapObject(String hash) {
+	public ArrayList<BoardObject> getMapObjects(EntityID hash) {
 		return mapObjects.get(hash);
 	}
 

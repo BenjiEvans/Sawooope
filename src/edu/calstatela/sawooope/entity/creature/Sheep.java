@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import edu.calstatela.sawooope.entity.EntityID;
 import edu.calstatela.sawooope.entity.Position;
 import edu.calstatela.sawooope.entity.Rectangle;
 import edu.calstatela.sawooope.gamestates.levels.Level;
@@ -34,7 +35,7 @@ public class Sheep extends Creature {
 
 	public Sheep(int col, int row) {
 		super(col, row);
-		id = SHEEP;
+		id = EntityID.SHEEP;
 		float scale = Level.getScale();
 		box = new CollisionBox(this, (int)(7*scale),(int)(2*scale), (int)(18*scale), (int)(30*scale));
 	}
@@ -370,8 +371,7 @@ public class Sheep extends Creature {
 		int row = position.getRow();
 
 		// if(level.herdHasPosition(this,col, row+1)) return false;
-		if (level.isPositionBlocked(col, row + 1))
-			return false;
+	//	if (level.isPositionBlocked(col, row + 1))	return false;
 		// if(level.decoyHasColRow(col,row+1))return false;
 
 		return true;
@@ -386,8 +386,7 @@ public class Sheep extends Creature {
 		int row = position.getRow();
 
 		// if(level.herdHasPosition(this,col, row-1)) return false;
-		if (level.isPositionBlocked(col, row - 1))
-			return false;
+		//if (level.isPositionBlocked(col, row - 1))return false;
 		// if(level.decoyHasColRow(col,row-1))return false;*/
 
 		return true;
@@ -402,8 +401,7 @@ public class Sheep extends Creature {
 		int row = position.getRow();
 
 		// if(level.herdHasPosition(this,col+1, row)) return false;
-		if (level.isPositionBlocked(col + 1, row))
-			return false;
+		//if (level.isPositionBlocked(col + 1, row))return false;
 		// if(level.decoyHasColRow(col+1,row))return false;
 		return true;
 	}
@@ -417,8 +415,7 @@ public class Sheep extends Creature {
 		int row = position.getRow();
 
 		// if(level.herdHasPosition(this, col-1, row)) return false;
-		if (level.isPositionBlocked(col - 1, row))
-			return false;
+		//if (level.isPositionBlocked(col - 1, row))return false;
 		// if(level.decoyHasColRow(col-1,row))return false;
 		return true;
 	}

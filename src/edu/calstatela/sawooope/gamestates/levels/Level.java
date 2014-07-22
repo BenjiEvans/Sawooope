@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.util.Log;
 import edu.calstatela.sawooope.entity.Barricade;
 import edu.calstatela.sawooope.entity.BoardObject;
+import edu.calstatela.sawooope.entity.EntityID;
 import edu.calstatela.sawooope.entity.Rectangle;
 import edu.calstatela.sawooope.entity.creature.Sheep;
 import edu.calstatela.sawooope.entity.creature.Wolf;
@@ -29,7 +30,7 @@ import edu.calstatela.sawooope.tilemap.TileMap;
  * 
  * @author Benji
  */
-public abstract class Level extends GameState implements EntityMapping {
+public abstract class Level extends GameState {
 
 	private static final int GRID_SIZE = 32;
 
@@ -124,6 +125,16 @@ public abstract class Level extends GameState implements EntityMapping {
 		}
 
 	}
+	
+	public int getNumRows(){
+		
+		return tileMap.getNumRows();
+	}
+	
+	public int getNumCols(){
+		
+		return tileMap.getNumCols();
+	}
 
 	private void endLevel() {
 		end = true;
@@ -157,7 +168,7 @@ public abstract class Level extends GameState implements EntityMapping {
 	 *            row being checked
 	 * @return true if that space is occupied
 	 */
-	public boolean isPositionBlocked(int col, int row) {
+	public boolean isBlockedByTile(int col, int row) {
 
 		// more checking needs to be done here
 
@@ -165,6 +176,21 @@ public abstract class Level extends GameState implements EntityMapping {
 			return true;
 
 		return false;
+	}
+	
+	public boolean isBlockedByTree(int col,int row){
+		
+		
+		ArrayList<BoardObject> trees = entityManager.getMapObjects(EntityID.TREE);
+		
+		for(BoardObject b: trees){
+			
+			if(b.hasPosition(col,row))return true;
+		}
+		
+		return false;
+		
+		
 	}
 
 	/**
@@ -255,7 +281,7 @@ public abstract class Level extends GameState implements EntityMapping {
 
 		// check to see if a barriar was pressed
 		ArrayList<BoardObject> rocks = entityManager
-				.getMapObject(BoardEntityManager.BARRICADE);
+				.getMapObjects(EntityID.BARRICADE);
 		for (BoardObject b : rocks) {
 
 			input.hasPressed(b);
@@ -277,7 +303,7 @@ public abstract class Level extends GameState implements EntityMapping {
 			BoardObject obj = input.getPressedObject();
 			if (obj != null) {
 
-				if (obj.isOfType(BoardObject.SHEEP)) {
+				if (obj.isOfType(EntityID.SHEEP)) {
 
 					Sheep sheep = (Sheep) obj;
 					Log.i("Testing", "Swipeing sheep");
@@ -295,7 +321,7 @@ public abstract class Level extends GameState implements EntityMapping {
 			BoardObject obj2 = input.getPressedObject();
 			if (obj2 != null) {
 
-				if (obj2.isOfType(BoardObject.BARRICADE)) {
+				if (obj2.isOfType(EntityID.BARRICADE)) {
 
 					Barricade b = (Barricade) obj2;
 					if (b.isPressed(input.getTapLocationOnMap()))
@@ -304,7 +330,7 @@ public abstract class Level extends GameState implements EntityMapping {
 					return;
 				}
 
-				if (obj2.isOfType(BoardObject.SHEEP)) {
+				if (obj2.isOfType(EntityID.SHEEP)) {
 
 					Log.i("Testing", "Taping sheep");
 					Sheep sheep = (Sheep) obj2;

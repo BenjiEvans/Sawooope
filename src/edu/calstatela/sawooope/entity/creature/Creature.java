@@ -305,9 +305,14 @@ public abstract class Creature extends BoardObject implements Movable {
 	 */
 	protected boolean northValid() {
 
-		if (position.getRow() - 1 < 0)
-			return false;
-
+		//in case sheep tries to off the map
+		int row = position.getRow();
+		if(row - 1 < 0)return false;
+		int col = position.getCol();
+			
+		if(level.isBlockedByTile(col, row-1))return false;
+		if(level.isBlockedByTree(col, row-1))return false;
+		
 		return true;
 
 	}
@@ -318,7 +323,15 @@ public abstract class Creature extends BoardObject implements Movable {
 	 */
 	protected boolean southValid() {
 
-		// if(row+1 >= level.getNumRows())return false;
+		//in case sheep tries 
+		int row = position.getRow();
+		if(row+1 >= level.getNumRows())return false;
+		
+		int col = position.getCol();
+		
+		if(level.isBlockedByTile(col, row+1))return false;
+		if(level.isBlockedByTree(col, row+1))return false;
+
 
 		return true;
 	}
@@ -329,7 +342,13 @@ public abstract class Creature extends BoardObject implements Movable {
 	 */
 	protected boolean eastValid() {
 
-		// if(col+1 >= level.getNumCols())return false;
+		int col = position.getCol();
+		if(col+1 >= level.getNumCols())return false;
+		
+		int row = position.getRow();
+		
+		if(level.isBlockedByTile(col+1, row))return false;
+		if(level.isBlockedByTree(col+1, row))return false;
 
 		return true;
 	}
@@ -340,9 +359,16 @@ public abstract class Creature extends BoardObject implements Movable {
 	 */
 	protected boolean westValid() {
 
-		if (position.getCol() - 1 < 0)
-			return false;
-
+		
+		int col = position.getCol();
+		
+		if (col - 1 < 0)return false;
+		
+		int row = position.getRow();
+		
+		if(level.isBlockedByTile(col-1, row))return false;
+		if(level.isBlockedByTree(col-1, row))return false;
+		
 		return true;
 	}
 

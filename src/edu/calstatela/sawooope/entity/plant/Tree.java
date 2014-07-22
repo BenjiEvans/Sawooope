@@ -2,6 +2,7 @@ package edu.calstatela.sawooope.entity.plant;
 
 import java.util.ArrayList;
 import edu.calstatela.sawooope.entity.BoardObject;
+import edu.calstatela.sawooope.entity.EntityID;
 import edu.calstatela.sawooope.gamestates.levels.Level;
 import edu.calstatela.sawooope.main.GameView;
 import android.graphics.Bitmap;
@@ -17,7 +18,7 @@ public class Tree extends Plant {
 
 	public Tree(int col, int row) {
 		super(col, row);
-		id = BoardObject.TREE;
+		id = EntityID.TREE;
 	}
 
 	@Override

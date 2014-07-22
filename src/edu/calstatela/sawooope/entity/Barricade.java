@@ -18,7 +18,7 @@ public class Barricade extends BoardObject {
 	public Barricade(int col, int row) {
 		super(col, row);
 		setSprites(level.getGameView());
-		id = BARRICADE;
+		id = EntityID.BARRICADE;
 	}
 
 	@Override

@@ -18,7 +18,7 @@ import edu.calstatela.sawooope.tilemap.TileMap;
  * @author Benji
  * 
  */
-public abstract class BoardObject implements BoardObjectIDS {
+public abstract class BoardObject {
 
 	// Position Variables
 	protected static double mapx, mapy;
@@ -32,7 +32,7 @@ public abstract class BoardObject implements BoardObjectIDS {
 	// other vars
 	protected static Level level;
 	protected static GameMode gameMode;
-	protected int id;
+	protected EntityID id;
 
 	/**
 	 * 
@@ -128,6 +128,11 @@ public abstract class BoardObject implements BoardObjectIDS {
 		return withinx && withiny;
 		//return pos.equals(position);
 	}
+	
+	public boolean hasPosition(int col, int row){
+				
+		return position.getCol() == col && position.getRow() == row;
+	}	
 
 	/**
 	 * Checks to see if the entity was pressed
@@ -187,9 +192,13 @@ public abstract class BoardObject implements BoardObjectIDS {
 	 *            (see BoardObjectIDS Interface )
 	 * @return true if this entity has the same id as the one specified
 	 */
-	public boolean isOfType(int id) {
+	public boolean isOfType(EntityID id) {
 
 		return this.id == id;
+	}
+	
+	public EntityID getId(){
+		return id;
 	}
 
 	/**

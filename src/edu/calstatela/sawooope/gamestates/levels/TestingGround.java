@@ -33,11 +33,11 @@ public class TestingGround extends Level {
 		entityManager.addSheep(new Sheep(4,6)); */
 		entityManager.addWolf(new Wolf(10, 7));
 		entityManager.addGrass(new GrassPatch(5, 10, 3000));
-		entityManager.addMapObject(TREE, new Tree(10, 5));
-		entityManager.addMapObject(TREE, new Tree(12, 13));
-		entityManager.addMapObject(TREE, new Tree(10, 19));
-		entityManager.addMapObject(TREE, new Tree(14, 5));
-		entityManager.addMapObject(TUNNEL, new Tunnel(14, 18));
+		entityManager.addMapObject(new Tree(10, 5));
+		entityManager.addMapObject(new Tree(12, 13));
+		entityManager.addMapObject(new Tree(10, 19));
+		entityManager.addMapObject(new Tree(14, 5));
+		entityManager.addMapObject(new Tunnel(14, 18));
 	}
 
 	@Override

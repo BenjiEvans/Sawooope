@@ -1,6 +1,7 @@
 package edu.calstatela.sawooope.gamestates.levels;
 
 import edu.calstatela.sawooope.entity.BoardObject;
+import edu.calstatela.sawooope.entity.EntityID;
 import edu.calstatela.sawooope.entity.Position;
 import edu.calstatela.sawooope.tilemap.TileMap;
 
@@ -89,7 +90,7 @@ public class LevelInputProcessor {
 	 */
 	public boolean isScreenScrollable() {
 
-		return pressedObj == null || !pressedObj.isOfType(BoardObject.SHEEP);
+		return pressedObj == null || !pressedObj.isOfType(EntityID.SHEEP);
 	}
 
 	/**
