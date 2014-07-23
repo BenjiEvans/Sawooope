@@ -16,10 +16,13 @@ import edu.calstatela.sawooope.main.GameView;
 
 public class GrassPatch extends Plant {
 
-	private int height = 1;
+	private int layer = 1;
 	private long grassTimer;
 	private long regrowTime;
 	private long eatTime = 2000;
+	private static ArrayList<Bitmap[]> sprites = new ArrayList<Bitmap[]>();
+	private static int spriteWidth;
+	private static int spriteHeight;
 
 	public GrassPatch(int col, int row, long growDelay) {
 		super(col, row);
@@ -34,7 +37,7 @@ public class GrassPatch extends Plant {
 
 			if (grassTimerDiff > regrowTime) {
 				grassTimer = 0;
-				height = 1;
+				layer = 1;
 			}
 		}
 
@@ -43,17 +46,17 @@ public class GrassPatch extends Plant {
 
 	private void updateAnimation() {
 
-		if (height == 1)
+		if (layer == 1)
 			animator.setFrames(sprites, 0);
-		else if (height == 0)
+		else if (layer == 0)
 			animator.setFrames(sprites, 1);
 
 	}
 
 	public void eatLayer() {
-		if (height == 0)
+		if (layer == 0)
 			return;
-		height--;
+		layer--;
 		grassTimer = System.nanoTime();
 	}
 
@@ -67,8 +70,7 @@ public class GrassPatch extends Plant {
 
 	}
 
-	@Override
-	protected void setSprites(GameView view) {
+	public static void setSprites(GameView view) {
 
 		Bitmap spriteSheet;
 
@@ -87,14 +89,24 @@ public class GrassPatch extends Plant {
 
 		}
 
-		animator.setFrames(sprites.get(0));
-		animator.setDelay(-1);
+		/*animator.setFrames(sprites.get(0));
+		animator.setDelay(-1);*/
 
 	}
 
 	public boolean hasLayer() {
 
-		return height == 1;
+		return layer == 1;
+	}
+
+	@Override
+	protected void setAnimation() {
+		
+		width = spriteWidth;
+		height = spriteHeight;
+
+		animator.setFrames(sprites.get(0));
+		animator.setDelay(-1);
 	}
 
 }

@@ -54,7 +54,7 @@ public abstract class Creature extends BoardObject implements Movable {
 	protected double dx, dy;
 	protected float speed;
 	boolean facing[] = { false, false, false, false };
-	protected SpriteSet sprites;
+	//protected static SpriteSet sprites;
 	
 	//protected HashMap<String, ArrayList<Bitmap[]>> sprites = new HashMap<String, ArrayList<Bitmap[]>>();
 
@@ -67,8 +67,8 @@ public abstract class Creature extends BoardObject implements Movable {
 	 */
 	Creature(int col, int row) {
 		super(col, row);
-		sprites = new SpriteSet();
-		setSprites(level.getGameView());
+		//sprites = new SpriteSet();
+		//setSprites(level.getGameView());
 		speed = .5f;
 	}
 	
@@ -95,7 +95,7 @@ public abstract class Creature extends BoardObject implements Movable {
 	/**
 	 * Updates animation based on current action state
 	 */
-	protected void updateAnimation() {
+	protected void updateAnimation(SpriteSet sprites) {
 
 		if (walking) {
 			if (facing[NORTH]) {
@@ -214,19 +214,7 @@ public abstract class Creature extends BoardObject implements Movable {
 
 	}
 
-	protected void setSprites(GameView view) {
-
-		
-		
-		/*String[] spriteStates = { "South", "West", "East", "North" };
-
-		for (int i = 0; i < spriteStates.length; i++) {
-			ArrayList<Bitmap[]> frames = new ArrayList<Bitmap[]>();
-
-			sprites.put(spriteStates[i], frames);
-		}*/
-	}
-
+	
 	/**
 	 * Moves creature up
 	 */

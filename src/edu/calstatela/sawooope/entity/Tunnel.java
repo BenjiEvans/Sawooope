@@ -12,7 +12,9 @@ import edu.calstatela.sawooope.main.GameView;
  */
 public class Tunnel extends BoardObject {
 
-	Bitmap sprite;
+	private static Bitmap sprite;
+	private static int spriteWidth;
+	private static int spriteHeight;
 
 	public Tunnel(int col, int row) {
 		super(col, row);
@@ -27,11 +29,20 @@ public class Tunnel extends BoardObject {
 		drawBitmap(g, sprite, drawx, drawy);
 	}
 
-	@Override
-	protected void setSprites(GameView view) {
+	public static void setSprites(GameView view) {
 
 		sprite = view.getScaledBitmap("sprites/tunnel.png");
+		
+		spriteHeight = sprite.getHeight();
+		spriteWidth = sprite.getWidth();
 
+	}
+
+	@Override
+	protected void setAnimation() {
+		width = spriteWidth;
+		height = spriteHeight;
+		
 	}
 
 }

@@ -14,6 +14,10 @@ import edu.calstatela.sawooope.main.GameView;
  */
 public class Wolf extends Creature {
 
+	private static SpriteSet sprites;
+	private static int spriteWidth;
+	private static int spriteHeight;
+	
 	public Wolf(int col, int row) {
 		super(col, row);
 		id = EntityID.WOLF;
@@ -37,14 +41,14 @@ public class Wolf extends Creature {
 
 	protected void updateAnimation() {
 
-		super.updateAnimation();
+		super.updateAnimation(sprites);
 	}
 
-	@Override
-	public void setSprites(GameView view) {
 
-		super.setSprites(view);
+	public static void setSprites(GameView view) {
 
+		sprites = new SpriteSet();
+		
 		Bitmap spriteSheet;
 
 		spriteSheet = view.getScaledBitmap("sprites/wolf/wolf.png");
@@ -77,8 +81,8 @@ public class Wolf extends Creature {
 		}
 		
 
-		animator.setFrames(sprites.getFrames(SOUTH).getIdleFrames(), IDLE);
-		animator.setDelay(-1);
+		/*animator.setFrames(sprites.getFrames(SOUTH).getIdleFrames(), IDLE);
+		animator.setDelay(-1);*/
 
 		/*String[] hashOrder = { "South", "West", "East", "North" };
 
@@ -162,6 +166,16 @@ public class Wolf extends Creature {
 	@Override
 	public void move(int direction) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	protected void setAnimation() {
+		
+		width = spriteWidth;
+		height = spriteHeight;
+		
+		animator.setFrames(sprites.getFrames(SOUTH).getIdleFrames(), IDLE);
+		animator.setDelay(-1);
 
 	}
 

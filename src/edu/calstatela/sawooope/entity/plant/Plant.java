@@ -14,11 +14,11 @@ import android.graphics.Canvas;
  */
 public abstract class Plant extends BoardObject {
 
-	ArrayList<Bitmap[]> sprites = new ArrayList<Bitmap[]>();
+	//ArrayList<Bitmap[]> sprites = new ArrayList<Bitmap[]>();
 
 	Plant(int col, int row) {
 		super(col, row);
-		setSprites(level.getGameView());
+		//setSprites(level.getGameView());
 	}
 
 	public void draw(Canvas g) {

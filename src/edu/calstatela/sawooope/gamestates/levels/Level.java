@@ -12,6 +12,8 @@ import edu.calstatela.sawooope.entity.Rectangle;
 import edu.calstatela.sawooope.entity.Tunnel;
 import edu.calstatela.sawooope.entity.creature.Sheep;
 import edu.calstatela.sawooope.entity.creature.Wolf;
+import edu.calstatela.sawooope.entity.plant.GrassPatch;
+import edu.calstatela.sawooope.entity.plant.Tree;
 import edu.calstatela.sawooope.gamestates.GameState;
 import edu.calstatela.sawooope.gamestates.GameStateManager;
 import edu.calstatela.sawooope.main.GameView;
@@ -75,19 +77,21 @@ public abstract class Level extends GameState {
 
 		Log.i("Debug", "Init has executed ");
 		tileMap = new TileMap();
-		BoardObject.setLevel(this);
 		entityManager = new BoardEntityManager();
-		
+		BoardObject.setLevel(this);
+				
+		GameView view = getGameView();
 		//Set static sprite reffernces for each class 
+	    Barricade.setSprites(view);
+	    Tunnel.setSprites(view);
+	    Sheep.setSprites(view);
+	    Wolf.setSprites(view);
+	    GrassPatch.setSprites(view);
+	    Tree.setSprites(view);
+	    
+	    
 		
-		//BoardObject.setSprites(getGameView());
 		
-		
-		//set static sprites for each class 
-		/*Barricade.setSprites(game);
-		Tunnel.setSprites(game);
-		Sheep.setSprites(game);
-		Wolf.setSprites(game);*/
 		
 		
 		

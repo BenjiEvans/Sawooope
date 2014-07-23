@@ -27,7 +27,7 @@ public abstract class BoardObject {
 	// Graphic Renerdering variables
 	protected Animation animator;
 	protected float drawx, drawy;
-	protected int spriteWidth, spriteHeight;
+	protected int width, height;
 
 	// other vars
 	protected static Level level;
@@ -46,6 +46,7 @@ public abstract class BoardObject {
 		int size = Level.getGridSize();
 		position = new Position(col, row, col * size, row * size);
 		animator = new Animation();
+		setAnimation();
 	}
 
 	/**
@@ -84,14 +85,8 @@ public abstract class BoardObject {
 	 *            canvas to draw on
 	 */
 	public abstract void draw(Canvas g);
-
-	/**
-	 * initializes this entities sprites
-	 * 
-	 * @param view
-	 *            game view in use
-	 */
-	protected abstract void setSprites(GameView view);
+	
+	protected abstract void setAnimation();
 
 	/**
 	 * Checks to see if the entity was pressed
@@ -111,8 +106,8 @@ public abstract class BoardObject {
 		double xpress = pos.getx();
 		double ypress = pos.gety();
 		
-		boolean withinx = xpress >= x && xpress <= x+spriteWidth;
-		boolean withiny = ypress >= y && ypress <= y+spriteHeight;
+		boolean withinx = xpress >= x && xpress <= x+width;
+		boolean withiny = ypress >= y && ypress <= y+height;
 		
 		Log.i("Controls","Withinx:"+ withinx+" Withiny:"+withiny);
 		
@@ -156,8 +151,8 @@ public abstract class BoardObject {
 		int col = position.getCol();
 		int row = position.getCol();
 
-		double x = position.getx() + (spriteWidth / 2);
-		double y = position.gety() + (spriteHeight / 2);
+		double x = position.getx() + (width / 2);
+		double y = position.gety() + (height / 2);
 
 		return new Position(col, row, x, y);
 	}
@@ -209,8 +204,8 @@ public abstract class BoardObject {
 	protected boolean isOffScreen() {
 		int x = (int) position.getx();
 		int y = (int) position.gety();
-		if (x + spriteWidth + mapx < 0 || x + mapx > level.getWidth()
-				|| y + spriteHeight + mapy < 0 || y + mapy > level.getHeight())
+		if (x + width + mapx < 0 || x + mapx > level.getWidth()
+				|| y + height + mapy < 0 || y + mapy > level.getHeight())
 			return true;
 
 		return false;

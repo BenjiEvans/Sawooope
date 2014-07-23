@@ -26,6 +26,10 @@ public class Sheep extends Creature {
 	private boolean dead;
 
 	private boolean[] moves = { false, false, false, false };
+	private static SpriteSet sprites;
+	private static int spriteWidth;
+	private static int spriteHeight;
+	
 
 	// Condenced into a hunger object
 	/*
@@ -133,9 +137,9 @@ public class Sheep extends Creature {
 
 	}
 
-	protected void setSprites(GameView view) {
-		super.setSprites(view);
-
+	public static void setSprites(GameView view) {
+		
+		sprites= new SpriteSet();
 		Bitmap spriteSheet;
 
 		spriteSheet = view.getScaledBitmap("sprites/sheep/sheeps.png");
@@ -203,7 +207,7 @@ public class Sheep extends Creature {
 
 		sprites.getFrames(SOUTH).setDeadFrames(sprites.getFrames(WEST).getDeadFrames());
 		sprites.getFrames(NORTH).setDeadFrames(sprites.getFrames(EAST).getDeadFrames());
-        setFacing(SOUTH);
+		//setFacing(SOUTH);
 		
 		
 		/*String[] hashOrder = { "South", "West", "East", "North" };
@@ -426,7 +430,7 @@ public class Sheep extends Creature {
 			}
 
 		} else {
-			super.updateAnimation();
+			super.updateAnimation(sprites);
 			return;
 		}
 
@@ -597,6 +601,16 @@ public class Sheep extends Creature {
 
 		}
 
+	}
+
+	@Override
+	protected void setAnimation() {
+		width = spriteWidth;
+		height = spriteHeight;
+		
+		animator.setFrames(sprites.getFrames(SOUTH).getIdleFrames(), IDLE);
+		animator.setDelay(-1);
+		
 	}
 
 }

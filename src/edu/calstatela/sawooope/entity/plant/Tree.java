@@ -16,13 +16,15 @@ import android.graphics.Canvas;
  */
 public class Tree extends Plant {
 
+	private static ArrayList<Bitmap[]> sprites = new ArrayList<Bitmap[]>();
+	private static int spriteWidth,spriteHeight;
+	
 	public Tree(int col, int row) {
 		super(col, row);
 		id = EntityID.TREE;
 	}
 
-	@Override
-	protected void setSprites(GameView view) {
+	public static void setSprites(GameView view) {
 
 		sprites = new ArrayList<Bitmap[]>();
 		Bitmap image;
@@ -35,8 +37,8 @@ public class Tree extends Plant {
 
 		sprites.add(sprite);
 
-		animator.setFrames(sprites, 0);
-		animator.setDelay(-1);
+		/*animator.setFrames(sprites, 0);
+		animator.setDelay(-1);*/
 
 	}
 
@@ -44,9 +46,19 @@ public class Tree extends Plant {
 		super.draw(g);
 		if (isOffScreen())
 			return;
-		int y = (position.getRow() * Level.getGridSize()) - spriteHeight / 2;
+		int y = (position.getRow() * Level.getGridSize()) - height / 2;
 		drawBitmap(g, animator.getImage(), drawx, (float) (y + mapy));
 
+	}
+
+	@Override
+	protected void setAnimation() {
+		width = spriteWidth;
+		height = spriteHeight;
+		
+		animator.setFrames(sprites, 0);
+		animator.setDelay(-1);
+		
 	}
 
 }

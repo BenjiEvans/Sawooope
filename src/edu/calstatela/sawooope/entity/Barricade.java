@@ -12,12 +12,13 @@ import android.graphics.Canvas;
  */
 public class Barricade extends BoardObject {
 
-	Bitmap[][] sprite;
+	private static Bitmap[][] sprite;
+	private static int spriteWidth;
+	private static int spriteHeight;
 	int strength = 3;
 
 	public Barricade(int col, int row) {
 		super(col, row);
-		setSprites(level.getGameView());
 		id = EntityID.BARRICADE;
 	}
 
@@ -49,8 +50,7 @@ public class Barricade extends BoardObject {
 
 	}
 
-	@Override
-	protected void setSprites(GameView view) {
+	public static  void setSprites(GameView view) {
 
 		sprite = new Bitmap[2][1];
 		// Bitmap spriteSheet =
@@ -71,9 +71,15 @@ public class Barricade extends BoardObject {
 		sprite[1][0] = Bitmap.createBitmap(spriteSheet, spriteWidth, 0,
 				spriteWidth, spriteHeight);
 
+	}
+
+	@Override
+	protected void setAnimation() {
+		width = spriteWidth;
+		height = spriteHeight;
 		animator.setFrames(sprite[0]);
 		animator.setDelay(-1);
-
+		
 	}
 
 }
