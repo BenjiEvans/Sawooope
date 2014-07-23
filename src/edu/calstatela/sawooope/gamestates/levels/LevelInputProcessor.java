@@ -74,8 +74,6 @@ public class LevelInputProcessor {
 			
 			//click on the same sheep to deselect
 			if(object == sheep){
-				/*sheep.deselect();
-				sheep = null;*/
 				sheep.select();
 			}
 			else{//not clicking on the same sheep

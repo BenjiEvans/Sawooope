@@ -599,7 +599,9 @@ public class Sheep extends Creature {
 		if (currState == IDLE) {
 			
 			setFacing(direction);
-			switch (direction) {
+			moves[direction] = true;
+			return;
+			/*switch (direction) {
 
 			case NORTH:
 				if (northValid()) {
@@ -627,7 +629,7 @@ public class Sheep extends Creature {
 				}
 				break;
 			}
-			return;
+			return;*/
 		}
 
 		if (currState == WALKING) {
@@ -664,7 +666,27 @@ public class Sheep extends Creature {
 
 	@Override
 	public void move(Position p) {
-		// TODO Auto-generated method stub
+		
+		/*int col = p.getCol();
+		int row = p.getRow();
+		
+		int thisCol = position.getCol();
+		int thisRow = position.getRow();
+		
+		boolean sameCol = col == thisCol;
+		boolean sameRow = row == thisRow;
+		
+		if(sameCol && sameRow)return;
+		else if(sameCol){
+			
+			if(col > thisCol){
+				if(eastValid()){
+					move[EAST] = true;
+					moveEa
+				}
+			}
+			
+		}*/
 		
 	}
 
