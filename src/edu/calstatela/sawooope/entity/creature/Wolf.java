@@ -41,9 +41,9 @@ public class Wolf extends Creature {
 	}
 
 	@Override
-	public void setSpriteDimentions(GameView view) {
+	public void setSprites(GameView view) {
 
-		super.setSpriteDimentions(view);
+		super.setSprites(view);
 
 		Bitmap spriteSheet;
 
@@ -51,18 +51,46 @@ public class Wolf extends Creature {
 
 		spriteWidth = spriteSheet.getWidth() / 3;
 		spriteHeight = spriteSheet.getHeight() / 4;
+		
+		int[] order  = {SOUTH,WEST,EAST,NORTH};
+		int length = order.length;
+		//set Idle sprites 
+		
+		for (int i = 0; i < length; i++) {
+		
+			Bitmap[] image = new Bitmap[1];
+			image[0] = Bitmap.createBitmap(spriteSheet, spriteWidth,
+					spriteHeight * i, spriteWidth, spriteHeight);
 
-		String[] hashOrder = { "South", "West", "East", "North" };
+			sprites.getFrames(order[i]).setIdleFrames(image);
+		}
+		
+		//set walking sprites 
+		for (int i = 0; i < length; i++) {
+			
+			Bitmap[] frames = new Bitmap[2];
+			frames[0] = Bitmap.createBitmap(spriteSheet, 0, spriteHeight * i,
+					spriteWidth, spriteHeight);
+			frames[1] = Bitmap.createBitmap(spriteSheet, 2 * spriteWidth,
+					spriteHeight * i, spriteWidth, spriteHeight);
+			sprites.getFrames(order[i]).setWalkingFrames(frames);
+		}
+		
+
+		animator.setFrames(sprites.getFrames(SOUTH).getIdleFrames(), IDLE);
+		animator.setDelay(-1);
+
+		/*String[] hashOrder = { "South", "West", "East", "North" };
 
 		setIdleSprites(spriteSheet, hashOrder);
 		setWalkingSprites(spriteSheet, hashOrder);
 
 		animator.setFrames(sprites.get("South"), IDLE);
-		animator.setDelay(-1);
+		animator.setDelay(-1);*/
 
 	}
 
-	private void setIdleSprites(Bitmap spriteSheet, String[] hashOrder) {
+	/*private void setIdleSprites(Bitmap spriteSheet, String[] hashOrder) {
 
 		for (int i = 0; i < hashOrder.length; i++) {
 			ArrayList<Bitmap[]> idleSprites = sprites.get(hashOrder[i]);
@@ -87,21 +115,13 @@ public class Wolf extends Creature {
 			walkingSprites.add(frames);
 		}
 
-	}
+	}*/
 
 	protected boolean northValid() {
 
 		if (!super.northValid())
 			return false;
 
-		int col = position.getCol();
-		int row = position.getRow();
-
-	//	if (level.isPositionBlocked(col, row - 1))	return false;
-		// if(level.packHasPosition(this,col,row-1))return false;
-		// if(level.portalHasColRow(col,row-1))return false;
-		// if(packHasPosition(col,row-1)) return false;
-		// if(packHasNextPosition(col,row-1)) return false;
 		return true;
 	}
 
@@ -109,16 +129,6 @@ public class Wolf extends Creature {
 
 		if (!super.southValid())
 			return false;
-
-		int col = position.getCol();
-		int row = position.getRow();
-
-		//if (level.isPositionBlocked(col, row + 1))return false;
-		// if(level.packHasPosition(this,col,row+1))return false;
-		// if(level.portalHasColRow(col, row+1))return false;
-
-		// if(packHasPosition(col,row+1)) return false;
-		// if(packHasNextPosition(col,row+1)) return false;
 
 		return true;
 
@@ -129,14 +139,7 @@ public class Wolf extends Creature {
 		if (!super.eastValid())
 			return false;
 
-		int col = position.getCol();
-		int row = position.getRow();
-
-		//if (level.isPositionBlocked(col + 1, row))return false;
-		// if(level.packHasPosition(this,col+1,row))return false;
-		// if(level.portalHasColRow(col+1,row))return false;
-		// if(packHasPosition(col+1,row)) return false;
-		// if(packHasNextPosition(col+1,row)) return false;
+		
 
 		return true;
 	}
@@ -146,15 +149,7 @@ public class Wolf extends Creature {
 		if (!super.westValid())
 			return false;
 
-		int col = position.getCol();
-		int row = position.getRow();
-
-		//if (level.isPositionBlocked(col - 1, row))return false;
-		// if(level.packHasPosition(this,col-1,row))return false;
-		// if(level.portalHasColRow(col-1, row))return false;
-		// if(level.packHasPosition(this,col-1,row))return false;
-		// if(packHasPosition(col-1,row)) return false;
-		// if(packHasNextPosition(col-1,row)) return false;
+		
 		return true;
 	}
 

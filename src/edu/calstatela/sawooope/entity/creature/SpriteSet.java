@@ -62,6 +62,10 @@ public class SpriteSet {
 			return id == this.id;
 		}
 		
+		public Bitmap[] getFrames(){
+			return frames;
+		}
+		
 		
 	}
 	
@@ -79,34 +83,54 @@ public class SpriteSet {
 		}
 		
 		
+		
+		
+		
+		
+		public Bitmap[] getDeadFrames(){
+			return getFramesByID(FrameID.DEAD);
+		}
+		
+		public Bitmap[] getIdleFrames(){
+			return getFramesByID(FrameID.IDLE);
+		}
+		
+		public Bitmap[] getWalkingFrames(){
+			return getFramesByID(FrameID.WALK);
+		}
+		
+		public Bitmap[] getEatingFrames(){
+			return getFramesByID(FrameID.EAT);
+		}
+		
 		public void setDeadFrames(Bitmap[] img){
 			
 			AnimationFrame newFrame = new AnimationFrame(FrameID.DEAD,img);
-			setFrameByID(FrameID.DEAD,newFrame);
+			setFramesByID(FrameID.DEAD,newFrame);
 		}
 		
 		public void setIdleFrames(Bitmap[] img){
 			
 			
 			AnimationFrame newFrame = new AnimationFrame(FrameID.IDLE,img);
-			setFrameByID(FrameID.IDLE,newFrame);
+			setFramesByID(FrameID.IDLE,newFrame);
 								
 		}
 		
 		public void setWalkingFrames(Bitmap[] img){
 			
 			AnimationFrame newFrame = new AnimationFrame(FrameID.WALK,img);
-			setFrameByID(FrameID.WALK,newFrame);
+			setFramesByID(FrameID.WALK,newFrame);
 					
 		}
 		
 		public void setEatingFrames(Bitmap[] img){
 			
 			AnimationFrame newFrame = new AnimationFrame(FrameID.EAT,img);
-			setFrameByID(FrameID.EAT,newFrame);
+			setFramesByID(FrameID.EAT,newFrame);
 		}
 		
-		private void setFrameByID(FrameID id, AnimationFrame newFrame){
+		private void setFramesByID(FrameID id, AnimationFrame newFrame){
 			
 			for(AnimationFrame f: list)
 			{
@@ -118,6 +142,16 @@ public class SpriteSet {
 			}
 			list.add(newFrame);
 						
+		}
+		
+		private Bitmap[] getFramesByID(FrameID id){
+			
+			for(AnimationFrame f: list){
+				
+				if(f.isOfType(id))return f.getFrames();
+			}
+			
+			return null;
 		}
 		
 	}

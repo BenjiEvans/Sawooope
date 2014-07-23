@@ -91,7 +91,7 @@ public abstract class BoardObject {
 	 * @param view
 	 *            game view in use
 	 */
-	protected abstract void setSpriteDimentions(GameView view);
+	protected abstract void setSprites(GameView view);
 
 	/**
 	 * Checks to see if the entity was pressed

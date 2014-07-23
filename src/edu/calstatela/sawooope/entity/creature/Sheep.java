@@ -133,8 +133,8 @@ public class Sheep extends Creature {
 
 	}
 
-	protected void setSpriteDimentions(GameView view) {
-		super.setSpriteDimentions(view);
+	protected void setSprites(GameView view) {
+		super.setSprites(view);
 
 		Bitmap spriteSheet;
 
@@ -142,19 +142,82 @@ public class Sheep extends Creature {
 
 		spriteWidth = spriteSheet.getWidth() / 12;
 		spriteHeight = spriteSheet.getHeight() / 8;
+		
+		int[] order = {SOUTH,WEST,EAST,NORTH};
+		int length = order.length;
+		//set Idle Sprites
+		for(int i = 0; i < length; i++)
+		{
+			Bitmap[] image = new Bitmap[1];
+			image[0] = Bitmap.createBitmap(spriteSheet, spriteWidth,
+					spriteHeight * i, spriteWidth, spriteHeight);
+			sprites.getFrames(order[i]).setIdleFrames(image);		  
+		}
+		
+		//set walking sprites
+		for (int i = 0; i < length; i++) {
+			
+			Bitmap[] frames = new Bitmap[2];
+			frames[0] = Bitmap.createBitmap(spriteSheet, 0, spriteHeight * i,
+					spriteWidth, spriteHeight);
+			frames[1] = Bitmap.createBitmap(spriteSheet, 2 * spriteWidth,
+					spriteHeight * i, spriteWidth, spriteHeight);
+			sprites.getFrames(order[i]).setWalkingFrames(frames);
+		}
+		 
+		//set eating sprites
+		
+		spriteSheet = view.getScaledBitmap("sprites/sheep/sheep_eat.png");
 
-		String[] hashOrder = { "South", "West", "East", "North" };
+		for (int i = 0; i < length; i++) {
+			Bitmap[] image = new Bitmap[3];
+			
+			for (int j = 0; j < 3; j++) {
+				image[j] = Bitmap.createBitmap(spriteSheet, j * spriteWidth, i
+						* spriteHeight, spriteWidth, spriteHeight);
+			}
+
+			sprites.getFrames(order[i]).setEatingFrames(image);
+
+		}
+		
+		//set dead sprites
+
+		
+
+		spriteSheet = view.getScaledBitmap("sprites/sheep/dead_sheep.png");
+		//only has facing east and west sprites
+		//first image is facing west 2nd is east
+		
+		for (int i = 0; i < 2; i++) {
+			Bitmap[] img = new Bitmap[1];
+			img[0] = Bitmap.createBitmap(spriteSheet, i * spriteWidth, 0,
+					spriteWidth, spriteHeight);
+			
+			
+			if(i == 0)sprites.getFrames(WEST).setDeadFrames(img);
+			else sprites.getFrames(EAST).setDeadFrames(img);
+			
+			
+		}
+
+		sprites.getFrames(SOUTH).setDeadFrames(sprites.getFrames(WEST).getDeadFrames());
+		sprites.getFrames(NORTH).setDeadFrames(sprites.getFrames(EAST).getDeadFrames());
+        setFacing(SOUTH);
+		
+		
+		/*String[] hashOrder = { "South", "West", "East", "North" };
 
 		setIdleSprites(spriteSheet, hashOrder);
 		setWalkingSprites(spriteSheet, hashOrder);
 		setEatingSprites(view, hashOrder);
 		setTransportSprites(view);
 		setDeadSprites(view);
-		setFacing(SOUTH);
+		setFacing(SOUTH);*/
 
 	}
 
-	private void setEatingSprites(GameView view, String[] hashOrder) {
+	/*private void setEatingSprites(GameView view, String[] hashOrder) {
 
 		Bitmap spriteSheet;
 
@@ -236,7 +299,7 @@ public class Sheep extends Creature {
 			walkingSprites.add(frames);
 		}
 
-	}
+	}*/
 
 	protected void updateAnimation() {
 
@@ -245,9 +308,14 @@ public class Sheep extends Creature {
 
 			if (facing[EAST]) {
 
-				animator.setFrames(sprites.get("Dead"), 1);
+				//animator.setFrames(sprites.get("Dead"), 1);
+				animator.setFrames(sprites.getFrames(EAST).getDeadFrames());
+				
+				
 			} else {
-				animator.setFrames(sprites.get("Dead"), 0);
+				
+				//animator.setFrames(sprites.get("Dead"), 0);
+				animator.setFrames(sprites.getFrames(WEST).getDeadFrames());
 			}
 
 		} else if (eating) {
@@ -256,7 +324,8 @@ public class Sheep extends Creature {
 
 				if (animator.getCurrAction() != EATING) {
 
-					animator.setFrames(sprites.get("North"), EATING);
+					//animator.setFrames(sprites.get("North"), EATING);
+					animator.setFrames(sprites.getFrames(NORTH).getEatingFrames(), EATING);
 					animator.setDelay(100);
 
 				} else {
@@ -281,7 +350,8 @@ public class Sheep extends Creature {
 
 				if (animator.getCurrAction() != EATING) {
 
-					animator.setFrames(sprites.get("South"), EATING);
+					//animator.setFrames(sprites.get("South"), EATING);
+					animator.setFrames(sprites.getFrames(SOUTH).getEatingFrames(), EATING);
 					animator.setDelay(100);
 
 				} else {
@@ -306,7 +376,8 @@ public class Sheep extends Creature {
 
 				if (animator.getCurrAction() != EATING) {
 
-					animator.setFrames(sprites.get("East"), EATING);
+					//animator.setFrames(sprites.get("East"), EATING);
+					animator.setFrames(sprites.getFrames(EAST).getEatingFrames(),EATING);
 					animator.setDelay(100);
 
 				} else {
@@ -331,7 +402,8 @@ public class Sheep extends Creature {
 
 				if (animator.getCurrAction() != EATING) {
 
-					animator.setFrames(sprites.get("West"), EATING);
+					//animator.setFrames(sprites.get("West"), EATING);
+					animator.setFrames(sprites.getFrames(WEST).getEatingFrames(), EATING);
 					animator.setDelay(100);
 
 				} else {

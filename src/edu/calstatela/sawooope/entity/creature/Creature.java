@@ -54,8 +54,9 @@ public abstract class Creature extends BoardObject implements Movable {
 	protected double dx, dy;
 	protected float speed;
 	boolean facing[] = { false, false, false, false };
+	protected SpriteSet sprites;
 	
-	protected HashMap<String, ArrayList<Bitmap[]>> sprites = new HashMap<String, ArrayList<Bitmap[]>>();
+	//protected HashMap<String, ArrayList<Bitmap[]>> sprites = new HashMap<String, ArrayList<Bitmap[]>>();
 
 	/**
 	 * 
@@ -66,7 +67,8 @@ public abstract class Creature extends BoardObject implements Movable {
 	 */
 	Creature(int col, int row) {
 		super(col, row);
-		setSpriteDimentions(level.getGameView());
+		sprites = new SpriteSet();
+		setSprites(level.getGameView());
 		speed = .5f;
 	}
 	
@@ -98,19 +100,22 @@ public abstract class Creature extends BoardObject implements Movable {
 		if (walking) {
 			if (facing[NORTH]) {
 				if (animator.getCurrAction() != WALKING)
-					animator.setFrames(sprites.get("North"), WALKING);
-
+					//animator.setFrames(sprites.get("North"), WALKING);
+					animator.setFrames(sprites.getFrames(NORTH).getWalkingFrames(), WALKING);
 			} else if (facing[SOUTH]) {
 				if (animator.getCurrAction() != WALKING)
-					animator.setFrames(sprites.get("South"), WALKING);
+					//animator.setFrames(sprites.get("South"), WALKING);
+					animator.setFrames(sprites.getFrames(SOUTH).getWalkingFrames(), WALKING);
 
 			} else if (facing[EAST]) {
 				if (animator.getCurrAction() != WALKING)
-					animator.setFrames(sprites.get("East"), WALKING);
+					//animator.setFrames(sprites.get("East"), WALKING);
+					animator.setFrames(sprites.getFrames(EAST).getWalkingFrames(), WALKING);
 
 			} else if (facing[WEST]) {
 				if (animator.getCurrAction() != WALKING)
-					animator.setFrames(sprites.get("West"), WALKING);
+					//animator.setFrames(sprites.get("West"), WALKING);
+					animator.setFrames(sprites.getFrames(WEST).getWalkingFrames(), WALKING);
 			}
 
 			animator.setDelay(150);
@@ -120,19 +125,24 @@ public abstract class Creature extends BoardObject implements Movable {
 			if (facing[NORTH]) {
 
 				if (animator.getCurrAction() != IDLE)
-					animator.setFrames(sprites.get("North"), IDLE);
+					//animator.setFrames(sprites.get("North"), IDLE);
+					animator.setFrames(sprites.getFrames(NORTH).getIdleFrames(), IDLE);
 
 			} else if (facing[SOUTH]) {
 				if (animator.getCurrAction() != IDLE)
-					animator.setFrames(sprites.get("South"), IDLE);
+					//animator.setFrames(sprites.get("South"), IDLE);
+					animator.setFrames(sprites.getFrames(SOUTH).getIdleFrames(), IDLE);
+
 
 			} else if (facing[EAST]) {
 				if (animator.getCurrAction() != IDLE)
-					animator.setFrames(sprites.get("East"), IDLE);
+					//animator.setFrames(sprites.get("East"), IDLE);
+					animator.setFrames(sprites.getFrames(EAST).getIdleFrames(), IDLE);
 
 			} else if (facing[WEST]) {
 				if (animator.getCurrAction() != IDLE)
-					animator.setFrames(sprites.get("West"), IDLE);
+					//animator.setFrames(sprites.get("West"), IDLE);
+					animator.setFrames(sprites.getFrames(WEST).getIdleFrames(), IDLE);
 
 			}
 		}
@@ -204,15 +214,17 @@ public abstract class Creature extends BoardObject implements Movable {
 
 	}
 
-	protected void setSpriteDimentions(GameView view) {
+	protected void setSprites(GameView view) {
 
-		String[] spriteStates = { "South", "West", "East", "North" };
+		
+		
+		/*String[] spriteStates = { "South", "West", "East", "North" };
 
 		for (int i = 0; i < spriteStates.length; i++) {
 			ArrayList<Bitmap[]> frames = new ArrayList<Bitmap[]>();
 
 			sprites.put(spriteStates[i], frames);
-		}
+		}*/
 	}
 
 	/**

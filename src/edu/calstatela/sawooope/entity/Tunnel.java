@@ -16,7 +16,7 @@ public class Tunnel extends BoardObject {
 
 	public Tunnel(int col, int row) {
 		super(col, row);
-		setSpriteDimentions(level.getGameView());
+		setSprites(level.getGameView());
 		id = EntityID.TUNNEL;
 		animator = null;
 	}
@@ -28,7 +28,7 @@ public class Tunnel extends BoardObject {
 	}
 
 	@Override
-	protected void setSpriteDimentions(GameView view) {
+	protected void setSprites(GameView view) {
 
 		sprite = view.getScaledBitmap("sprites/tunnel.png");
 

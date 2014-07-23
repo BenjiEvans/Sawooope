@@ -72,6 +72,16 @@ public class Animation {
 		playedOnce = false;
 
 	}
+	
+	public void setFrames(Bitmap[] sprites, int index) {
+
+		this.frames = sprites;
+		this.actionIndex = index;
+		currentFrame = 0;
+		startTime = System.nanoTime();
+		playedOnce = false;
+
+	}
 
 	/**
 	 * sets the actionIndex to -1 signifying that there is no action index

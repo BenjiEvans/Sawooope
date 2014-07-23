@@ -68,7 +68,7 @@ public class GrassPatch extends Plant {
 	}
 
 	@Override
-	protected void setSpriteDimentions(GameView view) {
+	protected void setSprites(GameView view) {
 
 		Bitmap spriteSheet;
 

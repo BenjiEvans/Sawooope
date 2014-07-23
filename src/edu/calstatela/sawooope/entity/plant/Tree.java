@@ -22,7 +22,7 @@ public class Tree extends Plant {
 	}
 
 	@Override
-	protected void setSpriteDimentions(GameView view) {
+	protected void setSprites(GameView view) {
 
 		sprites = new ArrayList<Bitmap[]>();
 		Bitmap image;
