@@ -284,7 +284,7 @@ public class CollisionBox {
 	
 	/*
 	 * One possible implementation 
-	 **/ public boolean isPressed(TouchPosition pos){
+	 **/ /*public boolean isPressed(TouchPosition pos){
 		
 	setupBox();
 		
@@ -571,7 +571,7 @@ public class CollisionBox {
 	}*/
 	
 	
-	private double getDistance(int startx, int starty, int endx, int endy){
+	/*private double getDistance(int startx, int starty, int endx, int endy){
 		
 		double dxsqr = Math.pow((startx-endx),2);
 		
@@ -584,6 +584,6 @@ public class CollisionBox {
 	private double getDistance(int start, int end){
 		
 		return Math.abs(start-end);
-	}
+	}*/
 
 }

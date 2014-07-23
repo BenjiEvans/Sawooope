@@ -25,6 +25,7 @@ public class Sheep extends Creature {
 	private boolean eating;
 	private boolean dead;
 
+	private boolean selected;
 	
 	private boolean[] moves = { false, false, false, false };
 	private static SpriteSet sprites;
@@ -84,6 +85,19 @@ public class Sheep extends Creature {
 		if (isOffScreen())
 			return;
 		super.draw(g);
+		
+		//draw selected box
+		
+		if(selected){
+			Paint paint = new Paint();
+			paint.setARGB(100, 0, 0, 255);
+			int size = level.getGridSize();
+			drawRect(g,(int)drawx,(int)drawy,size,size, paint);		
+		}
+		
+		
+		
+		
 		
 		//draw collision box 
 		
@@ -511,6 +525,14 @@ public class Sheep extends Creature {
 	public boolean isDead() {
 		return dead;
 	}
+	
+	public void select(){
+		selected = true;
+	}
+	
+	public void deselect(){
+		selected = false;
+	}
 
 	/**
 	 * set sheep
@@ -637,6 +659,12 @@ public class Sheep extends Creature {
 		
 		animator.setFrames(sprites.getFrames(SOUTH).getIdleFrames(), IDLE);
 		animator.setDelay(-1);
+		
+	}
+
+	@Override
+	public void move(Position p) {
+		// TODO Auto-generated method stub
 		
 	}
 

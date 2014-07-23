@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import edu.calstatela.sawooope.entity.EntityID;
+import edu.calstatela.sawooope.entity.Position;
 import edu.calstatela.sawooope.gamestates.levels.Level;
 import edu.calstatela.sawooope.main.GameView;
 
@@ -177,6 +178,12 @@ public class Wolf extends Creature {
 		animator.setFrames(sprites.getFrames(SOUTH).getIdleFrames(), IDLE);
 		animator.setDelay(-1);
 
+	}
+
+	@Override
+	public void move(Position p) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

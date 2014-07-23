@@ -3,6 +3,7 @@ package edu.calstatela.sawooope.gamestates.levels;
 import edu.calstatela.sawooope.entity.BoardObject;
 import edu.calstatela.sawooope.entity.EntityID;
 import edu.calstatela.sawooope.entity.Position;
+import edu.calstatela.sawooope.entity.creature.Sheep;
 import edu.calstatela.sawooope.tilemap.TileMap;
 
 /**
@@ -17,6 +18,7 @@ public class LevelInputProcessor {
 	private TouchPosition pressed;
 	private long pressStamp;
 	private static long SWIPE_TIME = 500l;
+	private Sheep sheep;
 	//private boolean dragged;
 	private TouchPosition dragged;
 	private TouchPosition release;
@@ -55,10 +57,70 @@ public class LevelInputProcessor {
 	public boolean hasPressed(BoardObject object) {
 
 		if (object.isPressed(pressed)) {
-			pressedObj = object;
+			///pressedObj = object;
 			return true;
 		}
 		return false;
+	}
+	
+	public void selectSheep(Sheep object){
+		
+		if(sheep == null){
+			
+			sheep = object;
+			sheep.select();
+			
+		}else{//sheep is already selected 
+			
+			//click on the same sheep to deselect
+			if(object == sheep){
+				/*sheep.deselect();
+				sheep = null;*/
+				sheep.select();
+			}
+			else{//not clicking on the same sheep
+				
+				//deselect current sheep and select the new sheep 
+				sheep.deselect();
+				sheep = object;
+				sheep.select();
+			}
+			
+		}
+		
+		
+	}
+	
+	public void storePressedObject(BoardObject object){
+		
+		pressedObj = object;
+		
+		/*if(pressedObj.isOfType(EntityID.SHEEP)){
+			
+			if(sheep == null){
+				
+				sheep = (Sheep) object;
+				sheep.select();
+				
+			}else{//sheep is already selected 
+				
+				//click on the same sheep to deselect
+				if(object == sheep){
+					sheep.deselect();
+					sheep = null;
+				}
+				else{
+					
+					sheep.deselect();
+					sheep = (Sheep) object;
+					sheep.select();
+				}
+				
+			}
+			
+			
+		}*/
+		
 	}
 
 	/**
@@ -107,6 +169,10 @@ public class LevelInputProcessor {
 
 		gesture = new TouchAction(pressStamp, finalStamp);
 
+	}
+	
+	public void deselectSheep(){
+		sheep.deselect();
 	}
 
 	/**
@@ -212,16 +278,11 @@ public class LevelInputProcessor {
 	 */
 	public class TouchPosition {
 
-		// center positions in the world
-		private double x, y;
-
 		// position pressed in the game
-		private Position mapPosition;
+		private final Position mapPosition;
 
 		// center position on screen
 		private float screenx, screeny;
-
-		private double radius;
 
 		/**
 		 * 
@@ -234,42 +295,17 @@ public class LevelInputProcessor {
 
 			this.screenx = x;
 			this.screeny = y;
-			/*double lengthSqr = Math.pow(Level.getGridSize() * 0.5,2);
-			radius = Math.pow((lengthSqr+lengthSqr), 0.5) - 1;*/
-			radius = (Level.getGridSize() * 0.5)-1;
-			//radius = Level.getScale()*2;// where 2 is the radius and is being scaled accordingly 
 			double mapx2 = Math.abs(TileMap.getMapx());
 			double mapy2 = Math.abs(TileMap.getMapy());
-			this.x = mapx2 + x;
-			this.y = mapy2 + y;
-			int col = (int) ((this.x) / gridSize);
-			int row = (int) ((this.y) / gridSize);
+			int x2 = (int)(mapx2 + x);
+			int y2 = (int)(mapy2 + y);
+			int col = (int) (x2/ gridSize);
+			int row = (int) (y2 / gridSize);
 
-			mapPosition = new Position(col, row, this.x, this.y);
+			mapPosition = new Position(col, row, x2, y2);
 		}
 
-		/**
-		 * Checks to see if the position was touched
-		 * 
-		 * @param pos
-		 *            position
-		 * @return true if the TouchPosition's position on the map is within the
-		 *         radius of the TouchPosition
-		 */
-		public boolean isInTouchRadius(Position pos) {
-
-			double centerx = pos.getx();
-			double centery = pos.gety();
-
-			// distance formula
-			double dxsqr = Math.pow((centerx - x), 2);
-			double dysqr = Math.pow((centery - y), 2);
-
-			double distance = Math.pow(dxsqr + dysqr, 0.5);
-
-			return distance < radius;
-
-		}
+		
 
 		/**
 		 * 
@@ -291,8 +327,8 @@ public class LevelInputProcessor {
 		 * 
 		 * @return the position on the TileMap that was pressed
 		 */
-		public Position getPosition() {
-			return new Position(mapPosition);
+		public final Position getPosition() {
+			return mapPosition;
 		}
 
 		/**
@@ -308,15 +344,6 @@ public class LevelInputProcessor {
 			return pos.getPosition().equals(mapPosition);
 		}
 		
-		/**
-		 * 
-		 * @return the radius of the touch position
-		 */
-		public double getRadius(){
-			
-			return radius;
-		}
-
 	}
 
 	/**
@@ -485,6 +512,21 @@ public class LevelInputProcessor {
 			return IGNORE_SWIPE;
 		}
 
+	}
+
+	public boolean hasSelectedSheep() {
+		
+		return sheep != null;
+	}
+
+	public Sheep getSelectedSheep() {
+		
+		return sheep;
+	}
+
+	public Position getPositionPressed() {
+	
+		return pressed.getPosition();
 	}
 
 }

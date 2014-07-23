@@ -1,5 +1,7 @@
 package edu.calstatela.sawooope.entity.creature;
 
+import edu.calstatela.sawooope.entity.Position;
+
 /**
  * Movable should be implemented by any Entities capable of movement
  * (Creatures).
@@ -36,5 +38,6 @@ public interface Movable {
 	 *            direction to move
 	 */
 	public abstract void move(int direction);
+	public abstract void move(Position p);
 
 }

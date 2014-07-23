@@ -309,7 +309,11 @@ public abstract class Level extends GameState {
 		// check to see if a sheep was pressed
 		for (Sheep sheep : herd) {
 
-			input.hasPressed(sheep);
+			if(input.hasPressed(sheep)){
+				
+				input.storePressedObject(sheep);
+				return;
+			}
 
 		}
 
@@ -318,7 +322,11 @@ public abstract class Level extends GameState {
 				.getMapObjects(EntityID.BARRICADE);
 		for (BoardObject b : rocks) {
 
-			input.hasPressed(b);
+			if(input.hasPressed(b)){
+				
+				input.storePressedObject(b);
+				return;
+			}
 
 		}
 
@@ -342,6 +350,10 @@ public abstract class Level extends GameState {
 					Sheep sheep = (Sheep) obj;
 					Log.i("Testing", "Swipeing sheep");
 					sheep.move(input.getSwipeDirection());
+					
+					if(input.hasSelectedSheep()){
+						input.deselectSheep();
+					}
 
 					return;
 				}
@@ -353,7 +365,7 @@ public abstract class Level extends GameState {
 		case Touchable.TAP:
 
 			BoardObject obj2 = input.getPressedObject();
-			if (obj2 != null) {
+			if (obj2 != null) {// if and object is clicked 
 
 				if (obj2.isOfType(EntityID.BARRICADE)) {
 
@@ -369,9 +381,21 @@ public abstract class Level extends GameState {
 					Log.i("Testing", "Taping sheep");
 					Sheep sheep = (Sheep) obj2;
 					sheep.stop();
-
+					input.selectSheep(sheep);
 					return;
 				}
+			}else{//other wise, clicked on a position 
+				
+				if(input.hasSelectedSheep())
+				{
+					Sheep s = input.getSelectedSheep();
+					
+					s.move(input.getPositionPressed());
+					
+					input.deselectSheep();
+				}
+				
+				
 			}
 
 			break;
