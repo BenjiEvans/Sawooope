@@ -44,14 +44,18 @@ public class GameLoopThread extends Thread {
 	@SuppressLint("WrongCall")
 	public void run() {
 
-		long ticksPerSec = 700 / FPS;
+	/*	long ticksPerSec = 700 / FPS;
 		long startTime;
-		long sleepTime;
+		long sleepTime;*/
+		
+		long targetTime = 1000/FPS;
+		long startTime,waitTime;		
 
 		while (running) {
 
 			Canvas c = null;
-			startTime = System.currentTimeMillis();
+			startTime = System.nanoTime();
+			//startTime = System.currentTimeMillis();
 			try {
 
 				c = view.getHolder().lockCanvas();
@@ -66,8 +70,22 @@ public class GameLoopThread extends Thread {
 				}
 
 			}
-
-			sleepTime = ticksPerSec - (System.currentTimeMillis() - startTime);
+			
+			waitTime = targetTime - ((System.nanoTime()-startTime)/1000000);// divide by 1000000 to get time in milliseconds
+			
+			try{
+				
+				if(waitTime > 0)sleep(waitTime);
+				
+			}catch(Exception ex){
+				
+				
+			}
+			
+			
+			
+			
+			/*sleepTime = ticksPerSec - (System.currentTimeMillis() - startTime);
 
 			try {
 
@@ -77,7 +95,7 @@ public class GameLoopThread extends Thread {
 					sleep(10);
 
 			} catch (Exception ex) {
-			}
+			}*/
 
 		}
 
