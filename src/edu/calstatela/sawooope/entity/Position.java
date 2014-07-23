@@ -118,7 +118,12 @@ public class Position {
 	 */
 	public boolean equals(Position pos) {
 
-		return pos.getRow() == row && pos.getCol() == col;
+		return equals(pos.getCol(), pos.getRow());
+	}
+	
+	public boolean equals(int col, int row){
+	
+		return this.col == col && this.row == row;
 	}
 
 }

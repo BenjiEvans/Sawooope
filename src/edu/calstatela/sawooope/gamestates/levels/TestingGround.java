@@ -29,8 +29,8 @@ public class TestingGround extends Level {
 		tileMap.loadTiles(view, "tiles/tileset.png");
 		tileMap.loadMap(view, "maps/map.txt");
 		entityManager.addSheep(new Sheep(5, 5));
-	/*	entityManager.addSheep(new Sheep(7,6));
-		entityManager.addSheep(new Sheep(4,6)); */
+		entityManager.addSheep(new Sheep(7,6));
+		entityManager.addSheep(new Sheep(4,6)); 
 		entityManager.addWolf(new Wolf(10, 7));
 		entityManager.addGrass(new GrassPatch(5, 10, 3000));
 		entityManager.addMapObject(new Tree(10, 5));

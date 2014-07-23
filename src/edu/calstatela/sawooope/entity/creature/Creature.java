@@ -78,9 +78,34 @@ public abstract class Creature extends BoardObject implements Movable {
 		setDrawablePosition();
 		drawBitmap(g, animator.getImage(), drawx, drawy);
 		
+		
+		//draw creature position 
+		
+		Paint paint = new Paint();
+		paint.setARGB(100,0,255,0);
+		drawRect(g,(int)drawx,(int)drawy,width,height,paint);
+		
+		
+		//draw Creature next Position
+		
+		if(nextPosition != null){
+			
+			paint.setARGB(100,255,0,0);
+			int size = level.getGridSize();
+			int col = nextPosition.getCol();
+			int row = nextPosition.getRow();
+			
+			int x = (int)((col*size)+TileMap.getMapx());
+			int y = (int)((row*size)+TileMap.getMapy());
+			
+			drawRect(g,x,y,size,size,paint);
+			
+		}
+		
+		
 		//draw collision box 
 		
-				double xoff = TileMap.getMapx();
+				/*double xoff = TileMap.getMapx();
 				double yoff = TileMap.getMapy();
 				Rectangle rec = box.getRectangle();
 				int x = rec.getX();
@@ -89,7 +114,7 @@ public abstract class Creature extends BoardObject implements Movable {
 				int height = rec.getHeight();
 				Paint paint = new Paint();
 				paint.setARGB(100, 123, 123, 0);
-				drawRect(g,(int)(x+xoff),(int)(y+yoff),width,height,paint);
+				drawRect(g,(int)(x+xoff),(int)(y+yoff),width,height,paint);*/
 	}
 
 	/**
@@ -193,7 +218,7 @@ public abstract class Creature extends BoardObject implements Movable {
 	protected void setNewPosition() {
 		position = new Position(nextPosition);
 		nextPosition = null;
-		setStateTo(IDLE);
+		//setStateTo(IDLE);
 	}
 
 	/**
@@ -212,6 +237,17 @@ public abstract class Creature extends BoardObject implements Movable {
 		facing[dir] = true;
 		animator.resetCurrentAction();
 
+	}
+	
+	@Override 
+	public boolean hasPosition(int col, int row){
+		
+		if(super.hasPosition(col,row))return true;
+		
+		if(nextPosition != null && nextPosition.equals(col,row))return true;
+		
+		
+		return false;
 	}
 
 	
@@ -290,11 +326,13 @@ public abstract class Creature extends BoardObject implements Movable {
 	/**
 	 * 
 	 */
-	public void stay() {
+	protected void stay() {
 
 		nextPosition = null;
 		dx = 0;
 		dy = 0;
+		if (currState != IDLE)
+			setStateTo(IDLE);
 
 	}
 

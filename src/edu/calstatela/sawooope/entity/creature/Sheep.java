@@ -25,6 +25,7 @@ public class Sheep extends Creature {
 	private boolean eating;
 	private boolean dead;
 
+	
 	private boolean[] moves = { false, false, false, false };
 	private static SpriteSet sprites;
 	private static int spriteWidth;
@@ -105,34 +106,41 @@ public class Sheep extends Creature {
 	 */
 	private void listenForMove() {
 
-		if (currState != IDLE)
-			setStateTo(IDLE);
+		/*if (currState != IDLE)
+			setStateTo(IDLE);*/
+		
 		if (moves[NORTH]) {
 
-			if (northValid())
+			if (northValid()){
 				moveNorth();
-			else
-				stay();
-
+				return;
+			}
+			else setFacing(NORTH);
+				
 		} else if (moves[SOUTH]) {
 
-			if (southValid())
+			if (southValid()){
 				moveSouth();
-			else
-				stay();
+				return;
+			}
+			else setFacing(SOUTH);
 
 		} else if (moves[EAST]) {
-			if (eastValid())
+			
+			if (eastValid()){
 				moveEast();
-			else
-				stay();
+				return;
+			}				
+			else setFacing(EAST);
 
 		} else if (moves[WEST]) {
-			if (westValid())
+			if (westValid()){
 				moveWest();
-			else
-				stay();
-		} else
+				return;
+			}				
+			else setFacing(WEST);
+		} 
+		
 			stay();
 
 	}
@@ -446,7 +454,7 @@ public class Sheep extends Creature {
 		int col = position.getCol();
 		int row = position.getRow();
 
-		// if(level.herdHasPosition(this,col, row+1)) return false;
+		 if(level.herdHasPosition(this,col, row+1)) return false;
 	//	if (level.isPositionBlocked(col, row + 1))	return false;
 		// if(level.decoyHasColRow(col,row+1))return false;
 
@@ -461,7 +469,7 @@ public class Sheep extends Creature {
 		int col = position.getCol();
 		int row = position.getRow();
 
-		// if(level.herdHasPosition(this,col, row-1)) return false;
+		if(level.herdHasPosition(this,col, row-1)) return false;
 		//if (level.isPositionBlocked(col, row - 1))return false;
 		// if(level.decoyHasColRow(col,row-1))return false;*/
 
@@ -476,7 +484,7 @@ public class Sheep extends Creature {
 		int col = position.getCol();
 		int row = position.getRow();
 
-		// if(level.herdHasPosition(this,col+1, row)) return false;
+		if(level.herdHasPosition(this,col+1, row)) return false;
 		//if (level.isPositionBlocked(col + 1, row))return false;
 		// if(level.decoyHasColRow(col+1,row))return false;
 		return true;
@@ -490,7 +498,7 @@ public class Sheep extends Creature {
 		int col = position.getCol();
 		int row = position.getRow();
 
-		// if(level.herdHasPosition(this, col-1, row)) return false;
+	    if(level.herdHasPosition(this, col-1, row)) return false;
 		//if (level.isPositionBlocked(col - 1, row))return false;
 		// if(level.decoyHasColRow(col-1,row))return false;
 		return true;
@@ -542,6 +550,23 @@ public class Sheep extends Creature {
 		}
 
 	}
+	
+	@Override
+	protected void stay(){
+		super.stay();
+		clearMoves();
+	}
+	
+	private void clearMoves(){
+		
+		for(int i = 0, length=moves.length; i < length ;i++){
+		
+			moves[i] = false;
+		
+			
+		}
+		
+	}
 
 	/**
 	 * Moves this sheep in the specified direction
@@ -550,6 +575,8 @@ public class Sheep extends Creature {
 	public void move(int direction) {
 
 		if (currState == IDLE) {
+			
+			setFacing(direction);
 			switch (direction) {
 
 			case NORTH:

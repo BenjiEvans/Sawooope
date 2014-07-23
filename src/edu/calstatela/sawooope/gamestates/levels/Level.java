@@ -286,6 +286,18 @@ public abstract class Level extends GameState {
 
 		return true;
 	}
+	
+	public boolean herdHasPosition(Sheep sheep, int col, int row){
+		
+		ArrayList<Sheep> list = entityManager.getHerd();
+		
+		for(Sheep s: list){
+			
+			if(s != sheep && s.hasPosition(col, row))return true;
+		}
+		
+		return false;
+	}
 
 	@Override
 	public void screenPressed(float x, float y) {
