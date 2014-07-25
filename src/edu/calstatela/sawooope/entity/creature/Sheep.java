@@ -112,6 +112,19 @@ public class Sheep extends Creature {
 			drawRect(g,(int)drawx,(int)drawy,size,size, paint);		
 		}
 		
+		//draw destinations
+		
+		if(!destinations.isEmpty()){
+			
+			Position p = destinations.getCurrentDestination();
+			int size = level.getGridSize();
+			int col = p.getCol();
+			int row = p.getRow();
+			Paint paint = new Paint();
+			paint.setARGB(150, 155, 75, 42);
+			drawRect(g,(int)(col*size+TileMap.getMapx()),(int)(row*size+TileMap.getMapy()),width,height,paint);
+			
+		}
 		
 		
 		
@@ -581,6 +594,7 @@ public class Sheep extends Creature {
 	public void stop() {
 
 		clearMoves();
+		destinations.clear();
 		/*switch (currState) {
 
 		case WALKING:
@@ -654,8 +668,9 @@ public class Sheep extends Creature {
 		}
 
 		if (currState == WALKING) {
-
+			destinations.clear();
 			int facingDir = getFacingDirection();
+			setFacing(direction);
 			moves[facingDir] = false;
 			moves[direction] = true;
 
@@ -688,6 +703,7 @@ public class Sheep extends Creature {
 	@Override
 	public void move(int col, int row) {//called when move with "tap"
 		clearMoves();
+		destinations.clear();
 		
 		int thisCol = position.getCol();
 		int thisRow = position.getRow();

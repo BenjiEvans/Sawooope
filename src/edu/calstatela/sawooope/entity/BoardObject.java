@@ -96,11 +96,8 @@ public abstract class BoardObject {
 	 * @return true if positions are equal
 	 */
 	public boolean isPressed(Position pos) {
-		
-		
-		
-		
-		double x = position.getx();
+				
+		/*double x = position.getx();
 		double y = position.gety();
 		
 		double xpress = pos.getx();
@@ -120,8 +117,9 @@ public abstract class BoardObject {
 		
 		
 		
-		return withinx && withiny;
+		//return withinx && withiny;*/
 		//return pos.equals(position);
+		return position.equals(pos);
 	}
 	
 	public boolean hasPosition(int col, int row){

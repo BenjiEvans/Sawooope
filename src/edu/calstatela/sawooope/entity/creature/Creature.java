@@ -67,8 +67,6 @@ public abstract class Creature extends BoardObject implements Movable {
 	 */
 	Creature(int col, int row) {
 		super(col, row);
-		//sprites = new SpriteSet();
-		//setSprites(level.getGameView());
 		speed = .5f;
 	}
 	
@@ -251,6 +249,17 @@ public abstract class Creature extends BoardObject implements Movable {
 		
 		
 		return false;
+	}
+	
+	@Override
+	public boolean isPressed(Position p){
+		
+		if(super.isPressed(p))return true;
+		
+		if(nextPosition != null)return p.equals(nextPosition);
+			
+		return false;
+		
 	}
 
 	

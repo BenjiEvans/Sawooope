@@ -32,6 +32,11 @@ public class DestinationQueue {
 		destinations.clear();
 	}
 	
+	public Position getCurrentDestination()
+	{
+		return destinations.get(0);
+	}
+	
 	
 
 }
