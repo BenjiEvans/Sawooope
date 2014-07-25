@@ -38,6 +38,6 @@ public interface Movable {
 	 *            direction to move
 	 */
 	public abstract void move(int direction);
-	public abstract void move(Position p);
+	public abstract void move(int col, int row);
 
 }

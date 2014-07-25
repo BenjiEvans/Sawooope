@@ -1,6 +1,8 @@
 package edu.calstatela.sawooope.entity.creature;
 
 import java.util.ArrayList;
+import java.util.Queue;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -31,8 +33,8 @@ public class Sheep extends Creature {
 	private static SpriteSet sprites;
 	private static int spriteWidth;
 	private static int spriteHeight;
+	private DestinationQueue destinations;
 	
-
 	// Condenced into a hunger object
 	/*
 	 * private Health health; private long eatTimer; private GrassPatch grass;
@@ -42,6 +44,7 @@ public class Sheep extends Creature {
 	public Sheep(int col, int row) {
 		super(col, row);
 		id = EntityID.SHEEP;
+		destinations = new DestinationQueue();
 		float scale = Level.getScale();
 		box = new CollisionBox(this, (int)(7*scale),(int)(2*scale), (int)(18*scale), (int)(30*scale));
 	}
@@ -63,7 +66,21 @@ public class Sheep extends Creature {
 
 			if (reachedNextPosition()) {
 				setNewPosition();
-				listenForMove();
+				//check the destination queue 
+				if(!destinations.isEmpty()){
+					
+					if(destinations.reachedDestination(position))
+					{
+						destinations.dequeue();
+						stop();
+						
+					}
+					listenForMove();
+				}
+				else{
+					
+					listenForMove();
+				}
 
 			} else
 				position.updateXY(dx, dy);
@@ -551,6 +568,7 @@ public class Sheep extends Creature {
 		int row = position.getRow();
 		int x = col * size;
 		int y = row * size;
+		moves[facingDirection] = true;
 		nextPosition = new Position(col, row, x, y);
 		dx = -dx;
 		dy = -dy;
@@ -562,21 +580,23 @@ public class Sheep extends Creature {
 	@Override
 	public void stop() {
 
-		switch (currState) {
+		clearMoves();
+		/*switch (currState) {
 
 		case WALKING:
-			int dir = getFacingDirection();
-			moves[dir] = false;
-			break;
+			/*int dir = getFacingDirection();
+			moves[dir] = false;*/
+			//clearMoves();
+			//break;
 
-		}
+		//}*/
 
 	}
 	
 	@Override
 	protected void stay(){
 		super.stay();
-		clearMoves();
+		//clearMoves();
 	}
 	
 	private void clearMoves(){
@@ -594,10 +614,11 @@ public class Sheep extends Creature {
 	 * Moves this sheep in the specified direction
 	 */
 	@Override
-	public void move(int direction) {
+	public void move(int direction) {//called when swipped 
 
 		if (currState == IDLE) {
-			
+			clearMoves();
+			destinations.clear();
 			setFacing(direction);
 			moves[direction] = true;
 			return;
@@ -665,10 +686,8 @@ public class Sheep extends Creature {
 	}
 
 	@Override
-	public void move(Position p) {
-		
-		/*int col = p.getCol();
-		int row = p.getRow();
+	public void move(int col, int row) {//called when move with "tap"
+		clearMoves();
 		
 		int thisCol = position.getCol();
 		int thisRow = position.getRow();
@@ -679,14 +698,50 @@ public class Sheep extends Creature {
 		if(sameCol && sameRow)return;
 		else if(sameCol){
 			
+			if(row > thisRow){
+				
+				setFacing(SOUTH);
+				if(southValid()){
+					moveSouth();
+					moves[SOUTH] = true;
+				}
+				
+			}
+			else {
+				
+				setFacing(NORTH);
+				if(northValid()){
+					moves[NORTH]= true;
+					moveNorth();
+				}
+				
+			}
+			int size = level.getGridSize();
+			destinations.enqueue(new Position(col,row,col*size,row*size));
+		}else if(sameRow){
+			
 			if(col > thisCol){
+				
+				setFacing(EAST);
 				if(eastValid()){
-					move[EAST] = true;
-					moveEa
+					moves[EAST] = true;
+					moveEast();
+				}
+				
+			}
+			else {
+				
+				setFacing(WEST);
+				if(westValid()){
+					moves[WEST] = true;
+					moveWest();
 				}
 			}
 			
-		}*/
+			
+			int size = level.getGridSize();
+			destinations.enqueue(new Position(col,row,col*size,row*size));
+		}
 		
 	}
 

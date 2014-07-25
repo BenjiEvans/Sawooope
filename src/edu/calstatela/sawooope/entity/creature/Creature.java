@@ -182,6 +182,8 @@ public abstract class Creature extends BoardObject implements Movable {
 	 */
 	protected boolean reachedNextPosition() {
 
+	//	if(nextPosition == null) return true;
+		
 		if (dx != 0) {
 			if (dx > 0) {
 				if (position.getx() >= nextPosition.getx())
@@ -216,6 +218,7 @@ public abstract class Creature extends BoardObject implements Movable {
 	 * Sets the current Position to the next Position
 	 */
 	protected void setNewPosition() {
+		//if(nextPosition == null )return;
 		position = new Position(nextPosition);
 		nextPosition = null;
 		//setStateTo(IDLE);
@@ -335,7 +338,7 @@ public abstract class Creature extends BoardObject implements Movable {
 			setStateTo(IDLE);
 
 	}
-
+	
 	/**
 	 * 
 	 * @return true if the creature can move north

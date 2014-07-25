@@ -181,8 +181,9 @@ public class Wolf extends Creature {
 	}
 
 	@Override
-	public void move(Position p) {
-		// TODO Auto-generated method stub
+	public void move(int col, int row) {
+		
+		
 		
 	}
 

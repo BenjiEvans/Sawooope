@@ -171,6 +171,7 @@ public class LevelInputProcessor {
 	
 	public void deselectSheep(){
 		sheep.deselect();
+		sheep = null;
 	}
 
 	/**

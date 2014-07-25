@@ -8,6 +8,7 @@ import android.util.Log;
 import edu.calstatela.sawooope.entity.Barricade;
 import edu.calstatela.sawooope.entity.BoardObject;
 import edu.calstatela.sawooope.entity.EntityID;
+import edu.calstatela.sawooope.entity.Position;
 import edu.calstatela.sawooope.entity.Rectangle;
 import edu.calstatela.sawooope.entity.Tunnel;
 import edu.calstatela.sawooope.entity.creature.Sheep;
@@ -389,8 +390,8 @@ public abstract class Level extends GameState {
 				if(input.hasSelectedSheep())
 				{
 					Sheep s = input.getSelectedSheep();
-					
-					s.move(input.getPositionPressed());
+					Position p = input.getPositionPressed();
+					s.move(p.getCol(),p.getRow());
 					
 					input.deselectSheep();
 				}
