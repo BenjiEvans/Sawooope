@@ -607,11 +607,11 @@ public class Sheep extends Creature {
 
 	}
 	
-	@Override
+	/*@Override
 	protected void stay(){
 		super.stay();
 		//clearMoves();
-	}
+	}*/
 	
 	private void clearMoves(){
 		
@@ -705,29 +705,51 @@ public class Sheep extends Creature {
 		clearMoves();
 		destinations.clear();
 		
-		int thisCol = position.getCol();
-		int thisRow = position.getRow();
+		//
+		int thisCol ,thisRow;
+		
+		/*int thisCol = position.getCol();
+		int thisRow = position.getRow();*/
+		
+		if(nextPosition != null){
+			
+			thisCol = nextPosition.getCol();
+			thisRow = nextPosition.getRow();			
+			
+		}else {
+			thisCol = position.getCol();
+			thisRow = position.getRow();
+		}
+		
 		
 		boolean sameCol = col == thisCol;
 		boolean sameRow = row == thisRow;
 		
+		int facing = getFacingDirection();		
 		if(sameCol && sameRow)return;
+		/*
+		 * direction moved methods are called incase 
+		 * user uses a tap to do a move back. Keeps 
+		 * sheep from walking backwards(moon walking)
+		 */
+		
 		else if(sameCol){
 			
 			if(row > thisRow){
 				
 				setFacing(SOUTH);
-				if(southValid()){
+				moves[SOUTH] = true;
+				if(southValid() && facing==NORTH){
 					moveSouth();
-					moves[SOUTH] = true;
 				}
 				
 			}
 			else {
 				
 				setFacing(NORTH);
-				if(northValid()){
-					moves[NORTH]= true;
+				moves[NORTH]= true;
+				if(northValid() && facing==SOUTH){
+					
 					moveNorth();
 				}
 				
@@ -739,8 +761,9 @@ public class Sheep extends Creature {
 			if(col > thisCol){
 				
 				setFacing(EAST);
-				if(eastValid()){
-					moves[EAST] = true;
+				moves[EAST] = true;
+				if(eastValid() && facing==WEST){
+					
 					moveEast();
 				}
 				
@@ -748,8 +771,9 @@ public class Sheep extends Creature {
 			else {
 				
 				setFacing(WEST);
-				if(westValid()){
-					moves[WEST] = true;
+				moves[WEST] = true;
+				if(westValid() && facing==EAST){
+					
 					moveWest();
 				}
 			}
