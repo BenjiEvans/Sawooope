@@ -19,6 +19,7 @@ public class LevelInputProcessor {
 	private long pressStamp;
 	private static long SWIPE_TIME = 500l;
 	private Sheep sheep;
+	private long TAP_TIME = 500l;
 	//private boolean dragged;
 	private TouchPosition dragged;
 	private TouchPosition release;
@@ -393,7 +394,7 @@ public class LevelInputProcessor {
 
 			}
 
-			if (pressed.equals(release) && ((dragged == null)||(dragged.equals(pressed)))) {
+			if (pressed.equals(release) && ((dragged == null)||(dragged.equals(pressed)))&& elapsed < TAP_TIME) {
 
 				id = TAP;
 

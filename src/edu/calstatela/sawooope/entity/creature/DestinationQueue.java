@@ -21,7 +21,7 @@ public class DestinationQueue {
 	}
 	
 	public void dequeue(){
-		destinations.remove(destinations.size()-1);
+		destinations.remove(0);
 	}
 	
 	public boolean reachedDestination(Position p){
@@ -35,6 +35,10 @@ public class DestinationQueue {
 	public Position getCurrentDestination()
 	{
 		return destinations.get(0);
+	}
+	
+	public ArrayList<Position> getDestinations(){
+		return destinations;
 	}
 	
 	

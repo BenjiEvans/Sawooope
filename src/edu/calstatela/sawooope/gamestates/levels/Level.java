@@ -215,6 +215,15 @@ public abstract class Level extends GameState {
 		
 		
 	}
+	
+	public boolean isPositionAvailable(int col, int row){
+		
+		if(isBlockedByTile(col,row))return false;
+		if(isBlockedByTree(col,row))return false;
+		
+		return true;		
+	}
+	
 
 	/**
 	 * This method will likely no longer be used... Ignore for now

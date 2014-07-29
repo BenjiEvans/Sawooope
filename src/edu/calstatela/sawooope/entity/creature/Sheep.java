@@ -1,14 +1,12 @@
 package edu.calstatela.sawooope.entity.creature;
 
 import java.util.ArrayList;
-import java.util.Queue;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import edu.calstatela.sawooope.entity.EntityID;
 import edu.calstatela.sawooope.entity.Position;
-import edu.calstatela.sawooope.entity.Rectangle;
 import edu.calstatela.sawooope.gamestates.levels.Level;
 import edu.calstatela.sawooope.main.GameView;
 import edu.calstatela.sawooope.tilemap.TileMap;
@@ -72,7 +70,38 @@ public class Sheep extends Creature {
 					if(destinations.reachedDestination(position))
 					{
 						destinations.dequeue();
-						stop();
+						clearMoves();
+						
+						if(!destinations.isEmpty()){
+							
+							Position p = destinations.getCurrentDestination();
+							
+							int col = p.getCol();
+							int row = p.getRow();
+							int thisCol = position.getCol();
+							int thisRow = position.getRow();
+							//check to see what direction to move in
+							boolean sameCol = col == thisCol;
+							boolean sameRow = row == thisRow;
+							
+							if(sameRow){
+								
+								if(col > thisCol)moves[EAST] = true;
+								else if(col < thisCol)moves[WEST] = true;
+								
+								
+							}
+							else if(sameCol){
+								
+								if(row > thisRow)moves[SOUTH] = true;
+								else if(row > thisRow)moves[NORTH] = true;
+								
+							}
+							
+							
+							
+						}
+						
 						
 					}
 					listenForMove();
@@ -114,15 +143,43 @@ public class Sheep extends Creature {
 		
 		//draw destinations
 		
-		if(!destinations.isEmpty()){
+		if(!destinations.isEmpty())
+		{
 			
-			Position p = destinations.getCurrentDestination();
+			ArrayList<Position> list = destinations.getDestinations();
 			int size = level.getGridSize();
-			int col = p.getCol();
-			int row = p.getRow();
+			double tilex = TileMap.getMapx();
+			double tiley = TileMap.getMapy();
 			Paint paint = new Paint();
 			paint.setARGB(150, 155, 75, 42);
-			drawRect(g,(int)(col*size+TileMap.getMapx()),(int)(row*size+TileMap.getMapy()),width,height,paint);
+			for(int i = 0, length = list.size(); i < length ; i++)
+			{
+				Position p = list.get(i);
+				int col = p.getCol();
+				int row = p.getRow();
+			
+				if(i == length-1){
+					drawRect(g,(int)((col*size)+tilex),(int)((row*size)+tiley),width,height,paint);
+				}
+				
+				//draw a center line from one destination to the next 
+				int dist = size/2;
+				int endx = (int)((col*size)+dist+tilex);
+				int endy = (int)((row*size)+dist+tiley);
+				if(i > 0)
+				{
+					Position lastP = list.get(i-1);
+					g.drawLine((int)((lastP.getCol()*size)+dist+tilex), (int)((lastP.getRow()*size)+dist+tiley),endx ,endy, paint);
+					
+				}else{
+					
+					g.drawLine((int)(drawx+dist),(int)(drawy+dist),endx,endy, paint);
+					
+					
+				}
+				
+			}
+			
 			
 		}
 		
@@ -702,10 +759,12 @@ public class Sheep extends Creature {
 
 	@Override
 	public void move(int col, int row) {//called when move with "tap"
+		
+		if(!level.isPositionAvailable(col,row))return;
 		clearMoves();
 		destinations.clear();
 		
-		//
+		
 		int thisCol ,thisRow;
 		
 		/*int thisCol = position.getCol();
@@ -725,7 +784,8 @@ public class Sheep extends Creature {
 		boolean sameCol = col == thisCol;
 		boolean sameRow = row == thisRow;
 		
-		int facing = getFacingDirection();		
+		int facing = getFacingDirection();	
+		int size = level.getGridSize();
 		if(sameCol && sameRow)return;
 		/*
 		 * direction moved methods are called incase 
@@ -754,7 +814,6 @@ public class Sheep extends Creature {
 				}
 				
 			}
-			int size = level.getGridSize();
 			destinations.enqueue(new Position(col,row,col*size,row*size));
 		}else if(sameRow){
 			
@@ -777,10 +836,22 @@ public class Sheep extends Creature {
 					moveWest();
 				}
 			}
-			
-			
-			int size = level.getGridSize();
+	
 			destinations.enqueue(new Position(col,row,col*size,row*size));
+			
+		}else{// user pressed an area that is not on the same row or collum  of this sheep 
+		
+			//get the two positions that need to be enqueued
+				
+			int colx = position.getCol();			
+			destinations.enqueue(new Position(colx,row,colx*size,row*size));
+			destinations.enqueue(new Position(col,row,col*size,row*size));
+			
+			int rowx = position.getRow();
+			if(rowx < row)moves[SOUTH] = true;
+			else if(rowx > row)moves[NORTH] = true;
+			
+			
 		}
 		
 	}

@@ -79,7 +79,7 @@ public abstract class Creature extends BoardObject implements Movable {
 		
 		//draw creature position 
 		
-		Paint paint = new Paint();
+		/*Paint paint = new Paint();
 		paint.setARGB(100,0,255,0);
 		drawRect(g,(int)drawx,(int)drawy,width,height,paint);
 		
