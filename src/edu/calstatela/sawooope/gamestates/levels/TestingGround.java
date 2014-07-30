@@ -51,7 +51,7 @@ public class TestingGround extends Level {
 		super.draw(g);
 		
 		
-		/*if(input.isScreenPressed()){
+		if(input.isScreenPressed()){
 			
 			int radius = input.getTouchEventRadius();
 			float x,y;
@@ -71,7 +71,7 @@ public class TestingGround extends Level {
 			//g.drawRect(new Rect((int)(x-radius),(int)(y-radius),(int)(x+radius),(int)(y+radius)), paint);
 			g.drawCircle(x, y, radius, paint);			
 			
-		}*/
+		}
 		
 		
 	}

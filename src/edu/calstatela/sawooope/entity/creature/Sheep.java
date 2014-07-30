@@ -32,6 +32,7 @@ public class Sheep extends Creature {
 	private static int spriteWidth;
 	private static int spriteHeight;
 	private DestinationQueue destinations;
+	private double dist;
 	
 	// Condenced into a hunger object
 	/*
@@ -843,17 +844,25 @@ public class Sheep extends Creature {
 		
 			//get the two positions that need to be enqueued
 				
-			int colx = position.getCol();			
+			/*int colx = position.getCol();			
 			destinations.enqueue(new Position(colx,row,colx*size,row*size));
 			destinations.enqueue(new Position(col,row,col*size,row*size));
 			
 			int rowx = position.getRow();
 			if(rowx < row)moves[SOUTH] = true;
-			else if(rowx > row)moves[NORTH] = true;
+			else if(rowx > row)moves[NORTH] = true;*/
 			
 			
 		}
 		
+	}
+	
+	public double getDistance(){
+		return dist;
+	}
+	
+	public void setDistance(double dist){
+		this.dist = dist;
 	}
 
 }

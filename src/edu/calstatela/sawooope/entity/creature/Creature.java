@@ -261,8 +261,7 @@ public abstract class Creature extends BoardObject implements Movable {
 		return false;
 		
 	}
-
-	
+		
 	/**
 	 * Moves creature up
 	 */

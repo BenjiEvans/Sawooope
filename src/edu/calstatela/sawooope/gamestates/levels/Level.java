@@ -143,6 +143,11 @@ public abstract class Level extends GameState {
 
 			// draw entitties
 			entityManager.drawEntities(g);
+			
+			
+			
+			
+			
 			return;
 
 		}
@@ -314,7 +319,7 @@ public abstract class Level extends GameState {
 
 		input.screenPressed(x, y);
 		tileMap.setScroll(x, y);
-		ArrayList<Sheep> herd = entityManager.getHerd();
+		/*ArrayList<Sheep> herd = entityManager.getHerd();
 
 		// check to see if a sheep was pressed
 		for (Sheep sheep : herd) {
@@ -325,8 +330,19 @@ public abstract class Level extends GameState {
 				return;
 			}
 
+		}*/
+		
+		//check if sheep is pressed
+		
+		ArrayList<Sheep> herd = entityManager.getHerd();
+	    Sheep sheep = input.findPressedSheep(herd);
+		 		
+		if(sheep != null){//sheep was selected
+			
+			input.storePressedObject(sheep);
+			return;
+			
 		}
-
 		// check to see if a barriar was pressed
 		ArrayList<BoardObject> rocks = entityManager
 				.getMapObjects(EntityID.BARRICADE);

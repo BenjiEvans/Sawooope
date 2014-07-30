@@ -177,6 +177,16 @@ public abstract class BoardObject {
 	public double getY() {
 		return position.gety();
 	}
+	
+	public double getMaxX(){
+		
+		return getX()+width;
+	}
+	
+	public double getMaxY(){
+		
+		return getY()+height;
+	}
 
 	/**
 	 * Checks the identity of this entity
