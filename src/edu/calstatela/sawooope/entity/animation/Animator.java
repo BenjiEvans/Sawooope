@@ -1,4 +1,4 @@
-package edu.calstatela.sawooope.entity;
+package edu.calstatela.sawooope.entity.animation;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,7 @@ import android.graphics.Bitmap;
  * @author Benji
  * 
  */
-public class Animation {
+public class Animator {
 
 	private Bitmap[] frames;
 	private int currentFrame;
@@ -27,7 +27,7 @@ public class Animation {
 	/**
 	 * 
 	 */
-	public Animation() {
+	public Animator() {
 
 	}
 

@@ -26,9 +26,9 @@ public class BoardEntityManager{
 	 * positions when drawn. the map hash should have the items in the order
 	 * they will be draw.
 	 */
-	EntityID[] mapHash = { EntityID.TUNNEL, EntityID.BARRICADE, EntityID.SHEEP_DECOY, EntityID.GRASS, EntityID.TREE };
+	Integer[] mapHash = { EntityID.TUNNEL, EntityID.BARRICADE, EntityID.SHEEP_DECOY, EntityID.GRASS, EntityID.TREE };
 	//HashMap<String, ArrayList<BoardObject>> mapObjects;
-	HashMap<EntityID, ArrayList<BoardObject>> mapObjects;
+	HashMap<Integer, ArrayList<BoardObject>> mapObjects;
 	/**
 	 * Creates an ArrayList of sheep and wolves; also creates a hashMap of
 	 * BoardObjects to store any entities on the map (like trees and barricades
@@ -38,7 +38,7 @@ public class BoardEntityManager{
 
 		wolfPack = new ArrayList<Wolf>();
 		herd = new ArrayList<Sheep>();
-		mapObjects = new HashMap<EntityID, ArrayList<BoardObject>>();
+		mapObjects = new HashMap<Integer, ArrayList<BoardObject>>();
 
 		for (int i = 0, length = mapHash.length; i < length; i++) {
 			mapObjects.put(mapHash[i], new ArrayList<BoardObject>());
@@ -170,7 +170,7 @@ public class BoardEntityManager{
 	 *            entity hash (see EntityMapping Interface)
 	 * @return a list on the specicied entity
 	 */
-	public ArrayList<BoardObject> getMapObjects(EntityID hash) {
+	public ArrayList<BoardObject> getMapObjects(int hash) {
 		return mapObjects.get(hash);
 	}
 

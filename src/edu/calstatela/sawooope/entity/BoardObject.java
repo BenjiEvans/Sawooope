@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
+import edu.calstatela.sawooope.entity.animation.Animator;
 import edu.calstatela.sawooope.gamestates.levels.GameMode;
 import edu.calstatela.sawooope.gamestates.levels.Level;
 import edu.calstatela.sawooope.gamestates.levels.LevelInputProcessor.TouchPosition;
@@ -25,14 +26,14 @@ public abstract class BoardObject {
 	protected Position position;
 
 	// Graphic Renerdering variables
-	protected Animation animator;
+	protected Animator animator;
 	protected float drawx, drawy;
 	protected int width, height;
 
 	// other vars
 	protected static Level level;
 	protected static GameMode gameMode;
-	protected EntityID id;
+	protected int id;
 
 	/**
 	 * 
@@ -45,7 +46,7 @@ public abstract class BoardObject {
 
 		int size = Level.getGridSize();
 		position = new Position(col, row, col * size, row * size);
-		animator = new Animation();
+		animator = new Animator();
 		setAnimation();
 	}
 
@@ -195,12 +196,12 @@ public abstract class BoardObject {
 	 *            (see BoardObjectIDS Interface )
 	 * @return true if this entity has the same id as the one specified
 	 */
-	public boolean isOfType(EntityID id) {
+	public boolean isOfType(int id) {
 
 		return this.id == id;
 	}
 	
-	public EntityID getId(){
+	public int getId(){
 		return id;
 	}
 

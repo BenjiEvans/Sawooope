@@ -6,6 +6,8 @@ import java.util.HashMap;
 import edu.calstatela.sawooope.entity.BoardObject;
 import edu.calstatela.sawooope.entity.Position;
 import edu.calstatela.sawooope.entity.Rectangle;
+import edu.calstatela.sawooope.entity.animation.SpriteSet;
+import edu.calstatela.sawooope.entity.movement.Movable;
 import edu.calstatela.sawooope.gamestates.levels.Level;
 import edu.calstatela.sawooope.gamestates.levels.LevelInputProcessor.TouchPosition;
 import edu.calstatela.sawooope.main.GameView;

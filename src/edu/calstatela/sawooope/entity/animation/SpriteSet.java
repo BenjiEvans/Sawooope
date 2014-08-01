@@ -1,11 +1,13 @@
-package edu.calstatela.sawooope.entity.creature;
+package edu.calstatela.sawooope.entity.animation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import edu.calstatela.sawooope.entity.movement.Movable;
+
 import android.graphics.Bitmap;
 
-public class SpriteSet {
+public class SpriteSet implements AnimationStates {
 
 	private HashMap<String, FrameList> map;
 	/*
@@ -16,7 +18,7 @@ public class SpriteSet {
 	 */
 	
 	
-	SpriteSet(){
+	public SpriteSet(){
 		
 		map = new HashMap<String, FrameList>();	
 		
@@ -40,7 +42,6 @@ public class SpriteSet {
 			return map.get("w");
 		}
 		
-		
 		return null;
 	}
 	
@@ -49,15 +50,15 @@ public class SpriteSet {
 	
 	public class AnimationFrame{
 		
-		private FrameID id;
+		private int id;//animation state
 		private Bitmap[] frames;
 		
-		AnimationFrame(FrameID id, Bitmap[] frames){
+		AnimationFrame(int id, Bitmap[] frames){
 			this.id = id;
 			this.frames = frames;
 		}
 		
-		public boolean isOfType(FrameID id){
+		public boolean isOfType(int id){
 			
 			return id == this.id;
 		}
@@ -69,9 +70,9 @@ public class SpriteSet {
 		
 	}
 	
-	public enum FrameID{
+	/*public enum FrameID{
 		EAT,WALK,IDLE,DEAD
-	}
+	}*/
 	
 	public class FrameList{
 		
@@ -88,49 +89,49 @@ public class SpriteSet {
 		
 		
 		public Bitmap[] getDeadFrames(){
-			return getFramesByID(FrameID.DEAD);
+			return getFramesByID(DEAD);
 		}
 		
 		public Bitmap[] getIdleFrames(){
-			return getFramesByID(FrameID.IDLE);
+			return getFramesByID(IDLE);
 		}
 		
 		public Bitmap[] getWalkingFrames(){
-			return getFramesByID(FrameID.WALK);
+			return getFramesByID(WALK);
 		}
 		
 		public Bitmap[] getEatingFrames(){
-			return getFramesByID(FrameID.EAT);
+			return getFramesByID(EAT);
 		}
 		
 		public void setDeadFrames(Bitmap[] img){
 			
-			AnimationFrame newFrame = new AnimationFrame(FrameID.DEAD,img);
-			setFramesByID(FrameID.DEAD,newFrame);
+			AnimationFrame newFrame = new AnimationFrame(DEAD,img);
+			setFramesByID(DEAD,newFrame);
 		}
 		
 		public void setIdleFrames(Bitmap[] img){
 			
 			
-			AnimationFrame newFrame = new AnimationFrame(FrameID.IDLE,img);
-			setFramesByID(FrameID.IDLE,newFrame);
+			AnimationFrame newFrame = new AnimationFrame(IDLE,img);
+			setFramesByID(IDLE,newFrame);
 								
 		}
 		
 		public void setWalkingFrames(Bitmap[] img){
 			
-			AnimationFrame newFrame = new AnimationFrame(FrameID.WALK,img);
-			setFramesByID(FrameID.WALK,newFrame);
+			AnimationFrame newFrame = new AnimationFrame(WALK,img);
+			setFramesByID(WALK,newFrame);
 					
 		}
 		
 		public void setEatingFrames(Bitmap[] img){
 			
-			AnimationFrame newFrame = new AnimationFrame(FrameID.EAT,img);
-			setFramesByID(FrameID.EAT,newFrame);
+			AnimationFrame newFrame = new AnimationFrame(EAT,img);
+			setFramesByID(EAT,newFrame);
 		}
 		
-		private void setFramesByID(FrameID id, AnimationFrame newFrame){
+		private void setFramesByID(int id, AnimationFrame newFrame){
 			
 			for(AnimationFrame f: list)
 			{
@@ -144,7 +145,7 @@ public class SpriteSet {
 						
 		}
 		
-		private Bitmap[] getFramesByID(FrameID id){
+		private Bitmap[] getFramesByID(int id){
 			
 			for(AnimationFrame f: list){
 				

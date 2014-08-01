@@ -1,4 +1,4 @@
-package edu.calstatela.sawooope.entity.creature;
+package edu.calstatela.sawooope.entity.movement;
 
 import edu.calstatela.sawooope.entity.Position;
 
