@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 
 public class SpriteSet implements AnimationStates {
 
+	
 	private HashMap<String, FrameList> map;
 	/*
 	 *  "n" will represent north
