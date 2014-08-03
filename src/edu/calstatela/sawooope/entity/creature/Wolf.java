@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import edu.calstatela.sawooope.entity.EntityID;
 import edu.calstatela.sawooope.entity.Position;
 import edu.calstatela.sawooope.entity.animation.SpriteSet;
+import edu.calstatela.sawooope.entity.creature.hunger.Edible;
 import edu.calstatela.sawooope.gamestates.levels.Level;
 import edu.calstatela.sawooope.main.GameView;
 
@@ -186,6 +187,12 @@ public class Wolf extends Creature {
 		
 		
 		
+	}
+
+	@Override
+	public void eat(Edible food) {
+		// TODO Auto-generated method stub
+		food.consume();
 	}
 
 }

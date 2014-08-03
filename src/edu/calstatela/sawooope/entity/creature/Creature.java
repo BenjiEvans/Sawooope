@@ -7,6 +7,7 @@ import edu.calstatela.sawooope.entity.BoardObject;
 import edu.calstatela.sawooope.entity.Position;
 import edu.calstatela.sawooope.entity.Rectangle;
 import edu.calstatela.sawooope.entity.animation.SpriteSet;
+import edu.calstatela.sawooope.entity.creature.hunger.Hungery;
 import edu.calstatela.sawooope.entity.movement.Movable;
 import edu.calstatela.sawooope.gamestates.levels.Level;
 import edu.calstatela.sawooope.gamestates.levels.LevelInputProcessor.TouchPosition;
@@ -23,7 +24,7 @@ import android.graphics.Paint;
  * @author Benji
  */
 
-public abstract class Creature extends BoardObject implements Movable {
+public abstract class Creature extends BoardObject implements Movable, Hungery {
 
 	// update states: (see sheep class for example )
 	/*

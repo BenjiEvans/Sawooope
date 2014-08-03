@@ -8,6 +8,8 @@ import android.graphics.Paint;
 import edu.calstatela.sawooope.entity.EntityID;
 import edu.calstatela.sawooope.entity.Position;
 import edu.calstatela.sawooope.entity.animation.SpriteSet;
+import edu.calstatela.sawooope.entity.creature.hunger.Edible;
+import edu.calstatela.sawooope.entity.creature.hunger.Hunger;
 import edu.calstatela.sawooope.gamestates.levels.Level;
 import edu.calstatela.sawooope.main.GameView;
 import edu.calstatela.sawooope.tilemap.TileMap;
@@ -17,7 +19,7 @@ import edu.calstatela.sawooope.tilemap.TileMap;
  * @author Benji
  * 
  */
-public class Sheep extends Creature {
+public class Sheep extends Creature implements Edible {
 
 	// Update States
 	public static final int EATING = 2;
@@ -25,7 +27,7 @@ public class Sheep extends Creature {
 	// action states
 	private boolean eating;
 	private boolean dead;
-
+    private Hunger hunger;
 	private boolean selected;
 	
 	private boolean[] moves = { false, false, false, false };
@@ -864,6 +866,21 @@ public class Sheep extends Creature {
 	
 	public void setDistance(double dist){
 		this.dist = dist;
+	}
+
+	@Override
+	public void eat(Edible food) {
+		// TODO Auto-generated method stub
+		if(hunger == null)return;
+		
+		hunger.storeFood(food);
+		
+	}
+
+	@Override
+	public float consume() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
