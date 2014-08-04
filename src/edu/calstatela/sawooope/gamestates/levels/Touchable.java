@@ -1,6 +1,7 @@
 package edu.calstatela.sawooope.gamestates.levels;
 
 import edu.calstatela.sawooope.entity.creature.Creature;
+import edu.calstatela.sawooope.entity.movement.Movable;
 
 /**
  * This is implemented by the TouchAction class
@@ -13,24 +14,24 @@ public interface Touchable {
 	/**
 	 * @property
 	 */
-	public static final int SWIPE_UP = Creature.NORTH;
+	public static final int SWIPE_UP = Movable.NORTH;
 	/**
 	 * @property
 	 */
 
-	public static final int SWIPE_DOWN = Creature.SOUTH;
+	public static final int SWIPE_DOWN = Movable.SOUTH;
 	/**
 	 * @property
 	 */
-	public static final int SWIPE_RIGHT = Creature.EAST;
+	public static final int SWIPE_RIGHT = Movable.EAST;
 	/**
 	 * @property
 	 */
-	public static final int SWIPE_LEFT = Creature.WEST;
+	public static final int SWIPE_LEFT = Movable.WEST;
 	/**
 	 * @property
 	 */
-	public static final int IGNORE_SWIPE = 4;
+	public static final int IGNORE_SWIPE =Movable.UNDETERMINED;
 	/**
 	 * @property
 	 */

@@ -1,10 +1,8 @@
 package edu.calstatela.sawooope.entity.movement;
 
-import edu.calstatela.sawooope.entity.Position;
 
 /**
- * Movable should be implemented by any Entities capable of movement
- * (Creatures).
+ * An interface for objects that can be moved via touch.
  * 
  * @author Benji
  * 
@@ -17,15 +15,17 @@ public interface Movable {
 	/**
 	 * @property
 	 */
-	public static final int SOUTH = 1;
+	public static final int SOUTH = NORTH+1;
 	/**
 	 * @property
 	 */
-	public static final int EAST = 2;
+	public static final int EAST = SOUTH+1;
 	/**
 	 * @property
 	 */
-	public static final int WEST = 3;
+	public static final int WEST = EAST+1;
+	
+	public static final int UNDETERMINED = WEST+1;
 
 	/**
 	 * 
@@ -37,7 +37,7 @@ public interface Movable {
 	 * @param direction
 	 *            direction to move
 	 */
-	public abstract void move(int direction);
-	public abstract void move(int col, int row);
+	public abstract void move(int direction);//called during swipe 
+	public abstract void move(int col, int row);//called during tap to go 
 
 }

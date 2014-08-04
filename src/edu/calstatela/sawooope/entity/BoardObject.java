@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
 import edu.calstatela.sawooope.entity.animation.Animator;
+import edu.calstatela.sawooope.entity.movement.Position;
 import edu.calstatela.sawooope.gamestates.levels.GameMode;
 import edu.calstatela.sawooope.gamestates.levels.Level;
 import edu.calstatela.sawooope.gamestates.levels.LevelInputProcessor.TouchPosition;
@@ -43,9 +44,7 @@ public abstract class BoardObject {
 	 *            starting row
 	 */
 	protected BoardObject(int col, int row) {
-
-		int size = Level.getGridSize();
-		position = new Position(col, row, col * size, row * size);
+		position = new Position(col, row);
 		animator = new Animator();
 		setAnimation();
 	}
@@ -98,7 +97,7 @@ public abstract class BoardObject {
 	 */
 	public boolean isPressed(Position pos) {
 				
-		/*double x = position.getx();
+		double x = position.getx();
 		double y = position.gety();
 		
 		double xpress = pos.getx();
@@ -118,14 +117,19 @@ public abstract class BoardObject {
 		
 		
 		
-		//return withinx && withiny;*/
+		if(withinx && withiny) return true;
 		//return pos.equals(position);
-		return position.equals(pos);
+		//return position.equals(pos);
+		
+		return position.hasPosition(pos);
 	}
 	
 	public boolean hasPosition(int col, int row){
-				
-		return position.getCol() == col && position.getRow() == row;
+		
+		return position.hasColRow(col,row);
+		
+		
+		//return position.getCol() == col && position.getRow() == row;
 	}	
 
 	/**
@@ -153,7 +157,7 @@ public abstract class BoardObject {
 		double x = position.getx() + (width / 2);
 		double y = position.gety() + (height / 2);
 
-		return new Position(col, row, x, y);
+		return new Position(col, row);
 	}
 
 	protected void setDrawablePosition() {

@@ -16,7 +16,7 @@ public class Animator {
 
 	private Bitmap[] frames;
 	private int currentFrame;
-	private int actionIndex = -1;
+	//private int actionIndex = -1;
 
 	// time
 	private long startTime;
@@ -51,9 +51,9 @@ public class Animator {
 	 *         then it returns the index used to set the sprites other wise -1
 	 *         is returned
 	 */
-	public int getCurrAction() {
+	/*public int getCurrAction() {
 		return actionIndex;
-	}
+	}*/
 
 	/**
 	 * Sets the animation using the images passed in
@@ -66,29 +66,19 @@ public class Animator {
 	public void setFrames(ArrayList<Bitmap[]> sprites, int index) {
 
 		this.frames = sprites.get(index);
-		this.actionIndex = index;
+	//	this.actionIndex = index;
 		currentFrame = 0;
 		startTime = System.nanoTime();
 		playedOnce = false;
 
 	}
 	
-	public void setFrames(Bitmap[] sprites, int index) {
-
-		this.frames = sprites;
-		this.actionIndex = index;
-		currentFrame = 0;
-		startTime = System.nanoTime();
-		playedOnce = false;
-
-	}
-
 	/**
 	 * sets the actionIndex to -1 signifying that there is no action index
 	 */
-	public void resetCurrentAction() {
+/*	public void resetCurrentAction() {
 		actionIndex = -1;
-	}
+	}*/
 
 	/**
 	 * Sets how much time must past before the next frame (image) in the

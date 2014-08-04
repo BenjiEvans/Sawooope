@@ -1,8 +1,8 @@
 package edu.calstatela.sawooope.entity.creature;
 
 import android.util.Log;
-import edu.calstatela.sawooope.entity.Position;
 import edu.calstatela.sawooope.entity.Rectangle;
+import edu.calstatela.sawooope.entity.movement.Position;
 import edu.calstatela.sawooope.gamestates.levels.LevelInputProcessor.TouchPosition;
 
 /**

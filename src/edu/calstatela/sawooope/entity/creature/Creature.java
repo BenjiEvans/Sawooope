@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.calstatela.sawooope.entity.BoardObject;
-import edu.calstatela.sawooope.entity.Position;
 import edu.calstatela.sawooope.entity.Rectangle;
+import edu.calstatela.sawooope.entity.animation.AnimationStates;
 import edu.calstatela.sawooope.entity.animation.SpriteSet;
 import edu.calstatela.sawooope.entity.creature.hunger.Hungery;
 import edu.calstatela.sawooope.entity.movement.Movable;
+import edu.calstatela.sawooope.entity.movement.Position;
 import edu.calstatela.sawooope.gamestates.levels.Level;
 import edu.calstatela.sawooope.gamestates.levels.LevelInputProcessor.TouchPosition;
 import edu.calstatela.sawooope.main.GameView;
@@ -24,7 +25,7 @@ import android.graphics.Paint;
  * @author Benji
  */
 
-public abstract class Creature extends BoardObject implements Movable, Hungery {
+public abstract class Creature extends BoardObject implements Hungery {
 
 	// update states: (see sheep class for example )
 	/*
@@ -34,13 +35,13 @@ public abstract class Creature extends BoardObject implements Movable, Hungery {
 	/**
 	 * @property
 	 */
-	public static final int IDLE = 0;
+	// public static final int IDLE = 0;
 	/**
 	 * @property
 	 */
-	public static final int WALKING = IDLE + 1;
+	// public static final int WALKING = IDLE + 1;
 
-	protected int currState;
+	// protected int currState;
 
 	// action state:
 	/*
@@ -48,18 +49,23 @@ public abstract class Creature extends BoardObject implements Movable, Hungery {
 	 * to a physical action. actions states are used to update animations(look
 	 * at the animationUpdate() method ), NOT UPDATE STATEs
 	 */
-	protected boolean walking;
+	// protected boolean walking;
 
 	protected CollisionBox box;
 
 	// used for movement
-	protected Position nextPosition;
-	protected double dx, dy;
+	// protected Position nextPosition;
+	//protected double dx, dy;
 	protected float speed;
-	boolean facing[] = { false, false, false, false };
-	//protected static SpriteSet sprites;
-	
-	//protected HashMap<String, ArrayList<Bitmap[]>> sprites = new HashMap<String, ArrayList<Bitmap[]>>();
+	// boolean facing[] = { false, false, false, false };
+	// protected static SpriteSet sprites;
+
+	// protected HashMap<String, ArrayList<Bitmap[]>> sprites = new
+	// HashMap<String, ArrayList<Bitmap[]>>();
+	protected final int ACTION = 0;
+	protected final int ANIMATION = 1;
+	int facing;
+	int[] states;
 
 	/**
 	 * 
@@ -71,51 +77,49 @@ public abstract class Creature extends BoardObject implements Movable, Hungery {
 	Creature(int col, int row) {
 		super(col, row);
 		speed = .5f;
+		states = new int[2];
+		states[ACTION] = ActionStates.IDLE;
+		states[ANIMATION] = AnimationStates.IDLE;
 	}
-	
+
 	public abstract void update();
 
 	public void draw(Canvas g) {
 		setDrawablePosition();
 		drawBitmap(g, animator.getImage(), drawx, drawy);
-		
-		
-		//draw creature position 
-		
-		/*Paint paint = new Paint();
-		paint.setARGB(100,0,255,0);
-		drawRect(g,(int)drawx,(int)drawy,width,height,paint);
-		
-		
-		//draw Creature next Position
-		
-		if(nextPosition != null){
-			
-			paint.setARGB(100,255,0,0);
+
+		// draw creature position
+
+		Paint paint = new Paint();
+		paint.setARGB(100, 0, 255, 0);
+		drawRect(g, (int) drawx, (int) drawy, width, height, paint);
+
+		// draw Creature next Position
+		Position nextPosition = position.getNextPosition();
+
+		if (nextPosition != null) {
+
+			paint.setARGB(100, 255, 0, 0);
 			int size = level.getGridSize();
 			int col = nextPosition.getCol();
 			int row = nextPosition.getRow();
-			
-			int x = (int)((col*size)+TileMap.getMapx());
-			int y = (int)((row*size)+TileMap.getMapy());
-			
-			drawRect(g,x,y,size,size,paint);
-			
+
+			int x = (int) ((col * size) + TileMap.getMapx());
+			int y = (int) ((row * size) + TileMap.getMapy());
+
+			drawRect(g, x, y, size, size, paint);
+
 		}
-		
-		
-		//draw collision box 
-		
-				/*double xoff = TileMap.getMapx();
-				double yoff = TileMap.getMapy();
-				Rectangle rec = box.getRectangle();
-				int x = rec.getX();
-				int y = rec.getY();
-				int width = rec.getWidth();
-				int height = rec.getHeight();
-				Paint paint = new Paint();
-				paint.setARGB(100, 123, 123, 0);
-				drawRect(g,(int)(x+xoff),(int)(y+yoff),width,height,paint);*/
+
+		// draw collision box
+
+		/*
+		 * double xoff = TileMap.getMapx(); double yoff = TileMap.getMapy();
+		 * Rectangle rec = box.getRectangle(); int x = rec.getX(); int y =
+		 * rec.getY(); int width = rec.getWidth(); int height = rec.getHeight();
+		 * Paint paint = new Paint(); paint.setARGB(100, 123, 123, 0);
+		 * drawRect(g,(int)(x+xoff),(int)(y+yoff),width,height,paint);
+		 */
 	}
 
 	/**
@@ -123,57 +127,73 @@ public abstract class Creature extends BoardObject implements Movable, Hungery {
 	 */
 	protected void updateAnimation(SpriteSet sprites) {
 
-		if (walking) {
-			if (facing[NORTH]) {
-				if (animator.getCurrAction() != WALKING)
-					//animator.setFrames(sprites.get("North"), WALKING);
-					animator.setFrames(sprites.getFrames(NORTH).getWalkingFrames(), WALKING);
-			} else if (facing[SOUTH]) {
-				if (animator.getCurrAction() != WALKING)
-					//animator.setFrames(sprites.get("South"), WALKING);
-					animator.setFrames(sprites.getFrames(SOUTH).getWalkingFrames(), WALKING);
-
-			} else if (facing[EAST]) {
-				if (animator.getCurrAction() != WALKING)
-					//animator.setFrames(sprites.get("East"), WALKING);
-					animator.setFrames(sprites.getFrames(EAST).getWalkingFrames(), WALKING);
-
-			} else if (facing[WEST]) {
-				if (animator.getCurrAction() != WALKING)
-					//animator.setFrames(sprites.get("West"), WALKING);
-					animator.setFrames(sprites.getFrames(WEST).getWalkingFrames(), WALKING);
+		if(states[ACTION] == ActionStates.WALKING){
+			
+			if(states[ANIMATION] == AnimationStates.WALK){
+				
+				animator.setFrames(sprites.getFrames(facing).getWalkingFrames());
+				animator.setDelay(150);
 			}
-
-			animator.setDelay(150);
-
-		} else { // idle
-			animator.setDelay(-1);
-			if (facing[NORTH]) {
-
-				if (animator.getCurrAction() != IDLE)
-					//animator.setFrames(sprites.get("North"), IDLE);
-					animator.setFrames(sprites.getFrames(NORTH).getIdleFrames(), IDLE);
-
-			} else if (facing[SOUTH]) {
-				if (animator.getCurrAction() != IDLE)
-					//animator.setFrames(sprites.get("South"), IDLE);
-					animator.setFrames(sprites.getFrames(SOUTH).getIdleFrames(), IDLE);
-
-
-			} else if (facing[EAST]) {
-				if (animator.getCurrAction() != IDLE)
-					//animator.setFrames(sprites.get("East"), IDLE);
-					animator.setFrames(sprites.getFrames(EAST).getIdleFrames(), IDLE);
-
-			} else if (facing[WEST]) {
-				if (animator.getCurrAction() != IDLE)
-					//animator.setFrames(sprites.get("West"), IDLE);
-					animator.setFrames(sprites.getFrames(WEST).getIdleFrames(), IDLE);
-
+			
+			
+			
+			
+		}else if(states[ACTION] == ActionStates.IDLE){
+			
+			if(states[ANIMATION] == AnimationStates.IDLE){
+				animator.setFrames(sprites.getFrames(facing).getIdleFrames());
+				animator.setDelay(-1);
 			}
+			
+			
 		}
+		
+		
+		/*
+		 * if (walking) { if (facing[NORTH]) { if (animator.getCurrAction() !=
+		 * WALKING) //animator.setFrames(sprites.get("North"), WALKING);
+		 * animator.setFrames(sprites.getFrames(NORTH).getWalkingFrames(),
+		 * WALKING); } else if (facing[SOUTH]) { if (animator.getCurrAction() !=
+		 * WALKING) //animator.setFrames(sprites.get("South"), WALKING);
+		 * animator.setFrames(sprites.getFrames(SOUTH).getWalkingFrames(),
+		 * WALKING);
+		 * 
+		 * } else if (facing[EAST]) { if (animator.getCurrAction() != WALKING)
+		 * //animator.setFrames(sprites.get("East"), WALKING);
+		 * animator.setFrames(sprites.getFrames(EAST).getWalkingFrames(),
+		 * WALKING);
+		 * 
+		 * } else if (facing[WEST]) { if (animator.getCurrAction() != WALKING)
+		 * //animator.setFrames(sprites.get("West"), WALKING);
+		 * animator.setFrames(sprites.getFrames(WEST).getWalkingFrames(),
+		 * WALKING); }
+		 * 
+		 * animator.setDelay(150);
+		 * 
+		 * } else { // idle animator.setDelay(-1); if (facing[NORTH]) {
+		 * 
+		 * if (animator.getCurrAction() != IDLE)
+		 * //animator.setFrames(sprites.get("North"), IDLE);
+		 * animator.setFrames(sprites.getFrames(NORTH).getIdleFrames(), IDLE);
+		 * 
+		 * } else if (facing[SOUTH]) { if (animator.getCurrAction() != IDLE)
+		 * //animator.setFrames(sprites.get("South"), IDLE);
+		 * animator.setFrames(sprites.getFrames(SOUTH).getIdleFrames(), IDLE);
+		 * 
+		 * 
+		 * } else if (facing[EAST]) { if (animator.getCurrAction() != IDLE)
+		 * //animator.setFrames(sprites.get("East"), IDLE);
+		 * animator.setFrames(sprites.getFrames(EAST).getIdleFrames(), IDLE);
+		 * 
+		 * } else if (facing[WEST]) { if (animator.getCurrAction() != IDLE)
+		 * //animator.setFrames(sprites.get("West"), IDLE);
+		 * animator.setFrames(sprites.getFrames(WEST).getIdleFrames(), IDLE);
+		 * 
+		 * } }
+		 */
 
 		animator.update();
+		states[ANIMATION] = AnimationStates.EMPTY;
 
 	}
 
@@ -181,105 +201,93 @@ public abstract class Creature extends BoardObject implements Movable, Hungery {
 	 * 
 	 * @return true if current position object has reached nextPosition
 	 */
-	protected boolean reachedNextPosition() {
-
-	//	if(nextPosition == null) return true;
-		
-		if (dx != 0) {
-			if (dx > 0) {
-				if (position.getx() >= nextPosition.getx())
-					return true;
-				return false;
-			} else {
-				if (position.getx() <= nextPosition.getx())
-					return true;
-				return false;
-			}
-
-		}
-
-		if (dy != 0) {
-			if (dy > 0) {
-				if (position.gety() >= nextPosition.gety())
-					return true;
-				return false;
-			} else {
-				if (position.gety() <= nextPosition.gety())
-					return true;
-				return false;
-			}
-
-		}
-
-		return true;
-
-	}
+	/*
+	 * protected boolean reachedNextPosition() {
+	 * 
+	 * // if(nextPosition == null) return true;
+	 * 
+	 * if (dx != 0) { if (dx > 0) { if (position.getx() >= nextPosition.getx())
+	 * return true; return false; } else { if (position.getx() <=
+	 * nextPosition.getx()) return true; return false; }
+	 * 
+	 * }
+	 * 
+	 * if (dy != 0) { if (dy > 0) { if (position.gety() >= nextPosition.gety())
+	 * return true; return false; } else { if (position.gety() <=
+	 * nextPosition.gety()) return true; return false; }
+	 * 
+	 * }
+	 * 
+	 * return true;
+	 * 
+	 * }
+	 */
 
 	/**
 	 * Sets the current Position to the next Position
 	 */
-	protected void setNewPosition() {
-		//if(nextPosition == null )return;
-		position = new Position(nextPosition);
-		nextPosition = null;
-		//setStateTo(IDLE);
-	}
+	/*
+	 * protected void setNewPosition() { //if(nextPosition == null )return;
+	 * position = new Position(nextPosition); nextPosition = null;
+	 * //setStateTo(IDLE); }
+	 */
 
 	/**
 	 * 
 	 * @param dir
 	 *            direction(see Movable Interface)
 	 */
-	protected void setFacing(int dir) {
+	/*
+	 * protected void setFacing(int dir) {
+	 * 
+	 * if (dir < 0 || dir > facing.length) return; for (int i = 0; i <
+	 * facing.length; i++) { facing[i] = false; }
+	 * 
+	 * facing[dir] = true; animator.resetCurrentAction();
+	 * 
+	 * }
+	 */
 
-		if (dir < 0 || dir > facing.length)
-			return;
-		for (int i = 0; i < facing.length; i++) {
-			facing[i] = false;
-		}
+	/*
+	 * @Override public boolean hasPosition(int col, int row){
+	 * 
+	 * if(super.hasPosition(col,row))return true;
+	 * 
+	 * if(nextPosition != null && nextPosition.equals(col,row))return true;
+	 * 
+	 * 
+	 * return false; }
+	 */
 
-		facing[dir] = true;
-		animator.resetCurrentAction();
+	/*
+	 * @Override public boolean isPressed(Position p){
+	 * 
+	 * if(super.isPressed(p))return true;
+	 * 
+	 * if(nextPosition != null)return p.equals(nextPosition);
+	 * 
+	 * return false;
+	 * 
+	 * }
+	 */
 
-	}
-	
-	@Override 
-	public boolean hasPosition(int col, int row){
-		
-		if(super.hasPosition(col,row))return true;
-		
-		if(nextPosition != null && nextPosition.equals(col,row))return true;
-		
-		
-		return false;
-	}
-	
-	@Override
-	public boolean isPressed(Position p){
-		
-		if(super.isPressed(p))return true;
-		
-		if(nextPosition != null)return p.equals(nextPosition);
-			
-		return false;
-		
-	}
-		
 	/**
 	 * Moves creature up
 	 */
 	protected void moveNorth() {
 
-		if (!facing[NORTH])
-			setFacing(NORTH);
-		setStateTo(WALKING);
-		int nextCol = position.getCol();
-		int nextRow = position.getRow() - 1;
-		int size = Level.getGridSize();
-		nextPosition = new Position(nextCol, nextRow, nextCol * size, nextRow
-				* size);
-		dx = 0;
-		dy = -speed;
+		setMovementStates();
+		facing = Movable.NORTH;
+		/*
+		 * if (!facing[NORTH]) setFacing(NORTH); setStateTo(WALKING); int
+		 * nextCol = position.getCol(); int nextRow = position.getRow() - 1; int
+		 * size = Level.getGridSize(); nextPosition = new Position(nextCol,
+		 * nextRow, nextCol * size, nextRow size);
+		 */
+		position.setNextPosition(position.getCol(), position.getRow() - 1);
+        position.setXYUpdateRate(0,-speed);
+		/*dx = 0;
+		dy = -speed;*/
 
 	}
 
@@ -288,16 +296,21 @@ public abstract class Creature extends BoardObject implements Movable, Hungery {
 	 */
 	protected void moveSouth() {
 
-		if (!facing[SOUTH])
+		setMovementStates();
+		facing = Movable.SOUTH;
+		
+		/*if (!facing[SOUTH])
 			setFacing(SOUTH);
 		setStateTo(WALKING);
 		int size = Level.getGridSize();
 		int nextCol = position.getCol();
 		int nextRow = position.getRow() + 1;
 		nextPosition = new Position(nextCol, nextRow, nextCol * size, nextRow
-				* size);
-		dx = 0;
-		dy = speed;
+				* size);*/
+		position.setNextPosition(position.getCol(),position.getRow()+1);
+		position.setXYUpdateRate(0,speed);
+		/*dx = 0;
+		dy = speed;*/
 
 	}
 
@@ -306,16 +319,20 @@ public abstract class Creature extends BoardObject implements Movable, Hungery {
 	 */
 	protected void moveEast() {
 
-		if (!facing[EAST])
+		setMovementStates();
+		facing = Movable.EAST;
+		/*if (!facing[EAST])
 			setFacing(EAST);
 		setStateTo(WALKING);
-		int size = Level.getGridSize();
-		int nextCol = position.getCol() + 1;
-		int nextRow = position.getRow();
-		nextPosition = new Position(nextCol, nextRow, nextCol * size, nextRow
-				* size);
-		dx = speed;
-		dy = 0;
+		/*
+		 * int size = Level.getGridSize(); int nextCol = position.getCol() + 1;
+		 * int nextRow = position.getRow(); nextPosition = new Position(nextCol,
+		 * nextRow, nextCol * size, nextRow size);
+		 */
+		position.setNextPosition(position.getCol() + 1, position.getRow());
+		position.setXYUpdateRate(speed,0);
+		/*dx = speed;
+		dy = 0;*/
 
 	}
 
@@ -324,16 +341,23 @@ public abstract class Creature extends BoardObject implements Movable, Hungery {
 	 */
 	public void moveWest() {
 
-		if (!facing[WEST])
+		
+		setMovementStates();
+		facing = Movable.WEST;
+		
+		
+		/*if (!facing[WEST])
 			setFacing(WEST);
 		setStateTo(WALKING);
-		int size = Level.getGridSize();
-		int nextCol = position.getCol() - 1;
-		int nextRow = position.getRow();
-		nextPosition = new Position(nextCol, nextRow, nextCol * size, nextRow
-				* size);
-		dx = -speed;
-		dy = 0;
+		/*
+		 * int size = Level.getGridSize(); int nextCol = position.getCol() - 1;
+		 * int nextRow = position.getRow(); nextPosition = new Position(nextCol,
+		 * nextRow, nextCol * size, nextRow size);
+		 */
+		position.setNextPosition(position.getCol() - 1, position.getRow());
+		   position.setXYUpdateRate(-speed,0);
+		/*dx = -speed;
+		dy = 0;*/
 
 	}
 
@@ -342,28 +366,42 @@ public abstract class Creature extends BoardObject implements Movable, Hungery {
 	 */
 	protected void stay() {
 
-		nextPosition = null;
-		dx = 0;
+		position.removeNextPosition();
+		// nextPosition = null;
+		 position.setXYUpdateRate(0,0);
+		/*dx = 0;
 		dy = 0;
-		if (currState != IDLE)
-			setStateTo(IDLE);
+		/*if (currState != IDLE)
+			setStateTo(IDLE);*/
+		
+		states[ACTION] = ActionStates.IDLE;
+		states[ANIMATION]= AnimationStates.IDLE;
 
 	}
-	
+
+	private void setMovementStates() {
+
+		states[ACTION] = ActionStates.WALKING;
+		states[ANIMATION] = AnimationStates.WALK;
+	}
+
 	/**
 	 * 
 	 * @return true if the creature can move north
 	 */
 	protected boolean northValid() {
 
-		//in case sheep tries to off the map
+		// in case sheep tries to off the map
 		int row = position.getRow();
-		if(row - 1 < 0)return false;
+		if (row - 1 < 0)
+			return false;
 		int col = position.getCol();
-			
-		if(level.isBlockedByTile(col, row-1))return false;
-		if(level.isBlockedByTree(col, row-1))return false;
-		
+
+		if (level.isBlockedByTile(col, row - 1))
+			return false;
+		if (level.isBlockedByTree(col, row - 1))
+			return false;
+
 		return true;
 
 	}
@@ -374,15 +412,17 @@ public abstract class Creature extends BoardObject implements Movable, Hungery {
 	 */
 	protected boolean southValid() {
 
-		//in case sheep tries 
+		// in case sheep tries
 		int row = position.getRow();
-		if(row+1 >= level.getNumRows())return false;
-		
-		int col = position.getCol();
-		
-		if(level.isBlockedByTile(col, row+1))return false;
-		if(level.isBlockedByTree(col, row+1))return false;
+		if (row + 1 >= level.getNumRows())
+			return false;
 
+		int col = position.getCol();
+
+		if (level.isBlockedByTile(col, row + 1))
+			return false;
+		if (level.isBlockedByTree(col, row + 1))
+			return false;
 
 		return true;
 	}
@@ -394,12 +434,15 @@ public abstract class Creature extends BoardObject implements Movable, Hungery {
 	protected boolean eastValid() {
 
 		int col = position.getCol();
-		if(col+1 >= level.getNumCols())return false;
-		
+		if (col + 1 >= level.getNumCols())
+			return false;
+
 		int row = position.getRow();
-		
-		if(level.isBlockedByTile(col+1, row))return false;
-		if(level.isBlockedByTree(col+1, row))return false;
+
+		if (level.isBlockedByTile(col + 1, row))
+			return false;
+		if (level.isBlockedByTree(col + 1, row))
+			return false;
 
 		return true;
 	}
@@ -410,16 +453,18 @@ public abstract class Creature extends BoardObject implements Movable, Hungery {
 	 */
 	protected boolean westValid() {
 
-		
 		int col = position.getCol();
-		
-		if (col - 1 < 0)return false;
-		
+
+		if (col - 1 < 0)
+			return false;
+
 		int row = position.getRow();
-		
-		if(level.isBlockedByTile(col-1, row))return false;
-		if(level.isBlockedByTree(col-1, row))return false;
-		
+
+		if (level.isBlockedByTile(col - 1, row))
+			return false;
+		if (level.isBlockedByTree(col - 1, row))
+			return false;
+
 		return true;
 	}
 
@@ -437,7 +482,7 @@ public abstract class Creature extends BoardObject implements Movable, Hungery {
 	 * @param state
 	 *            game state id (see fields)
 	 */
-	protected void setStateTo(int state) {
+	/*protected void setStateTo(int state) {
 
 		if (state == WALKING) {
 
@@ -453,13 +498,13 @@ public abstract class Creature extends BoardObject implements Movable, Hungery {
 			return;
 		}
 
-	}
+	}*/
 
 	/**
 	 * 
 	 * @return the direction this creature is facing
 	 */
-	protected int getFacingDirection() {
+	/*protected int getFacingDirection() {
 
 		if (facing[NORTH])
 			return NORTH;
@@ -471,11 +516,12 @@ public abstract class Creature extends BoardObject implements Movable, Hungery {
 			return WEST;
 
 		return -1;
-	}
-	
-	/*public boolean isPressed(TouchPosition pos) {
-
-		return box.isPressed(pos);
 	}*/
+
+	/*
+	 * public boolean isPressed(TouchPosition pos) {
+	 * 
+	 * return box.isPressed(pos); }
+	 */
 
 }

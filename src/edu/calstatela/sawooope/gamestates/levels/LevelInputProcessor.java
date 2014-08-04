@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import edu.calstatela.sawooope.entity.BoardObject;
 import edu.calstatela.sawooope.entity.EntityID;
-import edu.calstatela.sawooope.entity.Position;
 import edu.calstatela.sawooope.entity.creature.Sheep;
+import edu.calstatela.sawooope.entity.movement.Position;
 import edu.calstatela.sawooope.tilemap.TileMap;
 
 /**

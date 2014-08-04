@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import edu.calstatela.sawooope.entity.EntityID;
-import edu.calstatela.sawooope.entity.Position;
 import edu.calstatela.sawooope.entity.animation.SpriteSet;
 import edu.calstatela.sawooope.entity.creature.hunger.Edible;
+import edu.calstatela.sawooope.entity.movement.Movable;
+import edu.calstatela.sawooope.entity.movement.Position;
 import edu.calstatela.sawooope.gamestates.levels.Level;
 import edu.calstatela.sawooope.main.GameView;
 
@@ -59,7 +60,7 @@ public class Wolf extends Creature {
 		spriteWidth = spriteSheet.getWidth() / 3;
 		spriteHeight = spriteSheet.getHeight() / 4;
 		
-		int[] order  = {SOUTH,WEST,EAST,NORTH};
+		int[] order  = {Movable.SOUTH,Movable.WEST,Movable.EAST,Movable.NORTH};
 		int length = order.length;
 		//set Idle sprites 
 		
@@ -161,32 +162,14 @@ public class Wolf extends Creature {
 	}
 
 	@Override
-	public void stop() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void move(int direction) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	protected void setAnimation() {
 		
 		width = spriteWidth;
 		height = spriteHeight;
-		
-		animator.setFrames(sprites.getFrames(SOUTH).getIdleFrames(), IDLE);
+		facing = Movable.SOUTH;
+		animator.setFrames(sprites.getFrames(facing).getIdleFrames());
 		animator.setDelay(-1);
 
-	}
-
-	@Override
-	public void move(int col, int row) {
-		
-		
-		
 	}
 
 	@Override
