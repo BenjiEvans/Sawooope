@@ -1,7 +1,6 @@
 package edu.calstatela.sawooope.entity.plant;
 
 import java.util.ArrayList;
-import edu.calstatela.sawooope.entity.BoardObject;
 import edu.calstatela.sawooope.entity.EntityID;
 import edu.calstatela.sawooope.gamestates.levels.Level;
 import edu.calstatela.sawooope.main.GameView;
@@ -9,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 /**
- * No much to document.... ignore for now
  * 
  * @author Benji
  * 
@@ -17,8 +15,8 @@ import android.graphics.Canvas;
 public class Tree extends Plant {
 
 	private static ArrayList<Bitmap[]> sprites = new ArrayList<Bitmap[]>();
-	private static int spriteWidth,spriteHeight;
-	
+	private static int spriteWidth, spriteHeight;
+
 	public Tree(int col, int row) {
 		super(col, row);
 		id = EntityID.TREE;
@@ -37,9 +35,6 @@ public class Tree extends Plant {
 
 		sprites.add(sprite);
 
-		/*animator.setFrames(sprites, 0);
-		animator.setDelay(-1);*/
-
 	}
 
 	public void draw(Canvas g) {
@@ -55,10 +50,10 @@ public class Tree extends Plant {
 	protected void setAnimation() {
 		width = spriteWidth;
 		height = spriteHeight;
-		
+
 		animator.setFrames(sprites, 0);
 		animator.setDelay(-1);
-		
+
 	}
 
 }

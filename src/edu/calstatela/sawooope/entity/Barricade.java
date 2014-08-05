@@ -5,7 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 /**
- * Ignore for now
+ * Barricades are objects that the user can place on the map to keep wolves
+ * away.
  * 
  * @author Benji
  * 
@@ -15,8 +16,15 @@ public class Barricade extends BoardObject {
 	private static Bitmap[][] sprite;
 	private static int spriteWidth;
 	private static int spriteHeight;
-	int strength = 3;
+	int hitPoints = 3;
 
+	/**
+	 * 
+	 * @param col
+	 *            column the barricade is placed on the map
+	 * @param row
+	 *            row the barricade is placed on the map
+	 */
 	public Barricade(int col, int row) {
 		super(col, row);
 		id = EntityID.BARRICADE;
@@ -33,33 +41,38 @@ public class Barricade extends BoardObject {
 	}
 
 	private void updateAnimation() {
-		if (strength <= 0)
+		if (hitPoints <= 0)
 			animator.setFrames(sprite[1]);
 		else
 			animator.setFrames(sprite[0]);
 
 	}
 
+	/**
+	 * Decreases the number of hit points the barricade has by 1. Barricades
+	 * have 3 hit points initially
+	 * 
+	 */
 	public void hit() {
-		if (strength <= 0)
+		if (hitPoints <= 0)
 			return;
-		strength--;
-		if (strength <= 0) {
+		hitPoints--;
+		if (hitPoints <= 0) {
 
 		}
 
 	}
 
-	public static  void setSprites(GameView view) {
+	/**
+	 * 
+	 * @param view
+	 *            gameview currently in use
+	 */
+	public static void setSprites(GameView view) {
 
 		sprite = new Bitmap[2][1];
-		// Bitmap spriteSheet =
-		// ResourceLoader.getBufferedImage("Sprites/barricade.png");
 
 		Bitmap spriteSheet;
-
-		// spriteSheet =
-		// BitmapFactory.decodeStream(assets.open("sprites/barricade.png"));
 
 		spriteSheet = view.getScaledBitmap("sprites/barricade.png");
 
@@ -79,7 +92,7 @@ public class Barricade extends BoardObject {
 		height = spriteHeight;
 		animator.setFrames(sprite[0]);
 		animator.setDelay(-1);
-		
+
 	}
 
 }

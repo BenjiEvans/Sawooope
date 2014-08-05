@@ -42,30 +42,21 @@ public class Sheep extends Creature implements Edible, Movable {
 
 		switch (states[ACTION]) {
 
-		case ActionStates.IDLE:// this is an update state
-
+		case ActionStates.IDLE:
 			listenForMove();
-
 			break;
 
-		case ActionStates.WALKING: // this is an update state
-
+		case ActionStates.WALKING:
 			if (position.hasNextPosition()) {
-
 				if (position.hasReachedNextPosition()) {
 					position.setNewPosition();
-
 					if (position.hasDestination()) {
-
 						if (position.hasReachedDestination())
 							stop();
 					}
-
 					listenForMove();
-
 				} else
 					position.updateXY();
-
 			} else {
 				states[ACTION] = ActionStates.IDLE;
 				states[ANIMATION] = AnimationStates.IDLE;
@@ -73,7 +64,7 @@ public class Sheep extends Creature implements Edible, Movable {
 
 			break;
 
-		case ActionStates.EATING: // also an update state
+		case ActionStates.EATING:
 
 			break;
 
@@ -94,7 +85,6 @@ public class Sheep extends Creature implements Edible, Movable {
 		super.draw(g);
 
 		// draw selected box
-
 		if (selected) {
 			Paint paint = new Paint();
 			paint.setARGB(100, 0, 0, 255);
@@ -102,54 +92,8 @@ public class Sheep extends Creature implements Edible, Movable {
 			drawRect(g, (int) drawx, (int) drawy, size, size, paint);
 		}
 
-		// draw destinations
-
-		/*
-		 * if (!destinations.isEmpty()) {
-		 * 
-		 * ArrayList<Position> list = destinations.getDestinations(); int size =
-		 * level.getGridSize(); double tilex = TileMap.getMapx(); double tiley =
-		 * TileMap.getMapy(); Paint paint = new Paint(); paint.setARGB(150, 155,
-		 * 75, 42); for (int i = 0, length = list.size(); i < length; i++) {
-		 * Position p = list.get(i); int col = p.getCol(); int row = p.getRow();
-		 * 
-		 * if (i == length - 1) { drawRect(g, (int) ((col * size) + tilex),
-		 * (int) ((row * size) + tiley), width, height, paint); }
-		 * 
-		 * // draw a center line from one destination to the next int dist =
-		 * size / 2; int endx = (int) ((col * size) + dist + tilex); int endy =
-		 * (int) ((row * size) + dist + tiley); if (i > 0) { Position lastP =
-		 * list.get(i - 1); g.drawLine((int) ((lastP.getCol() * size) + dist +
-		 * tilex), (int) ((lastP.getRow() * size) + dist + tiley), endx, endy,
-		 * paint);
-		 * 
-		 * } else {
-		 * 
-		 * g.drawLine((int) (drawx + dist), (int) (drawy + dist), endx, endy,
-		 * paint);
-		 * 
-		 * }
-		 * 
-		 * }
-		 * 
-		 * }
-		 */
-
-		// draw collision box
-
-		/*
-		 * double xoff = TileMap.getMapx(); double yoff = TileMap.getMapy();
-		 * Rectangle rec = box.getRectangle(); int x = rec.getX(); int y =
-		 * rec.getY(); int width = rec.getWidth(); int height = rec.getHeight();
-		 * Paint paint = new Paint(); paint.setARGB(100, 123, 123, 0);
-		 * drawRect(g,(int)(x+xoff),(int)(y+yoff),width,height,paint);
-		 */
-
 	}
 
-	/**
-	 * listens for swipe events to see if this sheep should be moved
-	 */
 	private void listenForMove() {
 
 		switch (move) {
@@ -184,6 +128,12 @@ public class Sheep extends Creature implements Edible, Movable {
 
 	}
 
+	/**
+	 * Sets a static reference to sprite assets for the Sheep class
+	 * 
+	 * @param view
+	 *            current gameview
+	 */
 	public static void setSprites(GameView view) {
 
 		sprites = new SpriteSet();
@@ -301,10 +251,8 @@ public class Sheep extends Creature implements Edible, Movable {
 		if (!super.southValid())
 			return false;
 
-		int col = position.getCol();
-		int row = position.getRow();
-
-		if (level.herdHasPosition(this, col, row + 1))
+		if (level.herdHasPosition(this, position.getCol(),
+				position.getRow() + 1))
 			return false;
 		return true;
 	}
@@ -314,10 +262,8 @@ public class Sheep extends Creature implements Edible, Movable {
 		if (!super.northValid())
 			return false;
 
-		int col = position.getCol();
-		int row = position.getRow();
-
-		if (level.herdHasPosition(this, col, row - 1))
+		if (level.herdHasPosition(this, position.getCol(),
+				position.getRow() - 1))
 			return false;
 		return true;
 	}
@@ -327,10 +273,8 @@ public class Sheep extends Creature implements Edible, Movable {
 		if (!super.eastValid())
 			return false;
 
-		int col = position.getCol();
-		int row = position.getRow();
-
-		if (level.herdHasPosition(this, col + 1, row))
+		if (level.herdHasPosition(this, position.getCol() + 1,
+				position.getRow()))
 			return false;
 		return true;
 	}
@@ -340,10 +284,8 @@ public class Sheep extends Creature implements Edible, Movable {
 		if (!super.westValid())
 			return false;
 
-		int col = position.getCol();
-		int row = position.getRow();
-
-		if (level.herdHasPosition(this, col - 1, row))
+		if (level.herdHasPosition(this, position.getCol() - 1,
+				position.getRow()))
 			return false;
 
 		return true;
@@ -357,10 +299,16 @@ public class Sheep extends Creature implements Edible, Movable {
 		return dead;
 	}
 
+	/**
+	 * sets sheep to be selected (sheep toggling)
+	 */
 	public void select() {
 		selected = true;
 	}
 
+	/**
+	 * set sheep to be deselected (sheep toggling)
+	 */
 	public void deselect() {
 		selected = false;
 	}
@@ -373,9 +321,6 @@ public class Sheep extends Creature implements Edible, Movable {
 		states[ANIMATION] = AnimationStates.WALK;
 	}
 
-	/**
-	 * Stops this sheep from moving
-	 */
 	@Override
 	public void stop() {
 
@@ -389,9 +334,6 @@ public class Sheep extends Creature implements Edible, Movable {
 
 	}
 
-	/**
-	 * Moves this sheep in the specified direction
-	 */
 	@Override
 	public void move(int direction) {// called when swipped
 
@@ -401,21 +343,18 @@ public class Sheep extends Creature implements Edible, Movable {
 			facing = direction;
 			move = facing;
 			return;
-
 		}
 
 		if (states[ACTION] == ActionStates.WALKING) {
 
 			position.removeDestinations();
 			// check for move back swipe
-
 			if (areOpposingDirections(facing, direction))
 				moveBack(direction);
 			else {
 				facing = direction;
 				move = facing;
 				states[ANIMATION] = AnimationStates.WALK;
-
 			}
 
 		}
@@ -465,39 +404,30 @@ public class Sheep extends Creature implements Edible, Movable {
 		if (sameCol) { // must move north or south
 
 			if (row > thisRow) {// move south
-
 				if (areOpposingDirections(facing, SOUTH) && southValid()) {
 					moveSouth();
 				}
-
 				facing = SOUTH;
 			} else if (row < thisRow) {// move north
-
 				if (areOpposingDirections(facing, NORTH) && northValid()) {
 					moveNorth();
 				}
 				facing = NORTH;
-
 			}
 
 		} else if (sameRow) {// must move east or west
 
 			if (col > thisCol) {// move east
-
 				if (areOpposingDirections(facing, EAST) && eastValid()) {
 					moveEast();
 				}
-
 				facing = EAST;
 			} else if (col < thisCol) {// move west
-
 				if (areOpposingDirections(facing, WEST) && westValid()) {
 					moveWest();
 				}
 				facing = WEST;
-
 			}
-
 		}
 
 		move = facing;
@@ -516,7 +446,6 @@ public class Sheep extends Creature implements Edible, Movable {
 		// TODO Auto-generated method stub
 		if (hunger == null)
 			return;
-
 		hunger.storeFood(food);
 
 	}

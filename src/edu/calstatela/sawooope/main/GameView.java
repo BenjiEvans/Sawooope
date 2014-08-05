@@ -10,7 +10,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.MotionEvent;
@@ -94,9 +93,6 @@ public class GameView extends SurfaceView {
 	 */
 	public boolean onTouchEvent(MotionEvent event) {
 
-		/*Log.i("Motion","RawX: "+event.getRawX()+" RawY: "+event.getRawY());
-		Log.i("Motion","X: "+event.getX()+" Y: "+event.getY());*/
-		
 		switch (event.getAction()) {
 
 		case MotionEvent.ACTION_DOWN:

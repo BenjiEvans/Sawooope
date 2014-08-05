@@ -3,8 +3,7 @@ package edu.calstatela.sawooope.entity.movement;
 import edu.calstatela.sawooope.gamestates.levels.Level;
 
 /**
- * Position stores the row and column, as well as the x,y coordinates to
- * describe any location on the map.
+ * A Dynamic/constantly changing location on the map
  * 
  * @author Benji
  * 
@@ -17,6 +16,13 @@ public class Position {
 	private Position next;
 	private Destination dest;
 
+	/**
+	 * 
+	 * @param col
+	 *            column on map
+	 * @param row
+	 *            row on map
+	 */
 	public Position(int col, int row) {
 
 		this.col = col;
@@ -43,37 +49,6 @@ public class Position {
 		this.x = x;
 		this.y = y;
 
-	}
-
-	/**
-	 * 
-	 * @param position
-	 */
-	/*
-	 * public Position(Position position) {
-	 * 
-	 * this.col = position.getCol(); this.row = position.getRow(); this.x =
-	 * position.getx(); this.y = position.gety(); }
-	 */
-
-	/**
-	 * 
-	 * @param mapx
-	 *            TileMap's x position
-	 * @return the x position it has on the screen
-	 */
-	public float getMapxLocation(double mapx) {
-		return (float) (x + mapx);
-	}
-
-	/**
-	 * 
-	 * @param mapy
-	 *            TileMap's y position
-	 * @return the y position it has on the screen
-	 */
-	public float getMapyLocation(double mapy) {
-		return (float) (y + mapy);
 	}
 
 	/**
@@ -124,7 +99,7 @@ public class Position {
 	}
 
 	/**
-	 * Determines if positions are the same by checking column and row
+	 * Determines if positions are the same
 	 * 
 	 * @param pos
 	 * @return true if they are the same position on the map
@@ -134,11 +109,31 @@ public class Position {
 		return equals(pos.getCol(), pos.getRow());
 	}
 
+	/**
+	 * Determines if positions are the same
+	 * 
+	 * @param col
+	 *            column on map
+	 * @param row
+	 *            row on map
+	 * @return true if this position has the column and row specified
+	 * 
+	 */
 	public boolean equals(int col, int row) {
 
 		return this.col == col && this.row == row;
 	}
 
+	/**
+	 * Determines if this position has the column and row specified
+	 * 
+	 * @param col
+	 *            column on map
+	 * @param row
+	 *            row on map
+	 * @return true if position (or next position) has the specified column and
+	 *         row
+	 */
 	public boolean hasColRow(int col, int row) {
 
 		if (equals(col, row))
@@ -150,6 +145,15 @@ public class Position {
 		return false;
 	}
 
+	/**
+	 * Determines if this position(or it's next position) is the same as the
+	 * position specified
+	 * 
+	 * @param p
+	 *            position on map
+	 * @return true if this position (or next position) are the same as the one
+	 *         specified
+	 */
 	public boolean hasPosition(Position p) {
 
 		if (equals(p))
@@ -161,18 +165,32 @@ public class Position {
 		return false;
 	}
 
+	/**
+	 * sets the next position that the entity will move to
+	 * 
+	 * @param col
+	 *            column of the next position
+	 * @param row
+	 *            row of the next position
+	 */
 	public void setNextPosition(int col, int row) {
 
 		next = new Position(col, row);
 
 	}
 
+	/**
+	 * removes next position
+	 */
 	public void removeNextPosition() {
 
 		if (next != null)
 			next = null;
 	}
 
+	/**
+	 * Sets the current position to the next position
+	 */
 	public void setNewPosition() {
 
 		col = next.getCol();
@@ -183,10 +201,13 @@ public class Position {
 		next = null;
 	}
 
+	/**
+	 * Determines whether or not the current position has reached it's next
+	 * position
+	 * 
+	 * @return true if the current position is equal to the next position
+	 */
 	public boolean hasReachedNextPosition() {
-		/**
-		 * FINISH IMPLEMENTATION FOOOOL!
-		 */
 
 		if (dx != 0) {
 			if (dx > 0) {
@@ -213,58 +234,44 @@ public class Position {
 			}
 
 		}
-		/*
-		 * boolean sameCol = next.getCol() == col; boolean sameRow =
-		 * next.getRow() == row;
-		 * 
-		 * if(sameCol && sameRow){
-		 * 
-		 * return x >= next.getx() && y >= next.gety();
-		 * 
-		 * } else if (sameRow) {
-		 * 
-		 * int nCol = next.getCol();
-		 * 
-		 * if (nCol > col) {// next col is to the right
-		 * 
-		 * return x >= next.getx(); } else if (nCol < col) {// next col is to
-		 * the left
-		 * 
-		 * return x <= next.getx(); }
-		 * 
-		 * } else if (sameCol) {
-		 * 
-		 * int nRow = next.getRow();
-		 * 
-		 * if (nRow > row) {// next row is below
-		 * 
-		 * return y >= next.gety();
-		 * 
-		 * } else if (nRow < row) {// next row if above
-		 * 
-		 * return y <= next.gety();
-		 * 
-		 * } }
-		 */
-
 		return false;
-
 	}
 
+	/**
+	 * 
+	 * @return the next position
+	 */
 	public Position getNextPosition() {
 		return next;
 	}
 
+	/**
+	 * Determines if the position has a next position
+	 * 
+	 * @return true if the position has a next position
+	 */
 	public boolean hasNextPosition() {
 
 		return next != null;
 	}
 
+	/**
+	 * Sets the update speed of the position change from the current position to
+	 * the next position
+	 * 
+	 * @param dx
+	 *            rate of increase in the x direction
+	 * @param dy
+	 *            rate of increase in the y direction
+	 */
 	public void setXYUpdateRate(float dx, float dy) {
 		this.dx = dx;
 		this.dy = dy;
 	}
 
+	/**
+	 * Reverses the direction of the positions current movement
+	 */
 	public void reverseDirection() {
 
 		// find the direction you are headed
@@ -301,22 +308,43 @@ public class Position {
 
 	}
 
+	/**
+	 * adds a destination at the column and row specified
+	 * 
+	 * @param col
+	 *            column on map
+	 * @param row
+	 *            row on map
+	 */
 	public void addDestination(int col, int row) {
 
 		dest = new Destination(col, row);
 	}
 
+	/**
+	 * Removes all destinations
+	 */
 	public void removeDestinations() {
 		dest = null;
 	}
 
+	/**
+	 * Determines if the position has a destination
+	 * 
+	 * @return true if the position has a destination
+	 */
 	public boolean hasDestination() {
 		return dest != null;
 	}
-	
-	public boolean hasReachedDestination(){
-		
-		return equals(dest.getCol(),dest.getRow());
+
+	/**
+	 * 
+	 * @return true if the current position has the same col and row as it's
+	 *         destination
+	 */
+	public boolean hasReachedDestination() {
+
+		return equals(dest.getCol(), dest.getRow());
 	}
 
 }

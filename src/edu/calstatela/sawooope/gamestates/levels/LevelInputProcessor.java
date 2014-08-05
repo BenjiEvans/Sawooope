@@ -22,7 +22,6 @@ public class LevelInputProcessor {
 	private static long SWIPE_TIME = 500l;
 	private Sheep sheep;
 	private long TAP_TIME = 500l;
-	//private boolean dragged;
 	private TouchPosition dragged;
 	private TouchPosition release;
 	private BoardObject pressedObj;
@@ -60,70 +59,40 @@ public class LevelInputProcessor {
 	public boolean hasPressed(BoardObject object) {
 
 		if (object.isPressed(pressed)) {
-			///pressedObj = object;
+
 			return true;
 		}
 		return false;
 	}
-	
-	public void selectSheep(Sheep object){
-		
-		if(sheep == null){
-			
+
+	public void selectSheep(Sheep object) {
+
+		if (sheep == null) {
+
 			sheep = object;
 			sheep.select();
-			
-		}else{//sheep is already selected 
-			
-			//click on the same sheep to deselect
-			if(object == sheep){
-				//sheep.select();
+
+		} else {// sheep is already selected
+
+			// click on the same sheep to deselect
+			if (object == sheep) {
 				sheep.deselect();
 				sheep = null;
-			}
-			else{//not clicking on the same sheep
-				
-				//deselect current sheep and select the new sheep 
+			} else {// not clicking on the same sheep
+
+				// deselect current sheep and select the new sheep
 				sheep.deselect();
 				sheep = object;
 				sheep.select();
 			}
-			
+
 		}
-		
-		
+
 	}
-	
-	public void storePressedObject(BoardObject object){
-		
+
+	public void storePressedObject(BoardObject object) {
+
 		pressedObj = object;
-		
-		/*if(pressedObj.isOfType(EntityID.SHEEP)){
-			
-			if(sheep == null){
-				
-				sheep = (Sheep) object;
-				sheep.select();
-				
-			}else{//sheep is already selected 
-				
-				//click on the same sheep to deselect
-				if(object == sheep){
-					sheep.deselect();
-					sheep = null;
-				}
-				else{
-					
-					sheep.deselect();
-					sheep = (Sheep) object;
-					sheep.select();
-				}
-				
-			}
-			
-			
-		}*/
-		
 	}
 
 	/**
@@ -145,7 +114,7 @@ public class LevelInputProcessor {
 	 */
 	public void screenDragged(float x, float y) {
 
-		dragged = new TouchPosition(x,y);
+		dragged = new TouchPosition(x, y);
 	}
 
 	/**
@@ -173,8 +142,8 @@ public class LevelInputProcessor {
 		gesture = new TouchAction(pressStamp, finalStamp);
 
 	}
-	
-	public void deselectSheep(){
+
+	public void deselectSheep() {
 		sheep.deselect();
 		sheep = null;
 	}
@@ -188,208 +157,112 @@ public class LevelInputProcessor {
 
 		return gesture.getId();
 	}
-	
-	public Sheep findPressedSheep(ArrayList<Sheep> herd){
-	
+
+	public Sheep findPressedSheep(ArrayList<Sheep> herd) {
+
 		ArrayList<Sheep> list = new ArrayList<Sheep>();
 		Position p = pressed.getPosition();
 		double pressedx = p.getx();
 		double pressedy = p.gety();
 		float rad = pressed.getRadius();
-		
-		for(Sheep s: herd){
-			
-			if(s.isPressed(pressed)) return s;
-			
-			//check to see if it is in the press radius s
-            double x = s.getX();
-            double y = s.getY();
-            double maxY = s.getMaxY();
-            double maxX = s.getMaxX();
-            
-            boolean withinWidth = pressedx >= x && pressedx <= maxX;
-            boolean withinHeight = pressedy >= y && pressedy <= maxY;
-            double dist;
-            
-            if(withinWidth){//compare vertical distance
-                
-            	
-            	if(pressedy <= y){//above 
-            		
-                 dist = getDistance(pressedy,y);
-            		
-            	}else dist = getDistance(pressedy,maxY);
-            	
-            	
-            	
-            	
-            }else if(withinHeight){//compare horizontal distance
-            	
-            	if(pressedx <= x){//left
-            		
-            		dist = getDistance(pressedx,x);
-            		
-            	}else dist = getDistance(pressedx,maxX);
-            	            	
-            	
-            }else{// compare corners 
-            	
-            	if(pressedx < x){//left corners
-            		if(pressedy < y){//top
-            			dist = getDistance(pressedx,pressedy,x,y);
-            		}else{//bot
-            			dist = getDistance(pressedx, pressedy,x,maxY);
-            		}
-            	}else /*if(pressedx > x)*/{// right corner 
-            		
-            		if(pressedy < y){//top 
-            			
-            			dist = getDistance(pressedx,pressedy,maxX,y);
-            			
-            		}else{// bot
-            			
-            			dist = getDistance(pressedx,pressedy,maxX,maxY);
-            		}
-            		
-            	}
-            	
-            	
-            }
-            
 
-        	if(dist < rad){
-        		
-        		s.setDistance(dist);
-        		list.add(s);
-        	}
-        	
-            
-            
-           /* if(pressedx >= x){
-            	double maxX = s.getMaxX();
-            	
-            	if(pressedy <= y){
-            		
-            	
-            		
-            		if(pressedx >= maxX){//compare top right corner
-            			
-            			double dist = getDistance(maxX,y,pressedx,pressedy);
-            			
-            			if(dist < rad){//add sheep to list of possibilities 
-            				s.setDistance(dist);
-            				list.add(s);
-            				
-            			}
-            			
-            			
-            		}else{// compare the vertical distance
-            			double dist = getDistance(pressedy,y);
-            			
-            			if(dist < rad){
-            				s.setDistance(dist);
-            				list.add(s);
-            			}
-            			
-            		}
-            		
-            	}else{// pressedy is less than sheep's y
-            		
-            		double maxY = s.getMaxY();
-            		
-            		if(pressedx >= maxX){
-            			
-            			if(pressedy >= maxY){//measure from bottom right corner
-            				
-            				double dist = getDistance(maxX,maxY,pressedx,pressedy);
-            				
-            				if(dist < rad){
-            					s.setDistance(dist);
-            					list.add(s);
-            				}
-            				
-            			}else{//compare horizontal distance
-            				
-            				double dist = getDistance(pressedx,maxX);
-            				
-            				if(dist < rad){
-            					s.setDistance(dist);
-            					list.add(s);            					
-            				}
-            				
-            				
-            			}
-            			
-            			            			
-            			
-            		}else{// compare the vertical distance
-            			
-            			double dist = getDistance(pressedy,maxY);
-            			
-            			if(dist < rad){
-            				s.setDistance(dist);
-            				list.add(s);
-            			}
-            			
-            			
-            		}
-            		
-            		
-            		
-            		
-            		
-            	}
-            	
-            	
-            	
-            }else{// to the west of this sheep's x
-            	
-            	
-            	
-            	
-            	
-            	
-            	
-            	
-            	
-            }*/
-			
-		}
-		
-		if(list.isEmpty())return null;
-		
-		Sheep closest = null;
-		
-		for(int i =0, length = list.size(); i < length; i++){
-			
-			Sheep s = list.get(i);
-			if(i == 0)closest = s;
-			else{
-				
-				if(s.getDistance() < closest.getDistance()) closest = s;
-					
-				
-				
+		for (Sheep s : herd) {
+
+			if (s.isPressed(pressed))
+				return s;
+
+			// check to see if it is in the press radius s
+			double x = s.getX();
+			double y = s.getY();
+			double maxY = s.getMaxY();
+			double maxX = s.getMaxX();
+
+			boolean withinWidth = pressedx >= x && pressedx <= maxX;
+			boolean withinHeight = pressedy >= y && pressedy <= maxY;
+			double dist;
+
+			if (withinWidth) {// compare vertical distance
+
+				if (pressedy <= y) {// above
+
+					dist = getDistance(pressedy, y);
+
+				} else
+					dist = getDistance(pressedy, maxY);
+
+			} else if (withinHeight) {// compare horizontal distance
+
+				if (pressedx <= x) {// left
+
+					dist = getDistance(pressedx, x);
+
+				} else
+					dist = getDistance(pressedx, maxX);
+
+			} else {// compare corners
+
+				if (pressedx < x) {// left corners
+					if (pressedy < y) {// top
+						dist = getDistance(pressedx, pressedy, x, y);
+					} else {// bot
+						dist = getDistance(pressedx, pressedy, x, maxY);
+					}
+				} else /* if(pressedx > x) */{// right corner
+
+					if (pressedy < y) {// top
+
+						dist = getDistance(pressedx, pressedy, maxX, y);
+
+					} else {// bot
+
+						dist = getDistance(pressedx, pressedy, maxX, maxY);
+					}
+
+				}
+
+			}
+
+			if (dist < rad) {
+
+				s.setDistance(dist);
+				list.add(s);
 			}
 		}
-		
-		
+
+		if (list.isEmpty())
+			return null;
+
+		Sheep closest = null;
+
+		for (int i = 0, length = list.size(); i < length; i++) {
+
+			Sheep s = list.get(i);
+			if (i == 0)
+				closest = s;
+			else {
+
+				if (s.getDistance() < closest.getDistance())
+					closest = s;
+
+			}
+		}
+
 		return closest;
 	}
-	
-  private double getDistance(double startx, double starty, double endx, double endy){
-		
-		double dxsqr = Math.pow((startx-endx),2);
-		
-		double dysqr = Math.pow((starty-endy), 2);
-		
-		
-		return Math.pow(dxsqr+dysqr, 0.5);		
+
+	private double getDistance(double startx, double starty, double endx,
+			double endy) {
+
+		double dxsqr = Math.pow((startx - endx), 2);
+
+		double dysqr = Math.pow((starty - endy), 2);
+
+		return Math.pow(dxsqr + dysqr, 0.5);
 	}
-	
-	private double getDistance(double start, double end){
-		
-		return Math.abs(start-end);
+
+	private double getDistance(double start, double end) {
+
+		return Math.abs(start - end);
 	}
 
 	/**
@@ -408,71 +281,72 @@ public class LevelInputProcessor {
 
 		return gesture.getTapPosition();
 	}
-	
+
 	/**
 	 * 
 	 * @return the x coordinate where the screen was pressed
 	 */
-	public float getPressedX(){
-		
+	public float getPressedX() {
+
 		return pressed.getScreenx();
 	}
-	
+
 	/**
 	 * 
 	 * @return the y coordinate where the screen was pressed
 	 */
-	public float getPressedY(){
-				
+	public float getPressedY() {
+
 		return pressed.getScreeny();
 	}
-	
+
 	/**
 	 * 
-	 * @return the x coordinate on the screen where the screen was pressed and dragged to 
+	 * @return the x coordinate on the screen where the screen was pressed and
+	 *         dragged to
 	 */
-	public float getDraggedX(){
-		
+	public float getDraggedX() {
+
 		return dragged.getScreenx();
 	}
-	
+
 	/**
 	 * 
-	 * @return the y coordinate on the screen where the screen was pressed and dragged to 
+	 * @return the y coordinate on the screen where the screen was pressed and
+	 *         dragged to
 	 */
-	public float getDraggedY(){
-		
+	public float getDraggedY() {
+
 		return dragged.getScreeny();
 	}
-	
-	
+
 	/**
 	 * Checks if the screen is pressed
-	 * @return true if the screen is pressed 
+	 * 
+	 * @return true if the screen is pressed
 	 */
-	public boolean isScreenPressed(){
-		
+	public boolean isScreenPressed() {
+
 		return gesture == null && pressed != null;
 	}
-	
+
 	/**
-	 * Checks if the screen has been dragged 
+	 * Checks if the screen has been dragged
+	 * 
 	 * @return
 	 */
-	public boolean isScreenDragged(){
-		
+	public boolean isScreenDragged() {
+
 		return gesture == null && dragged != null;
 	}
-	
-	
+
 	/**
 	 * 
 	 * @return the radius (in pixels) of a touch position
 	 */
-	public int getTouchEventRadius(){
-		
-		//return (int) (Level.getScale()*2);
-		return (int)(Level.getGridSize() * 0.5)-1;
+	public int getTouchEventRadius() {
+
+		return (int) (Level.getGridSize() * 0.5) - 1;
 	}
 
 	/**
@@ -490,7 +364,7 @@ public class LevelInputProcessor {
 
 		// center position on screen
 		private float screenx, screeny;
-		
+
 		private float radius;
 
 		/**
@@ -506,17 +380,16 @@ public class LevelInputProcessor {
 			this.screeny = y;
 			double mapx2 = Math.abs(TileMap.getMapx());
 			double mapy2 = Math.abs(TileMap.getMapy());
-			int x2 = (int)(mapx2 + x);
-			int y2 = (int)(mapy2 + y);
-			int col = (int) (x2/ gridSize);
+			int x2 = (int) (mapx2 + x);
+			int y2 = (int) (mapy2 + y);
+			int col = (int) (x2 / gridSize);
 			int row = (int) (y2 / gridSize);
 
 			mapPosition = new Position(col, row, x2, y2);
-			radius = (int)(Level.getGridSize() * 0.5)-1;
+			radius = (int) (Level.getGridSize() * 0.5) - 1;
 		}
 
-		
-		public float getRadius(){
+		public float getRadius() {
 			return radius;
 		}
 
@@ -556,7 +429,7 @@ public class LevelInputProcessor {
 
 			return pos.getPosition().equals(mapPosition);
 		}
-		
+
 	}
 
 	/**
@@ -605,7 +478,9 @@ public class LevelInputProcessor {
 
 			}
 
-			if (pressed.equals(release) && ((dragged == null)||(dragged.equals(pressed)))&& elapsed < TAP_TIME) {
+			if (pressed.equals(release)
+					&& ((dragged == null) || (dragged.equals(pressed)))
+					&& elapsed < TAP_TIME) {
 
 				id = TAP;
 
@@ -728,17 +603,17 @@ public class LevelInputProcessor {
 	}
 
 	public boolean hasSelectedSheep() {
-		
+
 		return sheep != null;
 	}
 
 	public Sheep getSelectedSheep() {
-		
+
 		return sheep;
 	}
 
 	public Position getPositionPressed() {
-	
+
 		return pressed.getPosition();
 	}
 

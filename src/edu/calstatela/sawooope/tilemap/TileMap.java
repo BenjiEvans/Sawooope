@@ -119,11 +119,9 @@ public class TileMap {
 	 *            URI of map file
 	 */
 	public void loadMap(GameView view, String location) {
-		
-		
-		
-		Log.i("Debug","Loading Map!");
-		
+
+		Log.i("Debug", "Loading Map!");
+
 		try {
 
 			Scanner scan = new Scanner(view.getResources().getAssets()
@@ -154,9 +152,9 @@ public class TileMap {
 			}
 
 		} catch (Exception e) {
-			
-			//e.printStackTrace()
-			Log.i("Debug",e.getMessage());
+
+			// e.printStackTrace()
+			Log.i("Debug", e.getMessage());
 		}
 
 	}
@@ -175,7 +173,7 @@ public class TileMap {
 	public int getType(int row, int col) throws ArrayIndexOutOfBoundsException {
 
 		boolean bool = map == null;
-		Log.i("Debug", "Map is null:"+bool);
+		Log.i("Debug", "Map is null:" + bool);
 		int rc = map[row][col];
 		int r = rc / numTilesAcross;
 		int c = rc % numTilesAcross;
@@ -327,7 +325,6 @@ public class TileMap {
 	 * @return the starting column that should be drawn
 	 */
 	public int getColumOffSet() {
-		// TODO Auto-generated method stub
 		return colOffSet;
 	}
 

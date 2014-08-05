@@ -114,8 +114,12 @@ public class Menu extends GameState {
 	protected void initialize() {
 
 		GameView view = gsm.getGameView();
-		int viewHeight = view.getHeight();
-		int viewWidth = view.getWidth();
+		int viewHeight;
+		int viewWidth;
+		do {
+			viewHeight = view.getHeight();
+			viewWidth = view.getWidth();
+		} while (viewHeight <= 0 || viewWidth <= 0);
 		Log.i("DrawDebug", "ViewHeight: " + viewHeight + " ViewWidth: "
 				+ viewWidth);
 
@@ -128,7 +132,7 @@ public class Menu extends GameState {
 
 			buttons = new Button[3];
 
-			int y = (int) (viewHeight * 0.75);
+			int y = (int) (viewHeight * 0.25);
 
 			for (int i = 0, length = buttons.length; i < length; i++) {
 

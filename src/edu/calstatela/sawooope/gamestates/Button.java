@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 /**
- * Button is just a clickable image
+ * Button is just a click-able image
  * 
  * @author Benji
  * 
@@ -64,6 +64,7 @@ public class Button {
 	}
 
 	/**
+	 * Determins if the button has been clicked
 	 * 
 	 * @param x
 	 *            x location where screen was pressed

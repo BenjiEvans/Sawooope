@@ -80,35 +80,22 @@ public abstract class Level extends GameState {
 		tileMap = new TileMap();
 		entityManager = new BoardEntityManager();
 		BoardObject.setLevel(this);
-				
+
 		GameView view = getGameView();
-		//Set static sprite reffernces for each class 
-	    Barricade.setSprites(view);
-	    Tunnel.setSprites(view);
-	    Sheep.setSprites(view);
-	    Wolf.setSprites(view);
-	    GrassPatch.setSprites(view);
-	    Tree.setSprites(view);
-	    
-	    
-		
-		
-		
-		
-		
-		
-		
+		// Set static sprite reffernces for each class
+		Barricade.setSprites(view);
+		Tunnel.setSprites(view);
+		Sheep.setSprites(view);
+		Wolf.setSprites(view);
+		GrassPatch.setSprites(view);
+		Tree.setSprites(view);
+
 	}
 
 	public void update() {
 
-		if(ready){
-			
-			//check to see if the game should end 
-			
+		if (ready) {
 			entityManager.updateCreatures();
-
-			return;
 		}
 
 	}
@@ -117,8 +104,6 @@ public abstract class Level extends GameState {
 
 		if (ready) {
 
-			/*boolean bool = tileMap == null;
-			Log.i("Debug", "The value of bool is:" + bool);*/
 			tileMap.draw(g);
 			BoardObject.setMapPosition();
 
@@ -143,47 +128,21 @@ public abstract class Level extends GameState {
 
 			// draw entitties
 			entityManager.drawEntities(g);
-			
-			
-			
-			
-			
+
 			return;
 
 		}
 
 	}
-	
-	public int getNumRows(){
-		
+
+	public int getNumRows() {
+
 		return tileMap.getNumRows();
 	}
-	
-	public int getNumCols(){
-		
+
+	public int getNumCols() {
+
 		return tileMap.getNumCols();
-	}
-
-	private void endLevel() {
-		end = true;
-	}
-
-	private boolean isNoMoreSheep() {
-
-		ArrayList<Sheep> herd = entityManager.getHerd();
-
-		if (herd.size() == 0)
-			return true;
-
-		for (int i = 0, size = herd.size(); i < size; i++) {
-
-			Sheep sheep = herd.get(i);
-
-			if (!sheep.isDead())
-				return false;
-		}
-
-		return true;
 	}
 
 	/**
@@ -198,85 +157,35 @@ public abstract class Level extends GameState {
 	 */
 	public boolean isBlockedByTile(int col, int row) {
 
-		// more checking needs to be done here
-
 		if (tileMap.isTileBlocking(col, row))
 			return true;
 
 		return false;
 	}
-	
-	public boolean isBlockedByTree(int col,int row){
-		
-		
-		ArrayList<BoardObject> trees = entityManager.getMapObjects(EntityID.TREE);
-		
-		for(BoardObject b: trees){
-			
-			if(b.hasPosition(col,row))return true;
+
+	public boolean isBlockedByTree(int col, int row) {
+
+		ArrayList<BoardObject> trees = entityManager
+				.getMapObjects(EntityID.TREE);
+
+		for (BoardObject b : trees) {
+
+			if (b.hasPosition(col, row))
+				return true;
 		}
-		
+
 		return false;
-		
-		
-	}
-	
-	public boolean isPositionAvailable(int col, int row){
-		
-		if(isBlockedByTile(col,row))return false;
-		if(isBlockedByTree(col,row))return false;
-		
-		return true;		
-	}
-	
-
-	/**
-	 * This method will likely no longer be used... Ignore for now
-	 * 
-	 * @deprecated
-	 * @param wolf
-	 *            wolf that is eating
-	 */
-	public void eatSheep(Wolf wolf) {
-
-		ArrayList<Sheep> herd = entityManager.getHerd();
-
-		if (herd.isEmpty())
-			return;
-
-		for (int i = 0, size = herd.size(); i < size; i++) {
-			Sheep sheep = (Sheep) herd.get(i);
-
-			if (wolf.getCollisionBox().overLap(sheep.getCollisionBox(), .5)) {
-
-				herd.remove(i);
-				i--;
-				size--;
-			}
-		}
 
 	}
 
-	/**
-	 * This method will likely no longer be used... Ignore for now
-	 * 
-	 * @deprecated
-	 * @param sheep
-	 *            sheep to save
-	 */
-	public void saveSheep(Sheep sheep) {
+	public boolean isPositionAvailable(int col, int row) {
 
-		ArrayList<Sheep> herd = entityManager.getHerd();
+		if (isBlockedByTile(col, row))
+			return false;
+		if (isBlockedByTree(col, row))
+			return false;
 
-		for (int i = 0, size = herd.size(); i < size; i++) {
-
-			if (herd.get(i) == sheep) {
-
-				herd.remove(i);
-				return;
-			}
-		}
-
+		return true;
 	}
 
 	/**
@@ -301,16 +210,17 @@ public abstract class Level extends GameState {
 
 		return true;
 	}
-	
-	public boolean herdHasPosition(Sheep sheep, int col, int row){
-		
+
+	public boolean herdHasPosition(Sheep sheep, int col, int row) {
+
 		ArrayList<Sheep> list = entityManager.getHerd();
-		
-		for(Sheep s: list){
-			
-			if(s != sheep && s.hasPosition(col, row))return true;
+
+		for (Sheep s : list) {
+
+			if (s != sheep && s.hasPosition(col, row))
+				return true;
 		}
-		
+
 		return false;
 	}
 
@@ -319,37 +229,25 @@ public abstract class Level extends GameState {
 
 		input.screenPressed(x, y);
 		tileMap.setScroll(x, y);
-		/*ArrayList<Sheep> herd = entityManager.getHerd();
 
-		// check to see if a sheep was pressed
-		for (Sheep sheep : herd) {
+		// check if sheep is pressed
 
-			if(input.hasPressed(sheep)){
-				
-				input.storePressedObject(sheep);
-				return;
-			}
-
-		}*/
-		
-		//check if sheep is pressed
-		
 		ArrayList<Sheep> herd = entityManager.getHerd();
-	    Sheep sheep = input.findPressedSheep(herd);
-		 		
-		if(sheep != null){//sheep was selected
-			
+		Sheep sheep = input.findPressedSheep(herd);
+
+		if (sheep != null) {// sheep was selected
+
 			input.storePressedObject(sheep);
 			return;
-			
+
 		}
 		// check to see if a barriar was pressed
 		ArrayList<BoardObject> rocks = entityManager
 				.getMapObjects(EntityID.BARRICADE);
 		for (BoardObject b : rocks) {
 
-			if(input.hasPressed(b)){
-				
+			if (input.hasPressed(b)) {
+
 				input.storePressedObject(b);
 				return;
 			}
@@ -360,7 +258,7 @@ public abstract class Level extends GameState {
 
 	@Override
 	public void screenReleased(float x, float y) {
-		Log.i("Testing", "Released");
+
 		input.screenReleased(x, y);
 		int gesture = input.getGestureCode();
 
@@ -376,8 +274,8 @@ public abstract class Level extends GameState {
 					Sheep sheep = (Sheep) obj;
 					Log.i("Testing", "Swipeing sheep");
 					sheep.move(input.getSwipeDirection());
-					
-					if(input.hasSelectedSheep()){
+
+					if (input.hasSelectedSheep()) {
 						input.deselectSheep();
 					}
 
@@ -391,7 +289,7 @@ public abstract class Level extends GameState {
 		case Touchable.TAP:
 
 			BoardObject obj2 = input.getPressedObject();
-			if (obj2 != null) {// if and object is clicked 
+			if (obj2 != null) {// if and object is clicked
 
 				if (obj2.isOfType(EntityID.BARRICADE)) {
 
@@ -410,18 +308,16 @@ public abstract class Level extends GameState {
 					input.selectSheep(sheep);
 					return;
 				}
-			}else{//other wise, clicked on a position 
-				
-				if(input.hasSelectedSheep())
-				{
+			} else {// other wise, clicked on a position
+
+				if (input.hasSelectedSheep()) {
 					Sheep s = input.getSelectedSheep();
 					Position p = input.getPositionPressed();
-					s.move(p.getCol(),p.getRow());
-					
+					s.move(p.getCol(), p.getRow());
+
 					input.deselectSheep();
 				}
-				
-				
+
 			}
 
 			break;
@@ -486,5 +382,4 @@ public abstract class Level extends GameState {
 
 		tileMap.dispose();
 	}
-
 }

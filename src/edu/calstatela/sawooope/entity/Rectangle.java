@@ -160,10 +160,10 @@ public class Rectangle {
 
 		return withinx && withiny;
 	}
-	
+
 	/**
 	 * 
-	 * @return the x coordinate of the center of this rectangle 
+	 * @return the x coordinate of the center of this rectangle
 	 */
 	public int getCenterX() {
 

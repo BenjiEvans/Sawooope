@@ -7,18 +7,19 @@ import android.graphics.Bitmap;
 /**
  * Animation uses sprites passed in by entities to create animations. It simply
  * takes in an array of images (frames) and flips through each image in the
- * array at certain time intervals. Each image in the array is a frame.
+ * array at certain time intervals(specified by the set delay). Each image in
+ * the array is a frame.
  * 
  * @author Benji
  * 
  */
 public class Animator {
 
+	// animation vars
 	private Bitmap[] frames;
 	private int currentFrame;
-	//private int actionIndex = -1;
 
-	// time
+	// time vars
 	private long startTime;
 	private long delay;
 
@@ -32,31 +33,20 @@ public class Animator {
 	}
 
 	/**
-	 * Sets the animation using the images passed in
+	 * Sets the animation frames using the images passed in
 	 * 
 	 * @param frames
 	 *            images that represent a single animation
 	 */
 	public void setFrames(Bitmap[] frames) {
 		this.frames = frames;
-		// System.out.println("frame count: " + frames.length);
 		currentFrame = 0;
 		startTime = System.nanoTime();
 		playedOnce = false;
 	}
 
 	/**
-	 * 
-	 * @return if the entity is using an ArrayList to set the animation frames
-	 *         then it returns the index used to set the sprites other wise -1
-	 *         is returned
-	 */
-	/*public int getCurrAction() {
-		return actionIndex;
-	}*/
-
-	/**
-	 * Sets the animation using the images passed in
+	 * Sets the animation frames using the images passed in
 	 * 
 	 * @param sprites
 	 *            list of frames
@@ -66,19 +56,11 @@ public class Animator {
 	public void setFrames(ArrayList<Bitmap[]> sprites, int index) {
 
 		this.frames = sprites.get(index);
-	//	this.actionIndex = index;
 		currentFrame = 0;
 		startTime = System.nanoTime();
 		playedOnce = false;
 
 	}
-	
-	/**
-	 * sets the actionIndex to -1 signifying that there is no action index
-	 */
-/*	public void resetCurrentAction() {
-		actionIndex = -1;
-	}*/
 
 	/**
 	 * Sets how much time must past before the next frame (image) in the
@@ -92,7 +74,7 @@ public class Animator {
 	}
 
 	/**
-	 * Sets the current frame to the specified value
+	 * Sets the current frame to the specified frame
 	 * 
 	 * @param frameSet
 	 *            frame number
@@ -146,7 +128,7 @@ public class Animator {
 
 	/**
 	 * 
-	 * @return true if the animation has cycled through 1 or more times
+	 * @return true if the animation has cycled through at least once
 	 */
 	public boolean hasPlayedOnce() {
 		return playedOnce;

@@ -3,31 +3,36 @@ package edu.calstatela.sawooope.entity.plant;
 import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import edu.calstatela.sawooope.entity.BoardObject;
 import edu.calstatela.sawooope.entity.EntityID;
+import edu.calstatela.sawooope.entity.creature.hunger.Edible;
 import edu.calstatela.sawooope.main.GameView;
 
 /**
- * Not yet much to document...Ignore for now
+ * *
  * 
  * @author Benji
  * 
  */
 
-public class GrassPatch extends Plant {
+public class GrassPatch extends Plant implements Edible {
 
 	private int layer = 1;
 	private long grassTimer;
-	private long regrowTime;
-	private long eatTime = 2000;
+	private static long regrowTime = 3000l;
 	private static ArrayList<Bitmap[]> sprites = new ArrayList<Bitmap[]>();
 	private static int spriteWidth;
 	private static int spriteHeight;
 
-	public GrassPatch(int col, int row, long growDelay) {
+	/**
+	 * 
+	 * @param col
+	 *            column on map
+	 * @param row
+	 *            row on map
+	 */
+	public GrassPatch(int col, int row) {
 		super(col, row);
 		id = EntityID.GRASS;
-		regrowTime = growDelay;
 	}
 
 	public void update() {
@@ -53,13 +58,6 @@ public class GrassPatch extends Plant {
 
 	}
 
-	public void eatLayer() {
-		if (layer == 0)
-			return;
-		layer--;
-		grassTimer = System.nanoTime();
-	}
-
 	@Override
 	public void draw(Canvas g) {
 		update();
@@ -70,6 +68,12 @@ public class GrassPatch extends Plant {
 
 	}
 
+	/**
+	 * Sets static reference to sprites for the GrassPatch class
+	 * 
+	 * @param view
+	 *            current game view
+	 */
 	public static void setSprites(GameView view) {
 
 		Bitmap spriteSheet;
@@ -88,12 +92,13 @@ public class GrassPatch extends Plant {
 			sprites.add(sprite);
 
 		}
-
-		/*animator.setFrames(sprites.get(0));
-		animator.setDelay(-1);*/
-
 	}
 
+	/**
+	 * Determines whether this grass patch has a layer of grass
+	 * 
+	 * @return true if the grass layer is greater than 0
+	 */
 	public boolean hasLayer() {
 
 		return layer == 1;
@@ -101,12 +106,21 @@ public class GrassPatch extends Plant {
 
 	@Override
 	protected void setAnimation() {
-		
+
 		width = spriteWidth;
 		height = spriteHeight;
 
 		animator.setFrames(sprites.get(0));
 		animator.setDelay(-1);
+	}
+
+	@Override
+	public float consume() {
+		if (layer == 0)
+			return 0;
+		layer--;
+		grassTimer = System.nanoTime();
+		return 0.25f;
 	}
 
 }

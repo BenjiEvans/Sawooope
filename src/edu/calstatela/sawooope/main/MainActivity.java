@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -48,11 +46,11 @@ public class MainActivity extends Activity {
 		float scale = 1.0f * screenDensity / 160;
 
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-		
-		//just added.... May need to comment out
+
+		// just added.... May need to comment out
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-	            WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 		view = new GameView(this, scale);
 		setContentView(view);
 		view.start();
@@ -70,8 +68,6 @@ public class MainActivity extends Activity {
 	public void onPause() {
 		super.onPause(); // Always call the superclass method first
 
-		// Release the Camera because we don't need it when paused
-		// and other activities might need to use it.
 		mp.stop();
 		if (view != null) {
 			view.dispose();
@@ -85,8 +81,6 @@ public class MainActivity extends Activity {
 	protected void onStop() {
 		super.onStop(); // Always call the superclass method first
 
-		// Save the note's current draft, because the activity is stopping
-		// and we want to be sure the current note progress isn't lost.
 		mp.stop();
 		if (view != null) {
 			view.dispose();

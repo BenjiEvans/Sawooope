@@ -2,10 +2,7 @@ package edu.calstatela.sawooope.gamestates.levels;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import android.graphics.Canvas;
-import android.util.Log;
-
 import edu.calstatela.sawooope.entity.BoardObject;
 import edu.calstatela.sawooope.entity.EntityID;
 import edu.calstatela.sawooope.entity.creature.Sheep;
@@ -17,7 +14,7 @@ import edu.calstatela.sawooope.entity.creature.Wolf;
  * 
  * @author Benji
  */
-public class BoardEntityManager{
+public class BoardEntityManager {
 
 	ArrayList<Wolf> wolfPack = new ArrayList<Wolf>();
 	ArrayList<Sheep> herd = new ArrayList<Sheep>();
@@ -26,9 +23,10 @@ public class BoardEntityManager{
 	 * positions when drawn. the map hash should have the items in the order
 	 * they will be draw.
 	 */
-	Integer[] mapHash = { EntityID.TUNNEL, EntityID.BARRICADE, EntityID.SHEEP_DECOY, EntityID.GRASS, EntityID.TREE };
-	//HashMap<String, ArrayList<BoardObject>> mapObjects;
+	Integer[] mapHash = { EntityID.TUNNEL, EntityID.BARRICADE,
+			EntityID.SHEEP_DECOY, EntityID.GRASS, EntityID.TREE };
 	HashMap<Integer, ArrayList<BoardObject>> mapObjects;
+
 	/**
 	 * Creates an ArrayList of sheep and wolves; also creates a hashMap of
 	 * BoardObjects to store any entities on the map (like trees and barricades
@@ -155,14 +153,6 @@ public class BoardEntityManager{
 	public ArrayList<Wolf> getWolfPack() {
 		return wolfPack;
 	}
-
-	/*
-	 * 
-	 * @return a map of all non-creature entities
-	 *
-	public HashMap<EntityID, ArrayList<BoardObject>> getMapObjects() {
-		return mapObjects;
-	}*/
 
 	/**
 	 * 

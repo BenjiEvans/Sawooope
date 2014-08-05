@@ -1,6 +1,5 @@
 package edu.calstatela.sawooope.gamestates.levels;
 
-import edu.calstatela.sawooope.entity.creature.Creature;
 import edu.calstatela.sawooope.entity.movement.Movable;
 
 /**
@@ -31,7 +30,7 @@ public interface Touchable {
 	/**
 	 * @property
 	 */
-	public static final int IGNORE_SWIPE =Movable.UNDETERMINED;
+	public static final int IGNORE_SWIPE = Movable.UNDETERMINED;
 	/**
 	 * @property
 	 */

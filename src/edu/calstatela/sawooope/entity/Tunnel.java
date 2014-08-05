@@ -5,13 +5,14 @@ import android.graphics.Canvas;
 import edu.calstatela.sawooope.main.GameView;
 
 /**
- * Ignore for now
+ * This tunnel entity is a trap that can be used to consume sheep
  * 
  * @author Benji
  * 
  */
 public class Tunnel extends BoardObject {
 
+	// static sprite references
 	private static Bitmap sprite;
 	private static int spriteWidth;
 	private static int spriteHeight;
@@ -29,10 +30,16 @@ public class Tunnel extends BoardObject {
 		drawBitmap(g, sprite, drawx, drawy);
 	}
 
+	/**
+	 * Sets static sprite references for this class
+	 * 
+	 * @param view
+	 *            gameview in use
+	 */
 	public static void setSprites(GameView view) {
 
 		sprite = view.getScaledBitmap("sprites/tunnel.png");
-		
+
 		spriteHeight = sprite.getHeight();
 		spriteWidth = sprite.getWidth();
 
@@ -42,7 +49,6 @@ public class Tunnel extends BoardObject {
 	protected void setAnimation() {
 		width = spriteWidth;
 		height = spriteHeight;
-		
 	}
 
 }
